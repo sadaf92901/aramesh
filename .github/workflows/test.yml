@@ -1,79 +1,52 @@
-# ============================================================
-# تست Speech (Mock)
-# ============================================================
+name: Tests
 
-import pytest
-from unittest.mock import patch
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
+  workflow_dispatch:
 
+jobs:
+  test:
+    name: Test on Python 3.11
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
 
-class TestSpeechService:
-    """تست سرویس Speech"""
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    def test_singleton(self):
-        """سرویس singleton"""
-        from utils.speech.service import get_speech_service
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
 
-        s1 = get_speech_service()
-        s2 = get_speech_service()
-        assert s1 is s2
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
 
-    def test_has_methods(self):
-        """متدها"""
-        from utils.speech.service import get_speech_service
+      - name: Setup environment
+        run: |
+          echo "SECRET_KEY=test-secret-key-for-ci" >> $GITHUB_ENV
+          echo "FLASK_ENV=testing" >> $GITHUB_ENV
+          echo "LLM_ENABLED=false" >> $GITHUB_ENV
+          echo "SPEECH_ENABLED=false" >> $GITHUB_ENV
+          echo "RAG_ENABLED=false" >> $GITHUB_ENV
+          echo "EMAIL_ENABLED=false" >> $GITHUB_ENV
 
-        s = get_speech_service()
-        assert hasattr(s, 'transcribe')
-        assert hasattr(s, 'is_available')
+      - name: Run tests
+        run: |
+          pytest tests/ -v \
+            --ignore=tests/test_llm.py \
+            --ignore=tests/test_speech.py
 
-    def test_transcribe_with_mock(self):
-        """transcribe با mock"""
-        from utils.speech.service import get_speech_service
-
-        s = get_speech_service()
-
-        if s.provider:
-            with patch.object(s.provider, 'transcribe', return_value='تست'):
-                result = s.transcribe('dummy.wav')
-                assert result == 'تست'
-
-    def test_transcribe_unavailable(self):
-        """transcribe بدون Provider"""
-        from utils.speech.service import get_speech_service
-
-        s = get_speech_service()
-
-        if s.provider:
-            with patch.object(s.provider, 'is_available', return_value=False):
-                result = s.transcribe('dummy.wav')
-                assert result is None
-
-
-class TestAvalAIProvider:
-    """تست AvalAI Speech"""
-
-    def test_init(self):
-        """مقداردهی"""
-        from utils.speech.providers.avalai import AvalAISpeechProvider
-
-        p = AvalAISpeechProvider()
-        assert p.config is not None
-        assert p.base_url is not None
-        # ⚠️ api_key ممکنه None باشه توی CI — این ok هست
-
-    def test_has_methods(self):
-        """متدها"""
-        from utils.speech.providers.avalai import AvalAISpeechProvider
-
-        p = AvalAISpeechProvider()
-        assert hasattr(p, 'transcribe')
-        assert hasattr(p, 'analyze_emotion')
-        assert hasattr(p, 'is_available')
-
-
-class TestSpeechNotLoggedIn:
-    """تست Speech بدون لاگین"""
-
-    def test_audio_upload_no_auth(self, client):
-        """آپلود صوت بدون لاگین"""
-        response = client.post('/api/upload-audio')
-        assert response.status_code in [400, 401, 403]
+      - name: Upload coverage
+        uses: codecov/codecov-action@v4
+        if: always()
+        with:
+          fail_ci_if_error: false
+        continue-on-error: true
