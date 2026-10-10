@@ -38,7 +38,8 @@ app.config.from_object(get_config())
 # ===== چک SECRET_KEY =====
 if not app.config.get('SECRET_KEY'):
     raise ValueError("⚠️ SECRET_KEY توی .env تنظیم نشده!")
-
+    import time
+    STAR_TIME = time.time()
 
 # ============================================================
 # تنظیمات امنیتی Session
@@ -133,6 +134,8 @@ from routes.subscription import subscription_bp
 app.register_blueprint(subscription_bp)
 
 
+from routes.health import health_bp
+app.register_blueprint(health_bp)
 # ============================================================
 # Security Headers
 # ============================================================
