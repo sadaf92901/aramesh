@@ -2,14 +2,56 @@
 
 > **اپلیکیشن سلامت روان با تحلیل هوشمند متن و صوت فارسی**
 
+[![Tests](https://github.com/sadaf92901/aramesh/actions/workflows/test.yml/badge.svg)](https://github.com/sadaf92901/aramesh/actions/workflows/test.yml)
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![Flask](https://img.shields.io/badge/Flask-2.3-000000?style=for-the-badge&logo=flask&logoColor=white)](https://flask.palletsprojects.com)
-[![Tests](https://img.shields.io/badge/Tests-307%20Passed-success?style=for-the-badge)](tests/)
-[![Coverage](https://img.shields.io/badge/Coverage-81%25-green?style=for-the-badge)](tests/)
+[![Tests Count](https://img.shields.io/badge/Tests-318%20Passed-success?style=for-the-badge)](tests/)
+[![Coverage](https://img.shields.io/badge/Coverage-80%25-green?style=for-the-badge)](tests/)
 [![Lighthouse](https://img.shields.io/badge/Lighthouse-100%20A11y-brightgreen?style=for-the-badge)](https://developers.google.com/web/tools/lighthouse)
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
 [![Version](https://img.shields.io/badge/Version-1.1.0-blue?style=for-the-badge)](CHANGELOG.md)
 
+---
+
+## 📸 تصاویر
+
+<div align="center">
+
+### 🔑 ورود به اپ
+
+![ورود](docs/screenshots/01-login.png)
+
+### 🏠 داشبورد
+
+![داشبورد](docs/screenshots/02-dashboard.png)
+
+### 🌸 باغ آرامش
+
+![باغ آرامش](docs/screenshots/05-garden.png)
+
+### 🧠 تشخیص هوشمند
+
+![پرسشنامه](docs/screenshots/03-questionnaire.png)
+
+### 📊 نتیجه‌ی تحلیل
+
+![نتیجه](docs/screenshots/04-result.png)
+
+### 💬 چت‌بات همدل
+
+![چت](docs/screenshots/06-chat.png)
+
+### ⭐ اشتراک
+
+![اشتراک](docs/screenshots/07-subscription.png)
+
+### 👤 پروفایل کاربر
+
+![پروفایل](docs/screenshots/08-profile.png)
+
+</div>
+
+---
 ---
 
 ## 📖 درباره‌ی پروژه
@@ -148,6 +190,17 @@
 - عنوان معنادار
 - `lang="fa"` و `dir="rtl"`
 
+### 🏥 Healthcheck
+- `/healthz` — بررسی سلامت سرور
+- `/healthz/ready` — آماده‌بودن (Load Balancer)
+- `/healthz/live` — زنده‌بودن (Kubernetes)
+- چک دیتابیس + دیسک + uptime
+
+### 🔄 CI/CD
+- **GitHub Actions** خودکار
+- اجرای تست‌ها روی هر push
+- Badge سبز توی README
+
 ### 🎨 UI/UX
 - **RTL** کامل
 - **تم دارک**
@@ -173,7 +226,6 @@
 | **bcrypt** | هش رمز |
 | **Flask-Limiter** | Rate Limiting |
 | **jdatetime** | تاریخ شمسی |
-| **Flask-Compress** | فشرده‌سازی (اختیاری) |
 
 ### AI & ML
 | تکنولوژی | کاربرد |
@@ -193,6 +245,14 @@
 | **MediaRecorder API** | ضبط صدا |
 | **Web Audio API** | صداهای باغ |
 | **localStorage** | تنظیمات + cache |
+
+### DevOps
+| تکنولوژی | کاربرد |
+|----------|--------|
+| **Git** | نسخه‌بندی |
+| **GitHub** | مخزن + CI/CD |
+| **GitHub Actions** | تست خودکار |
+| **GitHub Codespaces** | محیط توسعه‌ی آنلاین |
 
 ---
 
