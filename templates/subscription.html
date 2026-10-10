@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page active" id="pageSubscription">
+
+    <!-- هدر -->
+    <div class="subscription-header">
+        <div style="width: 100px;"></div>
+        <span class="subscription-title">⭐ اشتراک من</span>
+        <div style="width: 100px;"></div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- بخش ۱: پلن فعلی -->
+    <!-- ============================================================ -->
+    <div class="plan-hero" id="planHero">
+        <div class="plan-hero-icon" id="planIcon">🆓</div>
+        <div class="plan-hero-name" id="planName">رایگان</div>
+        <div class="plan-hero-desc" id="planDesc">همه‌ی امکانات پایه برای همه</div>
+        <div class="plan-hero-badge" id="planBadge">
+            <span class="badge-dot"></span>
+            پلن فعال
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- بخش ۲: وضعیت استفاده‌ی امروز -->
+    <!-- ============================================================ -->
+    <div class="usage-card">
+        <div class="usage-title">📊 وضعیت استفاده‌ی امروز</div>
+
+        <div class="usage-list">
+
+            <div class="usage-item" data-feature="diagnosis">
+                <div class="usage-icon">🧠</div>
+                <div class="usage-info">
+                    <div class="usage-label">تشخیص</div>
+                    <div class="usage-bar">
+                        <div class="usage-bar-fill" id="usageBarDiagnosis" style="width: 0%;"></div>
+                    </div>
+                </div>
+                <div class="usage-count" id="usageCountDiagnosis">۰ از ۵</div>
+            </div>
+
+            <div class="usage-item" data-feature="chat">
+                <div class="usage-icon">💬</div>
+                <div class="usage-info">
+                    <div class="usage-label">چت</div>
+                    <div class="usage-bar">
+                        <div class="usage-bar-fill" id="usageBarChat" style="width: 0%;"></div>
+                    </div>
+                </div>
+                <div class="usage-count" id="usageCountChat">۰ از ۵۰</div>
+            </div>
+
+            <div class="usage-item" data-feature="notes">
+                <div class="usage-icon">📝</div>
+                <div class="usage-info">
+                    <div class="usage-label">یاداشت</div>
+                    <div class="usage-bar">
+                        <div class="usage-bar-fill" id="usageBarNotes" style="width: 0%;"></div>
+                    </div>
+                </div>
+                <div class="usage-count" id="usageCountNotes">۰ از ۲۰</div>
+            </div>
+
+            <div class="usage-item usage-item-static">
+                <div class="usage-icon">📅</div>
+                <div class="usage-info">
+                    <div class="usage-label">تاریخچه</div>
+                    <div class="usage-label-sub">دسترسی به گذشته</div>
+                </div>
+                <div class="usage-count" id="usageCountHistory">۳۶۵ روز</div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- بخش ۳: ویژگی‌های فعال -->
+    <!-- ============================================================ -->
+    <div class="features-card">
+        <div class="features-title">✨ ویژگی‌های فعال</div>
+
+        <div class="features-grid" id="featuresGrid">
+            <!-- JS پر می‌کنه -->
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- بخش ۴: پلن پریمیوم (به‌زودی) -->
+    <!-- ============================================================ -->
+    <div class="premium-card">
+        <div class="premium-header">
+            <div class="premium-icon">👑</div>
+            <div>
+                <div class="premium-title">پلن پریمیوم</div>
+                <div class="premium-subtitle">به‌زودی...</div>
+            </div>
+            <div class="premium-badge">⏳</div>
+        </div>
+    <div class="premium-features">
+            <div class="premium-feature">
+                <span class="premium-check">✓</span>
+                <span>تشخیص نامحدود</span>
+            </div>
+            <div class="premium-feature">
+                <span class="premium-check">✓</span>
+                <span>چت نامحدود</span>
+            </div>
+            <div class="premium-feature">
+                <span class="premium-check">✓</span>
+                <span>گزارش هفتگی هوشمند</span>
+            </div>
+            <div class="premium-feature">
+                <span class="premium-check">✓</span>
+                <span>بکاپ ابری</span>
+            </div>
+            <div class="premium-feature">
+                <span class="premium-check">✓</span>
+                <span>تم‌های ویژه</span>
+            </div>
+            <div class="premium-feature">
+                <span class="premium-check">✓</span>
+                <span>پشتیبانی اختصاصی</span>
+            </div>
+        </div>
+
+        <button class="premium-notify-btn" onclick="notifyPremiumInterest()">
+            🔔 به‌م خبر بده وقتی فعال شد
+        </button>
+
+        <div class="premium-hint">
+            الان همه‌چیز رایگانه! 🎉
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- بخش ۵: FAQ (سوالات متداول) -->
+    <!-- ============================================================ -->
+    <div class="faq-card">
+        <div class="faq-title">❓ سوالات متداول</div>
+
+        <div class="faq-list">
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    <span>آیا داده‌های من امن است؟</span>
+                    <span class="faq-arrow">›</span>
+                </div>
+                <div class="faq-answer">
+                    بله. تمام داده‌ها رمزنگاری‌شده و روی سرورهای ایران ذخیره می‌شوند.
+                    ما هیچ‌وقت داده‌های شما را با کسی به اشتراک نمی‌گذاریم.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    <span>آیا این اپ جایگزین روانشناس است؟</span>
+                    <span class="faq-arrow">›</span>
+                </div>
+                <div class="faq-answer">
+                    خیر. همراه آرامش یه ابزار غربالگری و خودمراقبتی است.
+                    برای تشخیص دقیق و درمان، حتماً با یک متخصص مشورت کنید.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    <span>پریمیوم چه زمانی فعال می‌شود؟</span>
+                    <span class="faq-arrow">›</span>
+                </div>
+                <div class="faq-answer">
+                    ما در حال کار روی پلن پریمیوم هستیم.
+                    اگه می‌خوای خبردار بشی، روی دکمه‌ی 🔔 «به‌م خبر بده» بزن.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    <span>آیا می‌توانم اشتراکم را لغو کنم؟</span>
+                    <span class="faq-arrow">›</span>
+                </div>
+                <div class="faq-answer">
+                    بله. هر زمان بخواهی می‌تونی از پروفایل، حسابت رو پاک کنی
+                    و همه‌ی داده‌هات حذف میشن.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    <span>چطور می‌توانم بازخورد بدم؟</span>
+                    <span class="faq-arrow">›</span>
+                </div>
+                <div class="faq-answer">
+                    از طریق ایمیل <a href="mailto:support@aramesh.app">support@aramesh.app</a>
+                    یا از صفحه‌ی پروفایل.
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- ============================================================ -->
+    <!-- بخش ۶: لینک‌های حقوقی -->
+    <!-- ============================================================ -->
+    <div class="legal-links-sub">
+        <a href="/privacy">🔒 حریم خصوصی</a>
+        <span class="separator">•</span>
+        <a href="/terms">📜 شرایط استفاده</a>
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/subscription.css') }}">
+<script src="{{ url_for('static', filename='js/subscription.js') }}"></script>
+{% endblock %}

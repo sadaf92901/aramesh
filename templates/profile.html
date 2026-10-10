@@ -1,0 +1,280 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page active" id="pageProfile">
+
+    <!-- هدر -->
+    <div class="profile-header">
+        <div style="width: 100px;"></div>
+        <span class="profile-title">👤 پروفایل من</span>
+        <div style="width: 100px;"></div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- بخش ۱: اطلاعات کاربر -->
+    <!-- ============================================================ -->
+    <div class="profile-card">
+        <div class="avatar-section">
+            <div class="avatar-wrapper" onclick="document.getElementById('avatarInput').click()">
+                <div id="avatarDisplay" class="avatar-display">👤</div>
+                <div class="avatar-overlay">📷</div>
+            </div>
+            <input type="file" id="avatarInput" accept="image/*" style="display:none;" onchange="uploadAvatar(event)">
+        </div>
+
+        <div class="profile-info">
+            <div class="info-row">
+                <span class="info-label">👤 نام نمایشی</span>
+                <span class="info-value" id="displayNameField">-</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">🔑 نام کاربری</span>
+                <span class="info-value" id="usernameField">-</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">📧 ایمیل</span>
+                <span class="info-value" id="emailField">-</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">📅 عضو از</span>
+                <span class="info-value" id="joinedField">-</span>
+            </div>
+        </div>
+
+        <div class="profile-actions">
+            <button class="profile-btn primary" onclick="openEditModal()">✏️ ویرایش اطلاعات</button>
+            <button class="profile-btn" onclick="openPasswordModal()">🔒 تغییر رمز</button>
+        </div>
+    </div>
+    <!-- ============================================================ -->
+    <!-- بخش اشتراک -->
+    <!-- ============================================================ -->
+    <div class="setting-row" onclick="window.location.href='/subscription'">
+        <div class="setting-info">
+            <span class="setting-icon">⭐</span>
+            <span class="setting-label">اشتراک من</span>
+        </div>
+        <span class="setting-value">مشاهده ›</span>
+    </div>
+    <!-- ============================================================ -->
+    <!-- بخش ۲: آمار من -->
+    <!-- ============================================================ -->
+    <div class="profile-section">
+        <h3 class="section-title">📊 آمار من</h3>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">🧠</div>
+                <div class="stat-value" id="statDiagnoses">۰</div>
+                <div class="stat-label">تشخیص</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📝</div>
+                <div class="stat-value" id="statNotes">۰</div>
+                <div class="stat-label">یاداشت</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🌬️</div>
+                <div class="stat-value" id="statBreaths">۰</div>
+                <div class="stat-label">تمرین تنفس</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🧘</div>
+                <div class="stat-value" id="statMeditations">۰</div>
+                <div class="stat-label">مدیتیشن</div>
+            </div>
+            <div class="stat-card streak">
+                <div class="stat-icon">🔥</div>
+                <div class="stat-value" id="statStreak">۰</div>
+                <div class="stat-label">روز متوالی</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- بخش ۳: تنظیمات -->
+    <!-- ============================================================ -->
+    <div class="profile-section">
+        <h3 class="section-title">⚙️ تنظیمات</h3>
+
+        <div class="setting-row" onclick="toggleThemeFromProfile()">
+            <div class="setting-info">
+                <span class="setting-icon">🌙</span>
+                <span class="setting-label">تم</span>
+            </div>
+            <span class="setting-value" id="themeValue">روشن</span>
+        </div>
+
+        <div class="setting-row" onclick="openReminderSettings()">
+            <div class="setting-info">
+                <span class="setting-icon">🔔</span>
+                <span class="setting-label">یادآوری‌ها</span>
+            </div>
+            <span class="setting-value" id="reminderValue">فعال</span>
+        </div>
+
+         <div class="setting-row" onclick="toggleSoundFromProfile()">
+            <div class="setting-info">
+                <span class="setting-icon">🔊</span>
+                <span class="setting-label">صدای اپ</span>
+            </div>
+            <span class="setting-value" id="soundValue">روشن</span>
+        </div>
+
+    </div>
+    <!-- ============================================================ -->
+    <!-- بخش ۴: قوانین و سیاست‌ها -->
+    <!-- ============================================================ -->
+    <div class="profile-section">
+        <h3 class="section-title">📜 قوانین و سیاست‌ها</h3>
+
+        <div class="setting-row" onclick="window.location.href='/privacy'">
+            <div class="setting-info">
+                <span class="setting-icon">🔒</span>
+                <span class="setting-label">سیاست حفظ حریم خصوصی</span>
+            </div>
+            <span class="setting-value">›</span>
+        </div>
+
+        <div class="setting-row" onclick="window.location.href='/terms'">
+            <div class="setting-info">
+                <span class="setting-icon">📜</span>
+                <span class="setting-label">شرایط استفاده</span>
+            </div>
+            <span class="setting-value">›</span>
+        </div>
+        <!-- ============================================================ -->
+        <!-- بخش ۵: درباره‌ی اپ -->
+        <!-- ============================================================ -->
+        <div class="profile-section">
+            <h3 class="section-title">ℹ️ درباره‌ی اپ</h3>
+
+            <div class="setting-row" onclick="window.location.href='/about'">
+                <div class="setting-info">
+                    <span class="setting-icon">🌿</span>
+                    <span class="setting-label">درباره‌ی همراه آرامش</span>
+                </div>
+                <span class="setting-value">›</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- بخش ۵: کمک فوری -->
+    <!-- ============================================================ -->
+    <div class="emergency-card">
+        <div class="emergency-header">
+            <span class="emergency-icon">🆘</span>
+            <h3 class="emergency-title">کمک فوری</h3>
+        </div>
+        <p class="emergency-subtitle">
+            اگه در بحران هستی، همین الان با یکی از این شماره‌ها تماس بگیر:
+        </p>
+        <div class="emergency-contacts">
+            <a href="tel:123" class="emergency-contact">
+                <div class="emergency-contact-left">
+                    <span class="emergency-contact-icon">📞</span>
+                    <span class="emergency-contact-name">اورژانس اجتماعی</span>
+                </div>
+                <span class="emergency-contact-number">۱۲۳</span>
+            </a>
+            <a href="tel:1480" class="emergency-contact">
+                <div class="emergency-contact-left">
+                    <span class="emergency-contact-icon">📞</span>
+                    <span class="emergency-contact-name">صدای مشاور</span>
+                </div>
+                <span class="emergency-contact-number">۱۴۸۰</span>
+            </a>
+            <a href="tel:115" class="emergency-contact">
+                <div class="emergency-contact-left">
+                    <span class="emergency-contact-icon">🚑</span>
+                    <span class="emergency-contact-name">اورژانس</span>
+                </div>
+                <span class="emergency-contact-number">۱۱۵</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- بخش ۶: منطقه‌ی خطر -->
+    <!-- ============================================================ -->
+    <div class="profile-section danger-section">
+        <h3 class="section-title">⚠️ منطقه‌ی خطر</h3>
+
+        <button class="danger-btn" onclick="downloadData()">
+            📥 دانلود داده‌های من (JSON)
+        </button>
+
+        <button class="danger-btn delete" onclick="deleteAccount()">
+            🗑️ پاک کردن حساب
+        </button>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- بخش ۷: خروج -->
+    <!-- ============================================================ -->
+    <div class="profile-section">
+        <button class="logout-btn" onclick="logoutUser()">
+            🚪 خروج از حساب
+        </button>
+    </div>
+
+</div>
+
+<!-- مودال ویرایش -->
+<div id="editModal" class="profile-modal" style="display:none;">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3>✏️ ویرایش اطلاعات</h3>
+            <button class="modal-close" onclick="closeEditModal()">✕</button>
+        </div>
+        <div class="form-group">
+            <label>👤 نام نمایشی</label>
+            <input type="text" id="editDisplayName" placeholder="مثلاً: علی رضایی">
+        </div>
+        <div class="form-group">
+            <label>📧 ایمیل</label>
+            <input type="email" id="editEmail" placeholder="example@email.com" dir="ltr">
+        </div>
+        <div id="editError" class="modal-error"></div>
+        <div class="modal-actions">
+            <button class="profile-btn primary" onclick="saveProfile()">💾 ذخیره</button>
+            <button class="profile-btn" onclick="closeEditModal()">انصراف</button>
+        </div>
+    </div>
+</div>
+
+<!-- مودال تغییر رمز -->
+<div id="passwordModal" class="profile-modal" style="display:none;">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3>🔒 تغییر رمز عبور</h3>
+            <button class="modal-close" onclick="closePasswordModal()">✕</button>
+        </div>
+        <div class="form-group">
+            <label>🔒 رمز فعلی</label>
+            <input type="password" id="currentPassword" placeholder="رمز عبور فعلی" dir="ltr">
+        </div>
+        <div class="form-group">
+            <label>🔑 رمز جدید</label>
+            <input type="password" id="newPassword" placeholder="حداقل ۸ کاراکتر" dir="ltr">
+        </div>
+        <div class="form-group">
+            <label>🔑 تکرار رمز جدید</label>
+            <input type="password" id="confirmPassword" placeholder="رمز جدید را تکرار کنید" dir="ltr">
+        </div>
+        <div id="passwordError" class="modal-error"></div>
+        <div class="modal-actions">
+            <button class="profile-btn primary" onclick="savePassword()">💾 تغییر رمز</button>
+            <button class="profile-btn" onclick="closePasswordModal()">انصراف</button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+
+{% endblock %}

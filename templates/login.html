@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ورود | همراه آرامش</title>
+    <meta name="description" content="ورود یا ثبت‌نام در همراه آرامش — اپلیکیشن سلامت روان فارسی">
+    <!-- PWA Meta -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#8B5CF6">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="آرامش">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/icons/apple-touch-icon.png') }}">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+<body>
+
+    <div class="login-container">
+
+        <!-- هدر با لوگو -->
+        <div class="login-header">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="همراه آرامش" class="login-logo">
+            <h1 class="login-title">همراه <span>آرامش</span></h1>
+            <div class="login-divider">
+                <span class="line"></span>
+                <span class="diamond">✦</span>
+                <span class="line"></span>
+            </div>
+        </div>
+
+        <!-- تب‌ها -->
+        <div class="login-tabs">
+            <button class="login-tab active" onclick="showLoginForm()" id="tabLogin">🔑 ورود</button>
+            <button class="login-tab" onclick="showRegisterForm()" id="tabRegister">📝 ثبت‌نام</button>
+        </div>
+
+        <!-- فرم ورود -->
+        <div class="form-container active" id="loginForm">
+            <div class="form-group">
+                <label>👤 نام کاربری</label>
+                <input type="text" id="loginUsername" placeholder="نام کاربری خود را وارد کنید" autocomplete="username" dir="ltr">
+            </div>
+            <div class="form-group">
+                <label>🔒 رمز عبور</label>
+                <div class="password-wrapper">
+                    <input type="password" id="loginPassword" placeholder="رمز عبور خود را وارد کنید" autocomplete="current-password" dir="ltr">
+                    <button type="button" class="toggle-password" onclick="togglePassword('loginPassword', this)">👁️</button>
+                </div>
+            </div>
+            <button class="btn-submit btn-submit-primary" onclick="loginUserSubmit()" id="loginSubmitBtn">✅ ورود</button>
+            <div id="loginError" class="form-error"></div>
+        </div>
+
+        <!-- فرم ثبت‌نام -->
+        <div class="form-container" id="registerForm">
+            <div class="form-group">
+                <label>👤 نام نمایشی</label>
+                <input type="text" id="registerDisplayName" placeholder="مثلاً: علی رضایی" autocomplete="name">
+                <small>این اسم توی اپ به شما نشون داده میشه</small>
+            </div>
+            <div class="form-group">
+                <label>🔑 نام کاربری</label>
+                <input type="text" id="registerUsername" placeholder="مثلاً: ali_70" autocomplete="username" dir="ltr">
+                <small>فقط حروف انگلیسی، عدد و _ — ۳ تا ۲۰ کاراکتر</small>
+            </div>
+            <div class="form-group">
+                <label>📧 ایمیل</label>
+                <input type="email" id="registerEmail" placeholder="example@email.com" autocomplete="email" dir="ltr">
+            </div>
+            <div class="form-group">
+                <label>🔒 رمز عبور</label>
+                <div class="password-wrapper">
+                    <input type="password" id="registerPassword" placeholder="حداقل ۸ کاراکتر" autocomplete="new-password" dir="ltr">
+                    <button type="button"
+                            class="toggle-password"
+                            onclick="togglePassword('loginPassword', this)"
+                            aria-label="نمایش یا مخفی کردن رمز عبور">
+                        👁️
+                    </button>
+                </div>
+                <small>شامل حرف بزرگ، کوچک و عدد</small>
+            </div>
+            <button class="btn-submit btn-submit-success" onclick="registerUserSubmit()" id="registerSubmitBtn">✅ ثبت‌نام</button>
+            <div id="registerError" class="form-error"></div>
+        </div>
+
+        <!-- جداکننده -->
+        <div class="divider-or">یا</div>
+
+        <!-- دکمه مهمان -->
+        <button class="btn-guest" onclick="guestLogin()">
+            👤 ورود به عنوان مهمان
+        </button>
+
+
+        <div style="text-align: center; margin-top: 12px;">
+            <a href="/forgot-password" style="color: #8B5CF6; text-decoration: none; font-size: 13px; font-weight: 600;">
+                🔑 رمز عبور رو فراموش کردی؟
+            </a>
+        </div>
+
+
+        <!-- فوتر -->
+        <div class="login-footer">
+            <p class="login-quote">💫 "هر قدم کوچک، یک تغییر بزرگ"</p>
+        </div>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+
+            <!-- ثبت Service Worker (PWA) — فقط در production -->
+
+
+
+
+</body>
+</html>

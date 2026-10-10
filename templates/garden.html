@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page active" id="pageGarden">
+
+    <!-- ============================================================ -->
+    <!-- هدر -->
+    <!-- ============================================================ -->
+    <div class="garden-header">
+        <button class="garden-header-btn"
+                onclick="toggleGardenSound()"
+                id="soundToggleBtn"
+                aria-label="روشن یا خاموش کردن صدای باغ">
+            🔊
+        </button>
+        <span class="garden-title">🌸 باغ آرامش</span>
+        <div style="width: 40px;" aria-hidden="true"></div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- Empty State (وقتی باغ خالیه) -->
+    <!-- ============================================================ -->
+    <div id="gardenEmptyState" class="garden-empty-state" style="display: none;">
+
+        <div class="empty-icon" aria-hidden="true">🌱</div>
+        <h2 class="empty-title">باغ تو هنوز خالیه!</h2>
+        <p class="empty-desc">
+            هر فعالیتی که انجام بدی = یه گل توی باغت 🌸
+        </p>
+
+        <div class="empty-actions">
+            <a href="/questionnaire" class="empty-action-btn primary" aria-label="شروع اولین تشخیص">
+                🧠 اولین تشخیص
+            </a>
+            <a href="/journal" class="empty-action-btn" aria-label="نوشتن یاداشت">
+                📝 نوشتن یاداشت
+            </a>
+            <a href="/breathing" class="empty-action-btn" aria-label="تمرین تنفس">
+                🌬️ تمرین تنفس
+            </a>
+            <a href="/meditation" class="empty-action-btn" aria-label="مدیتیشن">
+                🧘 مدیتیشن
+            </a>
+        </div>
+
+        <p class="empty-hint">
+            💡 بعد از هر فعالیت، یه دانه می‌گیری که می‌تونی بکاری
+        </p>
+
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- محتوای اصلی باغ -->
+    <!-- ============================================================ -->
+    <div id="gardenMain" style="display: none;">
+
+        <!-- دکمه‌ی پیشرفت -->
+        <div class="garden-progress-btn-wrapper">
+            <button class="garden-progress-btn"
+                    onclick="openProgressModal()"
+                    aria-label="مشاهده‌ی پیشرفت باغ">
+                📊 پیشرفت باغ
+            </button>
+        </div>
+
+        <!-- آمار -->
+        <div class="garden-stats" role="region" aria-label="آمار باغ">
+            <div class="stat-item">
+                <div class="stat-icon" aria-hidden="true">🌸</div>
+                <div class="stat-value" id="totalFlowers">۰</div>
+                <div class="stat-label">گل</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon" aria-hidden="true">📅</div>
+                <div class="stat-value" id="uniqueDays">۰</div>
+                <div class="stat-label">روز فعال</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon" aria-hidden="true">🔥</div>
+                <div class="stat-value" id="streakDays">۰</div>
+                <div class="stat-label">استریک</div>
+            </div>
+        </div>
+
+        <!-- صحنه‌ی باغ -->
+        <div class="garden-scene" id="gardenScene" role="img" aria-label="صحنه‌ی باغ با گل‌های کاشته‌شده">
+
+            <!-- پروانه‌ها -->
+            <div class="butterfly b1" aria-hidden="true">🦋</div>
+            <div class="butterfly b2" aria-hidden="true">🦋</div>
+            <div class="butterfly b3" aria-hidden="true">🦋</div>
+
+            <!-- گل‌ها -->
+            <div class="flowers-container" id="flowersContainer"></div>
+
+            <!-- ذرات نور -->
+            <div class="sparkles" id="sparkles" aria-hidden="true"></div>
+
+            <!-- کانفتی -->
+            <div class="confetti" id="confetti" aria-hidden="true"></div>
+
+        </div>
+        <!-- کیف دانه -->
+        <div class="seeds-bag" id="seedsBag" style="display: none;" role="region" aria-label="کیف دانه">
+            <div class="seeds-bag-header">
+                <span class="seeds-bag-icon" aria-hidden="true">📦</span>
+                <span class="seeds-bag-title">کیف دانه</span>
+                <span class="seeds-bag-count" id="seedsCount" aria-label="تعداد دانه">۰</span>
+            </div>
+            <div class="seeds-list" id="seedsList" role="list"></div>
+            <div class="seeds-bag-hint" id="seedsHint">
+                👆 روی یه دانه بزن تا بکارش
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- مودال پیشرفت باغ -->
+    <!-- ============================================================ -->
+    <div id="progressModal"
+         class="progress-modal"
+         style="display: none;"
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="progressModalTitle">
+
+        <div class="progress-modal-box">
+
+            <div class="progress-modal-header">
+                <h3 id="progressModalTitle">📊 پیشرفت باغ</h3>
+                <button class="progress-modal-close"
+                        onclick="closeProgressModal()"
+                        aria-label="بستن مودال پیشرفت">✕</button>
+            </div>
+
+            <div class="progress-modal-content">
+
+                <!-- سطح باغ -->
+                <div class="garden-level">
+                    <div class="level-header">
+                        <span class="level-icon" id="levelIcon" aria-hidden="true">🌱</span>
+                        <span class="level-title">
+                            سطح باغ: <strong id="levelName">تازه‌کار</strong>
+                        </span>
+                        <span class="level-progress" id="levelProgress">۰/۱۰</span>
+                    </div>
+                    <div class="level-bar-container"
+                         role="progressbar"
+                         aria-label="پیشرفت به سطح بعدی">
+                        <div class="level-bar-fill" id="levelBar" style="width: 0%;"></div>
+                    </div>
+                    <div class="level-next" id="levelNext">۱۰ گل دیگه تا باغبون 🌿</div>
+                </div>
+
+                <!-- نمودار رشد -->
+                <div class="garden-growth">
+                    <div class="growth-title">📊 پیشرفت باغ</div>
+                    <div class="growth-bars" id="growthBars"></div>
+                </div>
+
+                <!-- دستاوردها -->
+                <div class="achievements">
+                    <div class="achievements-title">🏆 دستاوردها</div>
+                    <div class="achievements-grid" id="achievementsGrid"></div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- مودال گل -->
+    <!-- ============================================================ -->
+    <div id="flowerModal"
+         class="flower-modal"
+         style="display: none;"
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="flowerModalTitle">
+
+        <div class="flower-modal-box">
+
+            <div class="flower-modal-flower" id="flowerModalFlower" aria-hidden="true">🌸</div>
+            <div class="flower-modal-title" id="flowerModalTitle">گل</div>
+            <div class="flower-modal-date" id="flowerModalDate">تاریخ</div>
+
+            <button class="flower-modal-close"
+                    onclick="closeFlowerModal()"
+                    aria-label="بستن اطلاعات گل">
+                بستن
+            </button>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/garden.css') }}">
+<script src="{{ url_for('static', filename='js/garden.js') }}"></script>
+{% endblock %}

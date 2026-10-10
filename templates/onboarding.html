@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>خوش آمدید — همراه آرامش</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/onboarding.css') }}">
+</head>
+<body>
+
+<div class="onboarding-container">
+
+    <!-- دکمه‌ی Skip -->
+    <button class="skip-btn" onclick="skipOnboarding()">رد کردن ›</button>
+
+    <!-- اسلایدها -->
+    <div class="slides-wrapper">
+
+        <!-- اسلاید ۱ — خوش‌آمد -->
+        <div class="slide active" data-slide="0">
+            <div class="slide-icon">🌿</div>
+            <h1 class="slide-title">به همراه آرامش خوش اومدی!</h1>
+            <p class="slide-text">
+                اینجا یه فضای امن برای سلامت روانته.
+                <br>
+                می‌تونی احساساتت رو بشناسی، تمرین‌های آرامش‌بخش انجام بدی،
+                و روند بهبودت رو ببینی.
+            </p>
+        </div>
+
+        <!-- اسلاید ۲ — تشخیص -->
+        <div class="slide" data-slide="1">
+            <div class="slide-icon">🧠</div>
+            <h1 class="slide-title">تشخیص هوشمند</h1>
+            <p class="slide-text">
+                ۲۰ سوال علمی + ۳ سوال باز
+                <br>
+                بر اساس استانداردهای جهانی (DSM-5 و GAD-7)
+                <br>
+                <br>
+                می‌تونی با متن یا صدا جواب بدی 💬🎤
+            </p>
+        </div>
+
+        <!-- اسلاید ۳ — تمرین‌ها -->
+        <div class="slide" data-slide="2">
+            <div class="slide-icon">🧘</div>
+            <h1 class="slide-title">تمرین‌های آرامش‌بخش</h1>
+            <p class="slide-text">
+                <strong>🌬️ تمرین تنفس</strong> — ۵ دقیقه در روز
+                <br>
+                <strong>🧘 مدیتیشن هدایت‌شده</strong> — صبحگاهی، تنفس عمیق، شبانه
+                <br>
+                <br>
+                روزانه فقط ۵ دقیقه، تفاوت بزرگی می‌سازه ✨
+            </p>
+        </div>
+
+        <!-- اسلاید ۴ — روزنگار -->
+        <div class="slide" data-slide="3">
+            <div class="slide-icon">📝</div>
+            <h1 class="slide-title">روزنگار احساسات</h1>
+            <p class="slide-text">
+                احساساتت رو بنویس
+                <br>
+                حالت رو ثبت کن
+                <br>
+                روندت رو توی تاریخچه ببین 📊
+                <br>
+                <br>
+                اینطوری خودت رو بهتر می‌شناسی 💚
+            </p>
+        </div>
+
+        <!-- اسلاید ۵ — آماده -->
+        <div class="slide" data-slide="4">
+            <div class="slide-icon">💚</div>
+            <h1 class="slide-title">آماده‌ای!</h1>
+            <p class="slide-text">
+                هر روز یه قدم کوچیک
+                <br>
+                به سمت آرامش
+                <br>
+                <br>
+                <strong>ما کنارتیم 🌿</strong>
+            </p>
+        </div>
+
+    </div>
+
+    <!-- نقطه‌های نشانگر -->
+    <div class="dots-wrapper" id="dotsWrapper">
+        <span class="dot active" data-dot="0"></span>
+        <span class="dot" data-dot="1"></span>
+        <span class="dot" data-dot="2"></span>
+        <span class="dot" data-dot="3"></span>
+        <span class="dot" data-dot="4"></span>
+    </div>
+
+    <!-- دکمه‌های ناوبری -->
+    <div class="nav-buttons-onboard">
+        <button class="prev-btn" id="prevBtn" onclick="prevSlide()" style="display: none;">
+            ‹ قبلی
+        </button>
+        <button class="next-btn" id="nextBtn" onclick="nextSlide()">
+            بعدی ›
+        </button>
+        <button class="start-btn" id="startBtn" onclick="finishOnboarding()" style="display: none;">
+            🚀 شروع کن!
+        </button>
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/onboarding.js') }}"></script>
+
+</body>
+</html>

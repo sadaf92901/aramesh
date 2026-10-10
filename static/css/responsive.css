@@ -1,0 +1,353 @@
+/* ============================================================
+   استایل‌های ریسپانسیو
+   ============================================================ */
+
+/* ===== موبایل ===== */
+@media (max-width: 768px) {
+    .container {
+        padding: 16px 18px;
+        border-radius: 28px;
+        max-height: 98vh;
+    }
+
+    .header-enhanced {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+    .header-actions {
+        justify-content: flex-end;
+    }
+
+    .user-meta .user-stats {
+        font-size: 10px;
+        gap: 8px;
+    }
+
+    .action-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+    .action-card.primary {
+        padding: 16px 18px;
+    }
+    .action-card.primary .card-header .icon {
+        font-size: 28px;
+    }
+    .action-card.primary h4 {
+        font-size: 16px;
+    }
+    .action-card:not(.primary) {
+        padding: 10px 12px;
+    }
+    .action-card:not(.primary) .card-header .icon {
+        font-size: 20px;
+    }
+    .action-card:not(.primary) h4 {
+        font-size: 13px;
+    }
+    .action-card:not(.primary) p {
+        font-size: 11px;
+    }
+
+    .status-option {
+        min-width: 50px;
+        padding: 6px 8px;
+    }
+    .status-option .option-emoji {
+        font-size: 20px;
+    }
+    .status-option .option-label {
+        font-size: 10px;
+    }
+    .status-selected {
+        font-size: 10px;
+        padding: 1px 8px;
+    }
+    .status-title {
+        font-size: 12px;
+    }
+    .status-summary {
+        font-size: 10px;
+        gap: 10px;
+    }
+
+    .options label {
+        font-size: 11px;
+        padding: 3px 10px;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        font-size: 13px;
+        min-width: 70px;
+    }
+    .btn-circle {
+        width: 38px;
+        height: 38px;
+        font-size: 16px;
+    }
+    .recording-area textarea {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+
+    .fab {
+        width: 48px;
+        height: 48px;
+        font-size: 22px;
+        bottom: 16px;
+        right: 16px;
+    }
+
+    .result-circle {
+        width: 80px;
+        height: 80px;
+        font-size: 18px;
+    }
+
+    .breath-circle-container {
+        width: 120px;
+        height: 120px;
+    }
+    .breath-icon-inner {
+        font-size: 30px;
+    }
+    .breath-text {
+        font-size: 16px;
+    }
+
+    .chart-container {
+        height: 90px;
+    }
+    .chart-point .point-dot {
+        width: 12px;
+        height: 12px;
+    }
+    .chart-point .point-day {
+        font-size: 9px;
+    }
+    .chart-point .point-emoji {
+        font-size: 16px;
+    }
+    .chart-stats {
+        gap: 6px;
+    }
+    .chart-stat .stat-number {
+        font-size: 14px;
+    }
+
+    .toast-container {
+        top: 10px;
+        width: 95%;
+    }
+    .toast {
+        padding: 12px 16px;
+        font-size: 13px;
+    }
+
+    .page-header {
+        font-size: 16px;
+    }
+    .question-item {
+        padding: 12px 14px;
+    }
+    .question-item label {
+        font-size: 13px;
+    }
+}
+
+/* ===== موبایل کوچک ===== */
+@media (max-width: 400px) {
+    .action-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .status-options {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .status-option {
+        max-width: 100%;
+        flex-direction: row;
+        justify-content: center;
+        gap: 8px;
+        padding: 8px 12px;
+    }
+    .status-option .option-emoji {
+        font-size: 18px;
+    }
+
+    .nav-buttons {
+        flex-direction: column;
+    }
+    .nav-buttons .btn {
+        width: 100%;
+    }
+
+    .user-meta .user-stats {
+        font-size: 9px;
+        gap: 6px;
+    }
+
+    .action-card.primary .card-footer {
+        flex-direction: column;
+        gap: 4px;
+        align-items: flex-start;
+    }
+}
+
+/* ===== موبایل خیلی کوچک ===== */
+@media (max-width: 350px) {
+    .container {
+        padding: 10px 12px;
+        border-radius: 20px;
+    }
+
+    .header-actions .icon-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+
+    .btn {
+        font-size: 12px;
+        padding: 6px 12px;
+        min-width: 60px;
+    }
+
+    .fab {
+        width: 44px;
+        height: 44px;
+        font-size: 20px;
+        bottom: 12px;
+        right: 12px;
+    }
+}
+@media (max-width: 600px) {
+    .action-grid .action-card {
+        min-height: 70px;
+    }
+    .action-grid .action-card .icon {
+        font-size: 24px;
+    }
+    .action-grid .action-card h4 {
+        font-size: 14px;
+    }
+}/* ===== تبلت ===== */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .container {
+        max-width: 650px;
+        padding: 20px 22px;
+    }
+
+    .action-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* ===== حالت پرینت ===== */
+@media print {
+    .container {
+        box-shadow: none;
+        max-height: 100vh;
+        overflow: visible;
+        border-radius: 0;
+        padding: 20px;
+    }
+    .fab {
+        display: none;
+    }
+    .toast-container {
+        display: none;
+    }
+    .breath-btn {
+        display: none;
+    }
+    .breathing-enhanced {
+        display: none !important;
+    }
+    .footer-buttons {
+        display: none;
+    }
+    .action-grid {
+        display: none;
+    }
+    .header-actions .icon-btn {
+        display: none;
+    }
+    .nav-buttons .btn {
+        display: none;
+    }
+}
+
+/* ===== حالت تاریک + ریسپانسیو ===== */
+@media (max-width: 768px) {
+    body.dark-theme .header-enhanced {
+        border-bottom-color: #334155;
+    }
+    body.dark-theme .status-summary {
+        border-top-color: #475569;
+    }
+    body.dark-theme .chart-stats {
+        border-top-color: #475569;
+    }
+}
+/* ============================================================
+   بهبود UI/UX - موبایل
+   ============================================================ */
+
+@media (max-width: 600px) {
+    /* صفحه اصلی */
+    .user-meta .user-name {
+        font-size: 16px !important;
+    }
+    .user-meta .user-stats {
+        font-size: 11px !important;
+    }
+    .quote-animated .quote-text {
+        font-size: 14px !important;
+    }
+    .status-title {
+        font-size: 14px !important;
+    }
+    .status-selected {
+        font-size: 13px !important;
+    }
+    .status-option .option-label {
+        font-size: 11px !important;
+    }
+    .status-option .option-emoji {
+        font-size: 22px !important;
+    }
+    .action-card h4 {
+        font-size: 15px !important;
+    }
+    .action-card .icon {
+        font-size: 26px !important;
+    }
+
+    /* صفحه سوالات */
+    .question-item label {
+        font-size: 17px !important;
+    }
+    .options label {
+        font-size: 14px !important;
+        padding: 8px 16px !important;
+    }
+    .btn {
+        font-size: 15px !important;
+        padding: 10px 20px !important;
+    }
+
+    /* صفحه نتیجه */
+    .result-box h3 {
+        font-size: 17px !important;
+    }
+    .result-box p {
+        font-size: 14px !important;
+    }
+    #resultScore {
+        font-size: 20px !important;
+    }
+}

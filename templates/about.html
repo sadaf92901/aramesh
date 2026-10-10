@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page active" id="pageAbout">
+
+    <div class="legal-page">
+
+        <!-- هدر -->
+        <div class="legal-header">
+             <div style="width: 100px;"></div>
+            <span class="legal-title">ℹ️ درباره‌ی همراه آرامش</span>
+            <div style="width: 100px;"></div>
+        </div>
+
+        <!-- محتوا -->
+        <div class="legal-content">
+
+            <!-- بخش ۱ -->
+            <div class="about-intro">
+                <div class="about-logo">🌿</div>
+                <h2 class="about-title">همراه آرامش</h2>
+                <p class="about-tagline">یه قدم کوچیک به سمت آرامش</p>
+            </div>
+
+            <h2>🎯 هدف ما</h2>
+            <p>
+                همراه آرامش یه اپلیکیشن سلامت روانه که به شما کمک می‌کنه:
+            </p>
+            <ul>
+                <li>وضعیت روانی خودتون رو <strong>بسنجید</strong></li>
+                <li>احساساتتون رو <strong>ثبت کنید</strong></li>
+                <li>تمرین‌های <strong>آرامش‌بخش</strong> انجام بدید</li>
+                <li>روند بهبودتون رو <strong>پیگیری کنید</strong></li>
+            </ul>
+
+            <h2>✨ امکانات</h2>
+
+            <div class="about-features">
+
+                <div class="about-feature">
+                    <div class="feature-icon">🧠</div>
+                    <div class="feature-info">
+                        <h3>تشخیص هوشمند</h3>
+                        <p>۲۰ سوال علمی + ۳ سوال باز، با تحلیل هوش مصنوعی</p>
+                    </div>
+                </div>
+
+                <div class="about-feature">
+                    <div class="feature-icon">📊</div>
+                    <div class="feature-info">
+                        <h3>وضعیت روزانه</h3>
+                        <p>خلق، انرژی و خواب خودتون رو ثبت کنید</p>
+                    </div>
+                </div>
+
+                <div class="about-feature">
+                    <div class="feature-icon">🌬️</div>
+                    <div class="feature-info">
+                        <h3>تمرین تنفس</h3>
+                        <p>تمرین‌های آرام‌بخش برای کاهش استرس</p>
+                    </div>
+                </div>
+
+                <div class="about-feature">
+                    <div class="feature-icon">🧘</div>
+                    <div class="feature-info">
+                        <h3>مدیتیشن هدایت‌شده</h3>
+                        <p>۳ سناریو: صبحگاهی، تنفس عمیق، شبانه</p>
+                    </div>
+                </div>
+
+                <div class="about-feature">
+                    <div class="feature-icon">📝</div>
+                    <div class="feature-info">
+                        <h3>روزنگار</h3>
+                        <p>احساسات و افکارتون رو بنویسید</p>
+                    </div>
+                </div>
+
+                <div class="about-feature">
+                    <div class="feature-icon">💬</div>
+                    <div class="feature-info">
+                        <h3>چت‌بات همدل</h3>
+                        <p>هر وقت نیاز داشتید، با ما حرف بزنید</p>
+                    </div>
+                </div>
+
+                <div class="about-feature">
+                    <div class="feature-icon">📋</div>
+                    <div class="feature-info">
+                        <h3>برنامه هفتگی</h3>
+                        <p>برنامه‌ی شخصی‌سازی شده بر اساس وضعیت شما</p>
+                    </div>
+                </div>
+
+                <div class="about-feature">
+                    <div class="feature-icon">📜</div>
+                    <div class="feature-info">
+                        <h3>تاریخچه‌ی کامل</h3>
+                        <p>روند پیشرفتتون رو در طول زمان ببینید</p>
+                    </div>
+                </div>
+
+            </div>
+            <h2>🔒 حریم خصوصی</h2>
+            <p>
+                داده‌های شما <strong>محرمانه</strong>ست و هیچ‌وقت با کسی به اشتراک گذاشته نمیشه.
+                برای اطلاعات بیشتر،
+                <a href="/privacy">سیاست حفظ حریم خصوصی</a>
+                رو ببینید.
+            </p>
+
+            <h2>📱 نسخه</h2>
+            <p>
+                <strong>نسخه:</strong> ۱.۰.۰<br>
+                <strong>آخرین به‌روزرسانی:</strong> ۲۹ شهریور ۱۴۰۵
+            </p>
+
+            <h2>📧 تماس با ما</h2>
+            <p>
+                اگه سوال، پیشنهاد یا انتقادی دارید، با ما در تماس باشید:
+            </p>
+            <ul>
+                <li>📧 ایمیل: <a href="mailto:support@aramesh.app">support@aramesh.app</a></li>
+                <li>🐛 گزارش باگ: <a href="mailto:bugs@aramesh.app">bugs@aramesh.app</a></li>
+            </ul>
+
+            <div class="legal-warning">
+                <strong>⚠️ هشدار پزشکی:</strong>
+                این اپلیکیشن یه ابزار غربالگری اولیه‌ست و
+                جایگزین تشخیص روانپزشک یا روانشناس نیست.
+                برای تشخیص دقیق، حتماً با یه متخصص مشورت کنید.
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/legal.css') }}">
+{% endblock %}

@@ -1,0 +1,328 @@
+/* ============================================================
+   همراه آرامش — کارت‌ها
+   ============================================================ */
+
+.user-card {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    border-radius: 16px;
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #93c5fd;
+    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.12);
+}
+
+body.dark-theme .user-card {
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+    border-color: rgba(59, 130, 246, 0.3);
+}
+
+.user-info { display: flex; align-items: center; gap: 7px; }
+
+.avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3B82F6, #1D4ED8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 28px;
+    flex-shrink: 0;
+    box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.user-name { font-size: 19px; font-weight: 800; color: #1e3a8a; }
+body.dark-theme .user-name { color: #bfdbfe; }
+
+.user-stats { font-size: 14px; color: #1e40af; margin-top: 5px; font-weight: 600; }
+body.dark-theme .user-stats { color: #93c5fd; }
+
+.connection-status {
+    font-size: 12px;
+    padding: 7px 16px;
+    border-radius: 16px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+    color: #15803d;
+    box-shadow: 0 2px 8px rgba(34, 197, 94, 0.2);
+}
+
+.connection-status.offline {
+    background: linear-gradient(135deg, #fee2e2, #fecaca);
+    color: #b91c1c;
+}
+
+/* کارت تشخیص */
+.diagnosis-card {
+    background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 50%, #6D28D9 100%);
+    border-radius: 24px;
+    padding: 28px 24px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 16px 40px rgba(139, 92, 246, 0.45);
+    cursor: pointer;
+    transition: all 0.3s;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.diagnosis-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 50px rgba(139, 92, 246, 0.55);
+}
+
+.diagnosis-card::before {
+    content: '';
+    position: absolute;
+    top: -70px;
+    left: -70px;
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle, rgba(255,255,255,0.25), transparent 70%);
+    border-radius: 50%;
+}
+
+.diagnosis-card::after {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    right: -50px;
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 70%);
+    border-radius: 50%;
+}
+
+.diagnosis-icon {
+    font-size: 52px;
+    margin-bottom: 14px;
+    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.25));
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.diagnosis-title {
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 10px;
+    text-align: center;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    position: relative;
+    z-index: 1;
+}
+
+.diagnosis-desc {
+    font-size: 16px;
+    opacity: 0.95;
+    margin-bottom: 6px;
+    line-height: 1.6;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.diagnosis-meta {
+    font-size: 14px;
+    opacity: 0.9;
+    margin-top: 8px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+/* وضعیت امروز */
+.status-section {
+    background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+    border-radius: 22px;
+    padding: 22px;
+    border: 1px solid #86efac;
+    box-shadow: 0 6px 16px rgba(34, 197, 94, 0.12);
+}
+
+body.dark-theme .status-section {
+    background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+    border-color: rgba(34, 197, 94, 0.3);
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #065f46;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+body.dark-theme .section-title { color: #a7f3d0; }
+
+.mood-row { display: flex; gap: 6px; }
+
+.mood-btn {
+    flex: 1;
+    background: white;
+    border: 2px solid #86efac;
+    border-radius: 18px;
+    padding: 16px 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Vazirmatn', sans-serif;
+    transition: all 0.3s;
+}
+
+body.dark-theme .mood-btn {
+    background: #1e293b;
+    border-color: #475569;
+}
+
+.mood-btn:hover {
+    border-color: #22c55e;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(34, 197, 94, 0.2);
+}
+
+.mood-btn.selected {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    border-color: #16a34a;
+    box-shadow: 0 6px 16px rgba(34, 197, 94, 0.4);
+    transform: scale(1.03);
+}
+
+.mood-btn.selected .mood-label { color: white; }
+
+.mood-emoji { font-size: 30px; }
+.mood-label { font-size: 13px; color: #065f46; font-weight: 700; }
+
+/* Disclaimer */
+.medical-disclaimer {
+    background: linear-gradient(135deg, #fef9c3 0%, #fde68a 100%);
+    border: 1px solid #fcd34d;
+    border-right: 4px solid #f59e0b;
+    border-radius: 16px;
+    padding: 14px 18px;
+    font-size: 14px;
+    color: #78350f;
+    display: flex;
+    gap: 7px;
+    align-items: flex-start;
+    box-shadow: 0 4px 10px rgba(245, 158, 11, 0.1);
+}
+
+body.dark-theme .medical-disclaimer {
+    background: linear-gradient(135deg, #78350f 0%, #92400e 100%);
+    border-color: #f59e0b;
+}
+
+.disclaimer-icon { font-size: 26px; flex-shrink: 0; }
+
+.disclaimer-text {
+    text-align: right;
+    line-height: 1.8;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+body.dark-theme .disclaimer-text { color: #fef3c7; }
+
+.disclaimer-text a { color: #d97706; font-weight: 800; text-decoration: none; }
+
+/* Tool Card */
+.tool-card {
+    background: white;
+    border-radius: 18px;
+    padding: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #e2e8f0;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+body.dark-theme .tool-card { background: #1e293b; border-color: #475569; }
+
+.tool-card:hover {
+    border-color: #8B5CF6;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(139, 92, 246, 0.15);
+}
+
+.tool-card-icon {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.tool-card-content { flex: 1; }
+.tool-card-title { font-size: 17px; font-weight: 800; color: #1e293b; margin-bottom: 4px; }
+body.dark-theme .tool-card-title { color: #f1f5f9; }
+.tool-card-desc { font-size: 14px; color: #64748b; margin-bottom: 4px; }
+body.dark-theme .tool-card-desc { color: #94a3b8; }
+.tool-card-meta { font-size: 12px; color: #8B5CF6; font-weight: 700; }
+
+/* History Item */
+.history-list { display: flex; flex-direction: column; gap: 6px; }
+
+.history-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    border-radius: 16px;
+    font-size: 15px;
+    border-right: 4px solid #8B5CF6;
+}
+
+body.dark-theme .history-item { background: linear-gradient(135deg, #334155, #1e293b); }
+
+.history-date { color: #64748b; font-weight: 700; }
+body.dark-theme .history-date { color: #94a3b8; }
+.history-mood { color: #1e293b; font-weight: 700; }
+body.dark-theme .history-mood { color: #f1f5f9; }
+
+.history-score {
+    background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 14px;
+    font-weight: 800;
+    font-size: 14px;
+    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+}
+
+.history-empty { text-align: center; padding: 40px 20px; color: #94a3b8; font-size: 14px; }
+
+/* Page */
+.page {
+    display: none;
+    flex-direction: column;
+    flex: 0 0 auto !important;  /* 👈 این خط رو اضافه کنید */
+}
+.page.active {
+    display: flex;
+    flex: 0 0 auto !important;  /* 👈 این خط رو اضافه کنید */
+}

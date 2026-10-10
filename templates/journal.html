@@ -1,0 +1,431 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="journal-page">
+
+    <!-- هدر -->
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:2px solid #f1f5f9;margin-bottom:16px;">
+
+
+     <div style="width: 100px;"></div>
+    <h1 style="font-size:22px;font-weight:700;color:#1e293b;margin:0;position:absolute;left:50%;transform:translateX(-50%);">📖 روزنگار آرامش</h1>
+
+    <button onclick="openNoteModal()" style="background:#8B5CF6;color:white;border:none;border-radius:50px;padding:8px 20px;font-size:18px;font-weight:600;cursor:pointer;font-family:'Vazirmatn',sans-serif;box-shadow:0 2px 8px rgba(139,92,246,0.3);transition:0.3s;" onmouseover="this.style.background='#7C3AED';this.style.transform='scale(1.02)'" onmouseout="this.style.background='#8B5CF6';this.style.transform='scale(1)'">
+        ✏️ جدید
+    </button>
+</div>
+
+    <!-- وضعیت امروز -->
+    <div id="todayStatus" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;background:#f8fafc;border-radius:14px;padding:12px 16px;margin-bottom:16px;border:1px solid #e2e8f0;">
+        <div style="text-align:center;"><span style="font-size:20px;">😊</span><br><span id="statusMood" style="font-size:13px;color:#475569;">ثبت نشده</span></div>
+        <div style="text-align:center;"><span style="font-size:20px;">⚡</span><br><span id="statusEnergy" style="font-size:13px;color:#475569;">ثبت نشده</span></div>
+        <div style="text-align:center;"><span style="font-size:20px;">😴</span><br><span id="statusSleep" style="font-size:13px;color:#475569;">ثبت نشده</span></div>
+    </div>
+
+    <!-- جستجو -->
+    <div class="search-box-wrapper">
+        <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="جستجو در یاداشت‌ها..."
+                oninput="handleSearch()"
+            >
+            <button class="search-clear" id="searchClear" onclick="clearSearch()" style="display: none;">✕</button>
+        </div>
+        <div class="search-results-count" id="searchCount" style="display: none;"></div>
+    </div>
+
+    <!-- فیلتر -->
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;">
+        <button onclick="filterNotes('all')" class="filter-btn active" data-filter="all" style="padding:4px 14px;border-radius:20px;border:2px solid #e2e8f0;background:white;cursor:pointer;font-family:'Vazirmatn',sans-serif;font-size:16px;transition:0.3s;">همه</button>
+        <button onclick="filterNotes('happy')" class="filter-btn" data-filter="happy" style="padding:4px 14px;border-radius:20px;border:2px solid #e2e8f0;background:white;cursor:pointer;font-family:'Vazirmatn',sans-serif;font-size:22px;transition:0.3s;">😊</button>
+        <button onclick="filterNotes('sad')" class="filter-btn" data-filter="sad" style="padding:4px 14px;border-radius:20px;border:2px solid #e2e8f0;background:white;cursor:pointer;font-family:'Vazirmatn',sans-serif;font-size:22px;transition:0.3s;">😢</button>
+        <button onclick="filterNotes('angry')" class="filter-btn" data-filter="angry" style="padding:4px 14px;border-radius:20px;border:2px solid #e2e8f0;background:white;cursor:pointer;font-family:'Vazirmatn',sans-serif;font-size:22px;transition:0.3s;">😤</button>
+        <button onclick="filterNotes('anxious')" class="filter-btn" data-filter="anxious" style="padding:4px 14px;border-radius:20px;border:2px solid #e2e8f0;background:white;cursor:pointer;font-family:'Vazirmatn',sans-serif;font-size:22px;transition:0.3s;">😰</button>
+        <button onclick="filterNotes('calm')" class="filter-btn" data-filter="calm" style="padding:4px 14px;border-radius:20px;border:2px solid #e2e8f0;background:white;cursor:pointer;font-family:'Vazirmatn',sans-serif;font-size:22px;transition:0.3s;">😌</button>
+        <button onclick="filterNotes('tired')" class="filter-btn" data-filter="tired" style="padding:6px 14px;border-radius:20px;border:2px solid #e2e8f0;background:white;cursor:pointer;font-family:'Vazirmatn',sans-serif;font-size:22px;transition:0.3s;">😴</button>
+    </div>
+
+    <!-- لیست یاداشت‌ها -->
+    <div id="notesList"></div>
+
+    <!-- آمار -->
+    <div id="notesStats" style="margin-top:20px;padding:16px;background:#f8fafc;border-radius:14px;border:1px solid #e2e8f0;"></div>
+
+</div>
+
+<!-- مودال -->
+<div class="modal" id="noteModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;z-index:1000;">
+    <div style="background:white;border-radius:20px;padding:24px;max-width:500px;width:90%;max-height:90vh;overflow-y:auto;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+            <h3 id="modalTitle" style="margin:0;">✍️ نوشتن یاداشت</h3>
+            <button onclick="closeNoteModal()" style="background:none;border:none;font-size:24px;cursor:pointer;color:#94a3b8;">✕</button>
+        </div>
+        <div>
+            <input type="text" id="noteTitle" placeholder="📌 عنوان (اختیاری)" style="width:100%;padding:10px 14px;border:2px solid #e2e8f0;border-radius:10px;margin-bottom:12px;font-family:'Vazirmatn',sans-serif;font-size:14px;">
+
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;">
+                <button onclick="selectMood('happy')" class="mood-option" data-mood="happy" style="padding:6px 12px;border:2px solid #e2e8f0;border-radius:20px;background:white;cursor:pointer;font-size:22px;transition:0.3s;">😊</button>
+                <button onclick="selectMood('sad')" class="mood-option" data-mood="sad" style="padding:6px 12px;border:2px solid #e2e8f0;border-radius:20px;background:white;cursor:pointer;font-size:22px;transition:0.3s;">😢</button>
+                <button onclick="selectMood('angry')" class="mood-option" data-mood="angry" style="padding:6px 12px;border:2px solid #e2e8f0;border-radius:20px;background:white;cursor:pointer;font-size:22px;transition:0.3s;">😤</button>
+                <button onclick="selectMood('anxious')" class="mood-option" data-mood="anxious" style="padding:6px 12px;border:2px solid #e2e8f0;border-radius:20px;background:white;cursor:pointer;font-size:22px;transition:0.3s;">😰</button>
+                <button onclick="selectMood('calm')" class="mood-option" data-mood="calm" style="padding:6px 12px;border:2px solid #e2e8f0;border-radius:20px;background:white;cursor:pointer;font-size:22px;transition:0.3s;">😌</button>
+                <button onclick="selectMood('excited')" class="mood-option" data-mood="excited" style="padding:6px 12px;border:2px solid #e2e8f0;border-radius:20px;background:white;cursor:pointer;font-size:22px;transition:0.3s;">🤩</button>
+                <button onclick="selectMood('tired')" class="mood-option" data-mood="tired" style="padding:6px 12px;border:2px solid #e2e8f0;border-radius:20px;background:white;cursor:pointer;font-size:22px;transition:0.3s;">😴</button>
+            </div>
+            <input type="hidden" id="noteMood" value="">
+
+            <textarea id="noteContent" rows="5" placeholder="امروز چه احساسی داشتی؟ چه اتفاقی افتاد؟" style="width:100%;padding:10px 14px;border:2px solid #e2e8f0;border-radius:10px;font-family:'Vazirmatn',sans-serif;font-size:14px;resize:vertical;margin-bottom:12px;"></textarea>
+
+            <input type="text" id="noteTags" placeholder="🏷️ برچسب‌ها (مثلاً: کار، خانواده، دوستان)" style="width:100%;padding:10px 14px;border:2px solid #e2e8f0;border-radius:10px;font-family:'Vazirmatn',sans-serif;font-size:14px;">
+        </div>
+        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;padding-top:16px;border-top:1px solid #e2e8f0;">
+            <button onclick="closeNoteModal()" style="padding:8px 20px;border:2px solid #e2e8f0;border-radius:10px;background:white;cursor:pointer;font-family:'Vazirmatn',sans-serif;font-size:14px;">انصراف</button>
+            <button onclick="saveNote()" id="saveBtn" style="padding:8px 20px;border:none;border-radius:10px;background:#8B5CF6;color:white;cursor:pointer;font-family:'Vazirmatn',sans-serif;font-size:14px;transition:0.3s;">💾 ذخیره</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ===== متغیرها =====
+let allNotes = [];
+let currentFilter = 'all';
+let editingId = null;
+let searchQuery = '';
+
+// ===== escapeHtml =====
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// ===== هایلایت =====
+function highlightText(text) {
+    if (!searchQuery.trim() || !text) {
+        return escapeHtml(text || '');
+    }
+    const escaped = escapeHtml(text);
+    const q = searchQuery.trim();
+    const safeQ = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`(${safeQ})`, 'gi');
+    return escaped.replace(regex, '<mark class="search-highlight">$1</mark>');
+}
+
+// ===== بارگذاری =====
+function loadNotes() {
+    const container = document.getElementById('notesList');
+    container.innerHTML = '<div style="text-align:center;padding:40px;color:#94a3b8;">🔄 در حال بارگذاری...</div>';
+
+    fetch('/api/notes')
+    .then(res => res.json())
+    .then(notes => {
+        if (notes.error) {
+            container.innerHTML = `<div style="text-align:center;padding:40px;color:#ef4444;">❌ ${notes.error}</div>`;
+            return;
+        }
+        allNotes = notes;
+        renderNotes();
+    })
+    .catch(() => {
+        container.innerHTML = '<div style="text-align:center;padding:40px;color:#ef4444;">❌ خطا در بارگذاری</div>';
+    });
+}
+
+// ===== رندر =====
+function renderNotes() {
+    const container = document.getElementById('notesList');
+
+    if (allNotes.length === 0) {
+        container.innerHTML = `
+            <div style="text-align:center;padding:60px 20px;color:#94a3b8;">
+                <div style="font-size:48px;">📖</div>
+                <p style="font-size:18px;margin:12px 0;">هنوز یاداشتی ننوشتی!</p>
+                <p style="font-size:14px;margin-bottom:16px;">روزت رو ثبت کن و احساساتت رو بنویس ✍️</p>
+                <button onclick="openNoteModal()" style="background:#8B5CF6;color:white;border:none;border-radius:50px;padding:10px 24px;cursor:pointer;font-family:'Vazirmatn',sans-serif;font-size:14px;transition:0.3s;">✏️ اولین یاداشت</button>
+            </div>
+        `;
+        return;
+    }
+
+    let filtered = allNotes;
+    if (currentFilter !== 'all') {
+        filtered = allNotes.filter(n => n.mood === currentFilter);
+    }
+
+    // ===== فیلتر جستجو =====
+    if (searchQuery.trim()) {
+        const q = searchQuery.trim().toLowerCase();
+        filtered = filtered.filter(n => {
+            const title = (n.title || '').toLowerCase();
+            const content = (n.content || '').toLowerCase();
+            const tags = (n.tags || []).join(' ').toLowerCase();
+            return title.includes(q) || content.includes(q) || tags.includes(q);
+        });
+    }
+
+    if (filtered.length === 0) {
+        container.innerHTML = '<div style="text-align:center;padding:40px;color:#94a3b8;">🔍 هیچ یاداشتی با این فیلتر پیدا نشد</div>';
+        return;
+    }
+
+    const emojis = {happy:'😊',sad:'😢',angry:'😤',anxious:'😰',calm:'😌',excited:'🤩',tired:'😴'};
+    const labels = {happy:'خوشحال',sad:'ناراحت',angry:'عصبانی',anxious:'مضطرب',calm:'آرام',excited:'هیجان‌زده',tired:'خسته'};
+
+    let html = '';
+    filtered.forEach(n => {
+        html += `
+            <div style="background:white;border-radius:14px;padding:16px;margin-bottom:12px;border:1px solid #e2e8f0;transition:0.3s;">
+                <div style="display:flex;justify-content:space-between;align-items:start;">
+                    <div>
+                        <span style="font-size:24px;">${emojis[n.mood] || '💭'}</span>
+                        ${n.title ? `<span style="font-weight:700;font-size:16px;margin-right:8px;color:#1e293b;">${highlightText(n.title)}</span>` : ''}
+                        ${n.mood ? `<span style="font-size:12px;color:#94a3b8;margin-right:8px;">• ${labels[n.mood] || ''}</span>` : ''}
+                    </div>
+                    <div style="display:flex;align-items:center;gap:6px;">
+                        <span style="font-size:12px;color:#94a3b8;">${new Date(n.date).toLocaleDateString('fa-IR')}</span>
+                        <button onclick="editNote(${n.id})" style="background:none;border:none;cursor:pointer;font-size:16px;padding:4px 6px;border-radius:6px;transition:0.3s;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='transparent'">✏️</button>
+                        <button onclick="deleteNote(${n.id})" style="background:none;border:none;cursor:pointer;font-size:16px;padding:4px 6px;border-radius:6px;transition:0.3s;color:#ef4444;" onmouseover="this.style.background='#fee2e2'" onmouseout="this.style.background='transparent'">🗑️</button>
+                    </div>
+                </div>
+                <p style="margin:8px 0 0 0;color:#475569;line-height:1.8;white-space:pre-wrap;">${highlightText(n.content)}</p>
+                ${n.tags && n.tags.length ? `<div style="margin-top:8px;">${n.tags.map(t => `<span style="display:inline-block;padding:2px 10px;background:#f1f5f9;border-radius:12px;font-size:12px;color:#475569;margin-left:4px;">#${t}</span>`).join('')}</div>` : ''}
+            </div>
+        `;
+    });
+    container.innerHTML = html;
+}
+
+// ===== فیلتر =====
+function filterNotes(filter) {
+    currentFilter = filter;
+    document.querySelectorAll('.filter-btn').forEach(b => {
+        b.style.borderColor = b.dataset.filter === filter ? '#8B5CF6' : '#e2e8f0';
+        b.style.background = b.dataset.filter === filter ? '#ede9fe' : 'white';
+    });
+    renderNotes();
+}
+
+// ===== وضعیت امروز =====
+function loadTodayStatus() {
+    fetch('/api/daily-status')
+    .then(res => res.json())
+    .then(data => {
+        const today = new Date().toISOString().split('T')[0];
+        const status = data[today] || {};
+        const moodMap = { 'good': '😊 خوب', 'neutral': '😐 معمولی', 'bad': '😢 بد' };
+        const energyMap = { 'high': '⚡ زیاد', 'medium': '⚡ متوسط', 'low': '⚡ کم' };
+        const sleepMap = { 'great': '😴 عالی', 'good': '😴 خوب', 'bad': '😴 بد' };
+        document.getElementById('statusMood').textContent = moodMap[status.mood] || 'ثبت نشده';
+        document.getElementById('statusEnergy').textContent = energyMap[status.energy] || 'ثبت نشده';
+        document.getElementById('statusSleep').textContent = sleepMap[status.sleep] || 'ثبت نشده';
+    })
+    .catch(() => {});
+}
+
+// ===== ایموجی خلق =====
+function getMoodEmoji(mood) {
+    const emojis = {
+        'happy': '😊',
+        'sad': '😢',
+        'angry': '😤',
+        'anxious': '😰',
+        'calm': '😌',
+        'excited': '🤩',
+        'tired': '😴'
+    };
+    return emojis[mood] || '💭';
+}
+
+// ===== آمار =====
+function loadStats() {
+    fetch('/api/notes/stats')
+    .then(res => res.json())
+    .then(data => {
+        if (data.error) return;
+        document.getElementById('notesStats').innerHTML = `
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;">
+                <div style="text-align:center;"><span style="display:block;font-size:24px;font-weight:700;color:#1e293b;">${data.total || 0}</span><span style="font-size:12px;color:#94a3b8;">📝 کل</span></div>
+                <div style="text-align:center;"><span style="display:block;font-size:24px;font-weight:700;color:#1e293b;">${data.streak || 0}</span><span style="font-size:12px;color:#94a3b8;">🔥 متوالی</span></div>
+                <div style="text-align:center;"><span style="display:block;font-size:24px;font-weight:700;color:#1e293b;">${data.this_week || 0}</span><span style="font-size:12px;color:#94a3b8;">📅 این هفته</span></div>
+                <div style="text-align:center;"><span style="display:block;font-size:24px;font-weight:700;color:#1e293b;">${getMoodEmoji(data.most_common_mood)}</span><span style="font-size:12px;color:#94a3b8;">${data.most_common_mood || 'ثبت نشده'}</span>
+</div>
+            </div>
+        `;
+    })
+    .catch(() => {});
+}
+
+// ===== مودال =====
+function openNoteModal() {
+    document.getElementById('noteModal').style.display = 'flex';
+    document.getElementById('noteTitle').value = '';
+    document.getElementById('noteContent').value = '';
+    document.getElementById('noteTags').value = '';
+    document.getElementById('noteMood').value = '';
+    document.querySelectorAll('.mood-option').forEach(b => b.style.borderColor = '#e2e8f0');
+    document.getElementById('modalTitle').textContent = '✍️ نوشتن یاداشت';
+    document.getElementById('saveBtn').textContent = '💾 ذخیره';
+    editingId = null;
+}
+
+function closeNoteModal() {
+    document.getElementById('noteModal').style.display = 'none';
+}
+
+function selectMood(mood) {
+    document.querySelectorAll('.mood-option').forEach(b => {
+        b.style.borderColor = b.dataset.mood === mood ? '#8B5CF6' : '#e2e8f0';
+        b.style.background = b.dataset.mood === mood ? '#ede9fe' : 'white';
+    });
+    document.getElementById('noteMood').value = mood;
+}
+
+// ===== ذخیره =====
+function saveNote() {
+    const content = document.getElementById('noteContent').value.trim();
+    if (!content) {
+        alert('⚠️ لطفاً متن یاداشت را بنویسید.');
+        document.getElementById('noteContent').focus();
+        return;
+    }
+
+    const data = {
+        title: document.getElementById('noteTitle').value.trim(),
+        content: content,
+        mood: document.getElementById('noteMood').value,
+        tags: document.getElementById('noteTags').value.split(',').map(t => t.trim()).filter(t => t)
+    };
+
+    const url = editingId ? `/api/notes/${editingId}` : '/api/notes';
+    const method = editingId ? 'PUT' : 'POST';
+
+    fetch(url, {
+        method: method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(d => {
+        if (d.error) {
+            alert('❌ ' + d.error);
+            return;
+        }
+        closeNoteModal();
+        loadNotes();
+        loadStats();
+        showToast(editingId ? '✅ یاداشت ویرایش شد!' : '✅ یاداشت ذخیره شد!', '📖', 'success');
+    })
+    .catch(() => alert('❌ خطا در ذخیره'));
+}
+
+// ===== ویرایش =====
+function editNote(id) {
+    const note = allNotes.find(n => n.id === id);
+    if (!note) return;
+
+    editingId = id;
+    document.getElementById('noteModal').style.display = 'flex';
+    document.getElementById('noteTitle').value = note.title || '';
+    document.getElementById('noteContent').value = note.content;
+    document.getElementById('noteTags').value = note.tags.join('، ');
+    document.getElementById('modalTitle').textContent = '✏️ ویرایش یاداشت';
+    document.getElementById('saveBtn').textContent = '💾 ویرایش';
+
+    if (note.mood) selectMood(note.mood);
+    document.querySelectorAll('.mood-option').forEach(b => {
+        b.style.borderColor = b.dataset.mood === note.mood ? '#8B5CF6' : '#e2e8f0';
+        b.style.background = b.dataset.mood === note.mood ? '#ede9fe' : 'white';
+    });
+}
+
+// ===== حذف =====
+function deleteNote(id) {
+    if (!confirm('⚠️ آیا مطمئنی می‌خواهی این یاداشت رو پاک کنی؟')) return;
+
+    fetch(`/api/notes/${id}`, { method: 'DELETE' })
+    .then(res => res.json())
+    .then(d => {
+        if (d.success) {
+            loadNotes();
+            loadStats();
+            showToast('🗑️ یاداشت پاک شد', '✅', 'warning');
+        }
+    })
+    .catch(() => alert('❌ خطا در حذف'));
+}
+
+// ============================================================
+// جستجو
+// ============================================================
+
+function handleSearch() {
+    const input = document.getElementById('searchInput');
+    const clearBtn = document.getElementById('searchClear');
+    const countEl = document.getElementById('searchCount');
+
+    searchQuery = input.value;
+
+    if (searchQuery.trim()) {
+        clearBtn.style.display = 'block';
+    } else {
+        clearBtn.style.display = 'none';
+    }
+
+    renderNotes();
+
+    if (searchQuery.trim()) {
+        const q = searchQuery.trim().toLowerCase();
+        const count = allNotes.filter(n => {
+            const title = (n.title || '').toLowerCase();
+            const content = (n.content || '').toLowerCase();
+            const tags = (n.tags || []).join(' ').toLowerCase();
+            return title.includes(q) || content.includes(q) || tags.includes(q);
+        }).length;
+
+        countEl.textContent = `🔍 ${count} نتیجه`;
+        countEl.style.display = 'block';
+    } else {
+        countEl.style.display = 'none';
+    }
+}
+
+function clearSearch() {
+    const input = document.getElementById('searchInput');
+    input.value = '';
+    searchQuery = '';
+    document.getElementById('searchClear').style.display = 'none';
+    document.getElementById('searchCount').style.display = 'none';
+    renderNotes();
+}
+
+// ===== راه‌اندازی =====
+document.addEventListener('DOMContentLoaded', function() {
+    loadNotes();
+    loadTodayStatus();
+    loadStats();
+
+    document.querySelectorAll('.filter-btn').forEach(b => {
+        if (b.dataset.filter === 'all') {
+            b.style.borderColor = '#8B5CF6';
+            b.style.background = '#ede9fe';
+        }
+    });
+});
+
+// ===== صادرات =====
+window.openNoteModal = openNoteModal;
+window.closeNoteModal = closeNoteModal;
+window.selectMood = selectMood;
+window.saveNote = saveNote;
+window.editNote = editNote;
+window.deleteNote = deleteNote;
+window.filterNotes = filterNotes;
+window.handleSearch = handleSearch;
+window.clearSearch = clearSearch;
+</script>
+
+{% endblock %}

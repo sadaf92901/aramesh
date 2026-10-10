@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page active" id="pageMeditation">
+
+    <!-- هدر -->
+    <div class="meditation-header">
+        <div style="width: 100px;"></div>
+        <span class="meditation-title">🧘 تمرین مدیتیشن</span>
+        <div style="width: 100px;"></div>
+    </div>
+
+    <!-- محتوای اصلی -->
+    <div id="meditationMain">
+
+        <!-- آمار -->
+        <div class="meditation-stats">
+            <div class="stat-item">
+                <div class="stat-value" id="todayMinutes">۰</div>
+                <div class="stat-label">دقیقه امروز</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <div class="stat-value" id="weekMinutes">۰</div>
+                <div class="stat-label">دقیقه این هفته</div>
+            </div>
+        </div>
+
+        <!-- مدیتیشن‌ها -->
+        <div class="meditation-card morning" onclick="startMeditation('morning')">
+            <div class="meditation-icon">🌅</div>
+            <div class="meditation-info">
+                <div class="meditation-name">مدیتیشن صبحگاهی</div>
+                <div class="meditation-desc">شروع روز با آرامش</div>
+                <div class="meditation-duration">⏱️ ۵ دقیقه</div>
+            </div>
+            <button class="meditation-start">▶ شروع</button>
+        </div>
+
+        <div class="meditation-card breathing" onclick="startMeditation('breathing')">
+            <div class="meditation-icon">🌬️</div>
+            <div class="meditation-info">
+                <div class="meditation-name">مدیتیشن تنفس عمیق</div>
+                <div class="meditation-desc">کاهش استرس و اضطراب</div>
+                <div class="meditation-duration">⏱️ ۱۰ دقیقه</div>
+            </div>
+            <button class="meditation-start">▶ شروع</button>
+        </div>
+
+        <div class="meditation-card night" onclick="startMeditation('night')">
+            <div class="meditation-icon">🌙</div>
+            <div class="meditation-info">
+                <div class="meditation-name">مدیتیشن شبانه</div>
+                <div class="meditation-desc">آرامش قبل از خواب</div>
+                <div class="meditation-duration">⏱️ ۷ دقیقه</div>
+            </div>
+            <button class="meditation-start">▶ شروع</button>
+        </div>
+
+        <!-- آمار پایین -->
+        <div class="meditation-footer-stats">
+            <div class="footer-stats-title">📊 آمار تمرینات</div>
+            <div class="footer-stats-grid">
+                <div class="footer-stat">
+                    <div class="footer-stat-value" id="todayCount">۰</div>
+                    <div class="footer-stat-label">تمرین امروز</div>
+                </div>
+                <div class="footer-stat">
+                    <div class="footer-stat-value" id="weekCount">۰</div>
+                    <div class="footer-stat-label">تمرین این هفته</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/meditation.js') }}"></script>
+{% endblock %}

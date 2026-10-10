@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page active" id="page404">
+
+    <div class="error-container">
+        <div class="error-icon">🌿</div>
+        <h1 class="error-title">۴۰۴</h1>
+        <h2 class="error-subtitle">این صفحه پیدا نشد!</h2>
+        <p class="error-message">
+            شاید آدرس اشتباهه، یا صفحه حذف شده. بیا برگردیم به خونه.
+        </p>
+        <button class="btn btn-primary-404" onclick="window.location.href='/'">
+            🏠 بازگشت به خانه
+        </button>
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<style>
+    .error-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 60vh;
+        text-align: center;
+        padding: 40px 20px;
+    }
+
+    .error-icon {
+        font-size: 80px;
+        margin-bottom: 16px;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+
+    .error-title {
+        font-size: 80px;
+        font-weight: 800;
+        background: linear-gradient(135deg, #8B5CF6, #3B82F6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin: 0;
+        line-height: 1;
+    }
+
+    .error-subtitle {
+        font-size: 24px;
+        color: #1e293b;
+        margin: 12px 0 8px 0;
+        font-weight: 700;
+    }
+
+    body.dark-theme .error-subtitle {
+        color: #f1f5f9;
+    }
+
+    .error-message {
+        font-size: 15px;
+        color: #64748b;
+        margin: 0 0 24px 0;
+        max-width: 400px;
+        line-height: 1.7;
+    }
+
+    body.dark-theme .error-message {
+        color: #94a3b8;
+    }
+
+    .btn-primary-404 {
+        padding: 14px 32px;
+        border: none;
+        border-radius: 50px;
+        background: linear-gradient(135deg, #8B5CF6, #6D28D9);
+        color: white;
+        font-family: 'Vazirmatn', sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 8px 24px rgba(139, 92, 246, 0.3);
+        transition: 0.3s;
+    }
+
+    .btn-primary-404:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 32px rgba(139, 92, 246, 0.4);
+    }
+</style>
+{% endblock %}

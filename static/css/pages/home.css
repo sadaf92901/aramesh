@@ -1,0 +1,507 @@
+/* ============================================================
+   همراه آرامش — صفحه‌ی خانه
+   ============================================================ */
+
+
+/* ============================================================
+   پیام انگیزشی
+   ============================================================ */
+
+.motivation-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-5);
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border: 1px solid #fcd34d;
+    border-right: 5px solid var(--color-warning);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 4px 16px rgba(245, 158, 11, 0.18);
+    position: relative;
+    overflow: hidden;
+}
+
+.motivation-banner::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    left: -30px;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(255,255,255,0.5), transparent 70%);
+    border-radius: 50%;
+}
+
+body.dark-theme .motivation-banner {
+    background: linear-gradient(135deg, #78350f 0%, #92400e 100%);
+    border-color: var(--color-warning);
+}
+
+.motivation-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+    animation: float 3s ease-in-out infinite;
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-5px); }
+}
+
+.motivation-text {
+    font-size: var(--text-base);
+    font-weight: var(--font-bold);
+    color: #78350f;
+    line-height: var(--leading-normal);
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+body.dark-theme .motivation-text {
+    color: #fef3c7;
+}
+
+
+/* ============================================================
+   ابزارها — پیش‌فرض مخفی (موبایل)
+   ============================================================ */
+
+.tools-grid-mini {
+    display: none;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-3);
+}
+
+.tool-mini-card {
+    background: linear-gradient(135deg, #ecfeff 0%, #cffafe 100%);
+    border-radius: var(--radius-xl);
+    padding: var(--space-4) var(--space-3);
+    text-align: center;
+    border: 1px solid #a5f3fc;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 6px 16px rgba(6, 182, 212, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+body.dark-theme .tool-mini-card {
+    background: linear-gradient(135deg, var(--color-gray-800) 0%, var(--color-gray-900) 100%);
+    border-color: rgba(6, 182, 212, 0.4);
+}
+
+.tool-mini-card:hover {
+    border-color: #06B6D4;
+    background: linear-gradient(135deg, #cffafe 0%, #a5f3fc 100%);
+    transform: translateY(-5px);
+    box-shadow: 0 14px 32px rgba(6, 182, 212, 0.3);
+}
+
+
+/* ============================================================
+   لینک‌های حقوقی
+   ============================================================ */
+
+.legal-links {
+    display: none;
+    text-align: center;
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    padding: var(--space-3) 0;
+}
+
+.legal-links a {
+    color: var(--color-primary-500);
+    text-decoration: none;
+    font-weight: var(--font-bold);
+}
+
+.legal-links .separator {
+    margin: 0 var(--space-3);
+    color: var(--color-gray-300);
+}
+
+
+/* ============================================================
+   موبایل (زیر ۹۰۰px)
+   ============================================================ */
+
+@media (max-width: 899px) {
+
+    .diagnosis-card {
+        min-height: 170px;
+        padding: 18px 20px;
+        border-radius: var(--radius-2xl);
+    }
+
+    .diagnosis-card .diagnosis-icon {
+        font-size: 38px;
+        margin-bottom: var(--space-2);
+    }
+
+    .diagnosis-card .diagnosis-title {
+        font-size: var(--text-lg);
+        margin-bottom: var(--space-1);
+    }
+
+    .diagnosis-card .diagnosis-desc {
+        font-size: var(--text-sm);
+        margin-bottom: var(--space-1);
+    }
+
+    .diagnosis-card .diagnosis-meta {
+        font-size: var(--text-xs);
+        margin-top: var(--space-1);
+    }
+
+    .diagnosis-card .diagnosis-btn {
+        padding: 11px 26px;
+        font-size: var(--text-sm);
+        margin-top: var(--space-4);
+    }
+
+    .status-section {
+        padding: var(--space-4) var(--space-3);
+    }
+
+    .status-section .mood-btn {
+        padding: 14px var(--space-2);
+        min-height: 72px;
+    }
+
+    .status-section .mood-emoji {
+        font-size: 30px;
+    }
+
+    .status-section .mood-label {
+        font-size: var(--text-sm);
+    }
+
+    .medical-disclaimer {
+        background: linear-gradient(135deg, var(--color-gray-50) 0%, var(--color-gray-100) 100%);
+        border: 1px solid var(--color-gray-200);
+        border-right: 4px solid var(--color-gray-400);
+        color: var(--text-secondary);
+    }
+
+    .medical-disclaimer .disclaimer-text {
+        font-size: var(--text-sm);
+        color: var(--text-secondary);
+        line-height: var(--leading-relaxed);
+    }
+
+    .medical-disclaimer .disclaimer-icon {
+        font-size: 18px;
+        opacity: 0.7;
+    }
+
+    .medical-disclaimer a {
+        color: var(--color-primary-500);
+    }
+}
+
+
+/* ============================================================
+   لپ‌تاپ و دسکتاپ (۹۰۰px+)
+   ============================================================ */
+
+@media (min-width: 900px) {
+
+    .content {
+        padding: var(--space-6);
+        gap: var(--space-4);
+        background: linear-gradient(180deg, #ffffff 0%, #f0f9ff 100%);
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "motivation"
+            "diagnosis"
+            "status"
+            "garden"
+            "tools"
+            "breathing"
+            "disclaimer";
+        align-content: start;
+        /* ⚠️ min-height حذف شد */
+        /* ⚠️ align-self حذف شد */
+        /* ⚠️ height: auto !important حذف شد */
+        /* ⚠️ max-height: none !important حذف شد */
+        padding-bottom: var(--space-6);
+    }
+
+    body.dark-theme .content {
+        background: linear-gradient(180deg, var(--color-gray-800) 0%, var(--color-gray-900) 100%);
+    }
+
+    /* نقشه‌ی مناطق */
+    .motivation-banner  { grid-area: motivation; }
+    .diagnosis-card     { grid-area: diagnosis; }
+    .status-section     { grid-area: status; }
+    .garden-card        {grid-area: garden;}
+    .tools-grid-mini    { grid-area: tools; }
+    .breathing-buttons  { grid-area: breathing; }
+    .medical-disclaimer { grid-area: disclaimer; }
+
+        /* کارت تشخیص — فشرده (کم‌ارتفاع) */
+    .diagnosis-card {
+        padding: 6px 14px;              /* ← ارتفاع کم شد */
+         min-height: 160px;
+
+        border-radius: var(--radius-xl);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-3);
+        text-align: right;
+    }
+
+    .diagnosis-card .diagnosis-icon {
+        font-size: 28px;                /* ← از 36 به 28 */
+        margin-bottom: 0;
+        flex-shrink: 0;
+    }
+
+    .diagnosis-card .diagnosis-title {
+        font-size: var(--text-base);    /* ← از lg به base */
+        margin-bottom: 0;
+        line-height: 1.3;
+    }
+
+    .diagnosis-card .diagnosis-desc {
+        font-size: var(--text-xs);      /* ← از sm به xs */
+        margin-bottom: 0;
+        line-height: 1.3;
+        opacity: 0.95;
+    }
+
+    .diagnosis-card .diagnosis-meta {
+        font-size: var(--text-xs);
+        margin-top: 0;
+        line-height: 1.3;
+        opacity: 0.85;
+    }
+
+    .diagnosis-card .diagnosis-btn {
+        margin-top: 0;
+        padding: 8px 20px;              /* ← از 10px به 8px */
+        font-size: var(--text-xs);
+        flex-shrink: 0;
+    }
+
+    /* امروز چطوری */
+    .status-section {
+        min-height: 150px;
+        padding: var(--space-4) var(--space-5);
+        border-radius: var(--radius-xl);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--space-5);
+    }
+
+    .status-section .section-title {
+        font-size: var(--text-base);
+        margin-bottom: 0;
+        flex-shrink: 0;
+    }
+
+    .status-section .mood-row {
+        display: flex;
+        gap: var(--space-3);
+        flex: 1;
+        max-width: 360px;
+    }
+
+    .status-section .mood-btn {
+        flex: 1;
+        padding: 10px 14px;
+        gap: var(--space-1);
+        border-radius: var(--radius-lg);
+    }
+
+    .status-section .mood-emoji {
+        font-size: 24px;
+    }
+
+    .status-section .mood-label {
+        font-size: var(--text-xs);
+    }
+
+    /* ابزارها */
+    .tools-grid-mini {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: var(--space-4);
+    }
+
+    .tool-mini-card {
+        padding: var(--space-6) var(--space-3);
+        border-radius: var(--radius-xl);
+    }
+
+    .tool-mini-icon {
+        font-size: 30px;
+        margin-bottom: var(--space-2);
+    }
+
+    .tool-mini-label {
+        font-size: var(--text-sm);
+    }
+
+    /* دکمه‌های تنفس و مدیتیشن */
+    .breathing-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-6);
+        margin-top: 0;
+    }
+
+    /* Disclaimer */
+    .medical-disclaimer {
+        margin-bottom: 0;
+        background: linear-gradient(135deg, var(--color-gray-50) 0%, var(--color-gray-100) 100%);
+        border-color: var(--color-gray-200);
+        border-right-color: var(--color-gray-400);
+        color: var(--text-secondary);
+    }
+
+    body.dark-theme .medical-disclaimer {
+        background: linear-gradient(135deg, var(--color-gray-800) 0%, var(--color-gray-900) 100%);
+        border-color: var(--color-gray-700);
+        border-right-color: var(--color-gray-500);
+    }
+
+    .medical-disclaimer .disclaimer-text {
+        color: var(--text-secondary);
+    }
+
+    .medical-disclaimer .disclaimer-icon {
+        font-size: 20px;
+        opacity: 0.7;
+    }
+
+    .medical-disclaimer a {
+        color: var(--color-primary-500);
+    }
+
+    .legal-links {
+        display: none;
+    }
+}
+
+
+/* ============================================================
+   دسکتاپ بزرگ (۱۳۰۰px+)
+   ============================================================ */
+
+@media (min-width: 1300px) {
+
+    .content {
+        padding: var(--space-8);
+        gap: var(--space-4);
+    }
+}
+/* ============================================================
+   کارت باغ آرامش
+   ============================================================ */
+
+.garden-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+    border-radius: 16px;
+    border: 1px solid #86efac;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+body.dark-theme .garden-card {
+    background: linear-gradient(135deg, #064e3b, #065f46);
+    border-color: rgba(34, 197, 94, 0.3);
+}
+
+.garden-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(34, 197, 94, 0.2);
+    border-color: #22c55e;
+}
+
+.garden-card-icon {
+    font-size: 36px;
+    flex-shrink: 0;
+}
+
+.garden-card-content {
+    flex: 1;
+}
+
+.garden-card-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #065f46;
+    margin-bottom: 4px;
+}
+
+body.dark-theme .garden-card-title {
+    color: #a7f3d0;
+}
+
+.garden-card-desc {
+    font-size: 13px;
+    color: #047857;
+}
+
+body.dark-theme .garden-card-desc {
+    color: #6ee7b7;
+}
+
+.garden-card-arrow {
+    font-size: 24px;
+    color: #059669;
+    font-weight: 700;
+}
+/* ===== Badge باغ ===== */
+.garden-card {
+    position: relative;
+}
+
+.garden-card-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    min-width: 24px;
+    height: 24px;
+    padding: 0 6px;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+    animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+    }
+    50% {
+        transform: scale(1.15);
+        box-shadow: 0 6px 16px rgba(239, 68, 68, 0.6);
+    }
+}

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ============================================================ -->
+    <!-- SEO Meta Tags -->
+    <!-- ============================================================ -->
+    <title>همراه آرامش — همراه سلامت روان شما</title>
+    <meta name="description" content="همراه آرامش، اپلیکیشن سلامت روان فارسی با تشخیص هوشمند DSM-5، چت‌بات همدل، تمرین تنفس، مدیتیشن و باغ آرامش. رایگان و محرمانه.">
+    <meta name="keywords" content="سلامت روان, افسردگی, اضطراب, مدیتیشن, تمرین تنفس, روانشناس آنلاین, خودمراقبتی, DSM-5, GAD-7">
+    <meta name="author" content="همراه آرامش">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="Persian">
+    <meta name="theme-color" content="#8B5CF6">
+
+    <!-- ============================================================ -->
+    <!-- Open Graph -->
+    <!-- ============================================================ -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="همراه آرامش — همراه سلامت روان شما">
+    <meta property="og:description" content="تشخیص هوشمند، چت‌بات همدل، تمرین تنفس، مدیتیشن و باغ آرامش. رایگان و محرمانه.">
+    <meta property="og:image" content="{{ url_for('static', filename='images/og-image.png') }}">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:site_name" content="همراه آرامش">
+    <meta property="og:locale" content="fa_IR">
+
+    <!-- ============================================================ -->
+    <!-- Twitter Card -->
+    <!-- ============================================================ -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="همراه آرامش — همراه سلامت روان شما">
+    <meta name="twitter:description" content="تشخیص هوشمند، چت‌بات همدل، تمرین تنفس، مدیتیشن و باغ آرامش.">
+    <meta name="twitter:image" content="{{ url_for('static', filename='images/og-image.png') }}">
+
+    <!-- ============================================================ -->
+    <!-- PWA -->
+    <!-- ============================================================ -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="آرامش">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/icons/apple-touch-icon.png') }}">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+
+    <!-- ============================================================ -->
+    <!-- Scripts (اولیه) -->
+    <!-- ============================================================ -->
+    <script src="{{ url_for('static', filename='js/error-handler.js') }}"></script>
+
+    <!-- ============================================================ -->
+    <!-- Stylesheets -->
+    <!-- ============================================================ -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/design-system.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/themes.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/switch.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/card.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/button.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/form.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/feedback.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/theme-modal.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/questionnaire.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/journal.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/weekly_plan.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/meditation.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/breathing.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/history.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/legal.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/theme-override.css') }}">
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- هدر (موبایل) -->
+<!-- ============================================================ -->
+<header class="header" role="banner">
+    <div class="header-title">
+        <span aria-hidden="true">☀️</span>
+        <span>همراه آرامش</span>
+    </div>
+    <div class="header-actions">
+        <!-- خالی -->
+    </div>
+</header>
+
+<!-- ============================================================ -->
+<!-- Wrapper: سایدبار + فریم -->
+<!-- ============================================================ -->
+<div class="app-wrapper">
+
+    <!-- ============================================================ -->
+    <!-- سایدبار (لپ‌تاپ) -->
+    <!-- ============================================================ -->
+    <aside class="sidebar" role="navigation" aria-label="منوی اصلی">
+
+        <!-- لوگو -->
+        <div class="sidebar-header">
+            <span class="sidebar-header-icon" aria-hidden="true">☀️</span>
+            <span class="sidebar-header-title">همراه آرامش</span>
+        </div>
+
+        <!-- کاربر -->
+        <div class="sidebar-user">
+            <div class="sidebar-user-avatar" id="sidebarAvatar" aria-hidden="true">👤</div>
+            <div style="flex: 1; min-width: 0;">
+                <div class="sidebar-user-name" id="sidebarUserName">سلام، مهمان! 👋</div>
+                <div class="sidebar-user-stats">
+                    🔥 <span id="sidebarStreak">۳</span> روز • 🏆 سطح <span id="sidebarLevel">۲</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- منوی اصلی -->
+        <nav class="sidebar-menu" aria-label="منوی اصلی برنامه">
+            <a href="/" class="sidebar-item {% if request.path == '/' %}active{% endif %}"
+               {% if request.path == '/' %}aria-current="page"{% endif %}
+               aria-label="صفحه اصلی">
+                <span class="sidebar-icon" aria-hidden="true">🏠</span>
+                <span class="sidebar-label">خانه</span>
+            </a>
+
+            <a href="/tools" class="sidebar-item {% if request.path == '/tools' %}active{% endif %}"
+               {% if request.path == '/tools' %}aria-current="page"{% endif %}
+               aria-label="ابزارهای خودمراقبتی">
+                <span class="sidebar-icon" aria-hidden="true">🧘</span>
+                <span class="sidebar-label">ابزارها</span>
+            </a>
+
+            <a href="/progress" class="sidebar-item {% if request.path == '/progress' %}active{% endif %}"
+               {% if request.path == '/progress' %}aria-current="page"{% endif %}
+               aria-label="پیشرفت من">
+                <span class="sidebar-icon" aria-hidden="true">📈</span>
+                <span class="sidebar-label">پیشرفت</span>
+            </a>
+
+            <a href="/profile" class="sidebar-item {% if request.path == '/profile' %}active{% endif %}"
+               {% if request.path == '/profile' %}aria-current="page"{% endif %}
+               aria-label="پروفایل من">
+                <span class="sidebar-icon" aria-hidden="true">👤</span>
+                <span class="sidebar-label">پروفایل</span>
+            </a>
+
+            <a href="/subscription" class="sidebar-item {% if request.path == '/subscription' %}active{% endif %}"
+               {% if request.path == '/subscription' %}aria-current="page"{% endif %}
+               aria-label="اشتراک من">
+                <span class="sidebar-icon" aria-hidden="true">⭐</span>
+                <span class="sidebar-label">اشتراک من</span>
+            </a>
+        </nav>
+
+        <!-- فوتر سایدبار -->
+        <div class="sidebar-footer" role="navigation" aria-label="منوی حقوقی و تنظیمات">
+            <a href="/privacy" class="sidebar-item" aria-label="حریم خصوصی">
+                <span class="sidebar-icon" aria-hidden="true">🔒</span>
+                <span class="sidebar-label">حریم خصوصی</span>
+            </a>
+
+            <a href="/terms" class="sidebar-item" aria-label="شرایط استفاده">
+                <span class="sidebar-icon" aria-hidden="true">📜</span>
+                <span class="sidebar-label">شرایط استفاده</span>
+            </a>
+
+            <a onclick="openThemeModal()" class="sidebar-item" role="button" tabindex="0" aria-label="شخصی‌سازی تم و رنگ">
+                <span class="sidebar-icon" aria-hidden="true">🎨</span>
+                <span class="sidebar-label">شخصی‌سازی تم</span>
+            </a>
+
+            <a onclick="logoutUser()" class="sidebar-item" role="button" tabindex="0" aria-label="خروج از حساب کاربری">
+                <span class="sidebar-icon" aria-hidden="true">🚪</span>
+                <span class="sidebar-label">خروج</span>
+            </a>
+        </div>
+
+    </aside>
+
+    <!-- ============================================================ -->
+    <!-- فریم اصلی -->
+    <!-- ============================================================ -->
+    <main class="phone-frame" role="main">
+
+        <!-- Toast -->
+        <div class="toast-container" id="toastContainer" role="alert" aria-live="polite">
+            <div class="toast" id="toast">
+                <span class="toast-icon" id="toastIcon" aria-hidden="true">✅</span>
+                <span class="toast-message" id="toastMessage"></span>
+                <button class="toast-close" onclick="hideToast()" aria-label="بستن پیام">✕</button>
+            </div>
+        </div>
+
+        <!-- محتوا -->
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+
+    </main>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- Bottom Nav (موبایل) -->
+<!-- ============================================================ -->
+<nav class="bottom-nav" role="navigation" aria-label="ناوبری موبایل">
+
+    <a href="/" class="nav-item {% if request.path == '/' %}active{% endif %}"
+       {% if request.path == '/' %}aria-current="page"{% endif %}
+       aria-label="صفحه اصلی">
+        <span class="nav-icon" aria-hidden="true">🏠</span>
+        <span class="nav-label">خانه</span>
+    </a>
+
+    <a href="/tools" class="nav-item {% if request.path == '/tools' %}active{% endif %}"
+       {% if request.path == '/tools' %}aria-current="page"{% endif %}
+       aria-label="ابزارها">
+        <span class="nav-icon" aria-hidden="true">🧘</span>
+        <span class="nav-label">ابزارها</span>
+    </a>
+
+    <a href="/progress" class="nav-item {% if request.path == '/progress' %}active{% endif %}"
+       {% if request.path == '/progress' %}aria-current="page"{% endif %}
+       aria-label="پیشرفت">
+        <span class="nav-icon" aria-hidden="true">📈</span>
+        <span class="nav-label">پیشرفت</span>
+    </a>
+
+    <a href="/profile" class="nav-item {% if request.path == '/profile' %}active{% endif %}"
+       {% if request.path == '/profile' %}aria-current="page"{% endif %}
+       aria-label="پروفایل">
+        <span class="nav-icon" aria-hidden="true">👤</span>
+        <span class="nav-label">پروفایل</span>
+    </a>
+
+    <a onclick="openThemeModal()" class="nav-item" role="button" tabindex="0" aria-label="تغییر تم">
+        <span class="nav-icon" aria-hidden="true">🎨</span>
+        <span class="nav-label">تم</span>
+    </a>
+
+</nav>
+
+<!-- ============================================================ -->
+<!-- مودال تم -->
+<!-- ============================================================ -->
+<div id="themeModal" class="theme-modal-overlay" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="themeModalTitle">
+    <div class="theme-modal-box">
+
+        <div class="theme-modal-header">
+            <h2 id="themeModalTitle">🎨 شخصی‌سازی تم</h2>
+            <button class="theme-modal-close" onclick="closeThemeModal()" aria-label="بستن مودال تم">✕</button>
+        </div>
+
+        <!-- بخش ۱: تم رنگی -->
+        <div class="theme-section">
+            <h3 class="theme-section-title">رنگ برند</h3>
+            <div class="theme-colors-grid" role="group" aria-label="انتخاب رنگ">
+
+                <button class="theme-color-btn" data-theme="purple" onclick="applyColorTheme('purple')" aria-label="تم بنفش">
+                    <span class="theme-color-circle" style="background: linear-gradient(135deg, #8B5CF6, #7C3AED);" aria-hidden="true"></span>
+                    <span class="theme-color-label">بنفش</span>
+                </button>
+
+                <button class="theme-color-btn" data-theme="blue" onclick="applyColorTheme('blue')" aria-label="تم آبی">
+                    <span class="theme-color-circle" style="background: linear-gradient(135deg, #3B82F6, #2563EB);" aria-hidden="true"></span>
+                    <span class="theme-color-label">آبی</span>
+                </button>
+
+                <button class="theme-color-btn" data-theme="green" onclick="applyColorTheme('green')" aria-label="تم سبز">
+                    <span class="theme-color-circle" style="background: linear-gradient(135deg, #10B981, #059669);" aria-hidden="true"></span>
+                    <span class="theme-color-label">سبز</span>
+                </button>
+
+                <button class="theme-color-btn" data-theme="pink" onclick="applyColorTheme('pink')" aria-label="تم صورتی">
+                    <span class="theme-color-circle" style="background: linear-gradient(135deg, #EC4899, #DB2777);" aria-hidden="true"></span>
+                    <span class="theme-color-label">صورتی</span>
+                </button>
+
+                <button class="theme-color-btn" data-theme="orange" onclick="applyColorTheme('orange')" aria-label="تم نارنجی">
+                    <span class="theme-color-circle" style="background: linear-gradient(135deg, #F59E0B, #D97706);" aria-hidden="true"></span>
+                    <span class="theme-color-label">نارنجی</span>
+                </button>
+
+                <button class="theme-color-btn" data-theme="gray" onclick="applyColorTheme('gray')" aria-label="تم خاکستری">
+                    <span class="theme-color-circle" style="background: linear-gradient(135deg, #64748B, #475569);" aria-hidden="true"></span>
+                    <span class="theme-color-label">خاکستری</span>
+                </button>
+
+            </div>
+        </div>
+
+        <!-- بخش ۲: حالت تیره/روشن -->
+        <div class="theme-section">
+            <h3 class="theme-section-title">حالت نمایش</h3>
+            <div class="theme-mode-row" role="group" aria-label="انتخاب حالت نمایش">
+                <button class="theme-mode-btn" data-mode="light" onclick="applyDisplayMode('light')" aria-label="حالت روشن">
+                    ☀️ روشن
+                </button>
+                <button class="theme-mode-btn" data-mode="dark" onclick="applyDisplayMode('dark')" aria-label="حالت تیره">
+                    🌙 تیره
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- Scripts -->
+<!-- ============================================================ -->
+<script src="{{ url_for('static', filename='js/storage.js') }}"></script>
+<script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+<script src="{{ url_for('static', filename='js/ui.js') }}"></script>
+<script src="{{ url_for('static', filename='js/components.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='js/modules/questionnaire/index.js') }}"></script>
+
+{% block scripts %}{% endblock %}
+{% include 'components/reminder_settings.html' %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var username = localStorage.getItem('username');
+        var displayName = localStorage.getItem('displayName');
+        var streak = localStorage.getItem('streakCount') || '۳';
+        var level = localStorage.getItem('levelCount') || '۲';
+
+        var sidebarName = document.getElementById('sidebarUserName');
+        var sidebarStreak = document.getElementById('sidebarStreak');
+        var sidebarLevel = document.getElementById('sidebarLevel');
+
+        if (sidebarName && username && username !== 'مهمان') {
+            sidebarName.textContent = 'سلام، ' + (displayName || username) + '! 👋';
+        }
+        if (sidebarStreak) sidebarStreak.textContent = streak;
+        if (sidebarLevel) sidebarLevel.textContent = level;
+    });
+</script>
+
+</body>
+</html>

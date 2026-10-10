@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page active" id="pageChat">
+    <div class="page-header">💬 چت‌بات درمانی</div>
+
+    <!-- شمارنده -->
+    <div class="chat-counter" id="chatCounter">
+        <span>📊 پیام‌های امروز:</span>
+        <strong id="chatRemaining">۵۰</strong>
+        <span>از ۵۰</span>
+    </div>
+
+    <!-- محفظه چت -->
+    <div id="chatContainer" style="height: calc(100vh - 500px); min-height: 400px; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 16px; padding: 16px; background: #f8fafc; margin-bottom: 12px; display: flex; flex-direction: column;">
+        <div class="chat-message bot">
+            <p>سلام! 👋 من اینجا هستم تا بهت کمک کنم.</p>
+        </div>
+    </div>
+
+    <!-- ورودی -->
+    <div style="display: flex; gap: 10px;">
+        <input type="text" id="chatInput" placeholder="پیام خود را بنویسید..." style="flex: 1; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 12px; font-family: 'Vazirmatn', sans-serif; font-size: 16px;">
+        <button class="btn" id="chatSendBtn" onclick="sendMessage()" style="padding: 12px 24px;">📤 ارسال</button>
+    </div>
+
+    <!-- کمک فوری -->
+    <div class="emergency-card" style="margin-top: 16px;">
+        <div class="emergency-header">
+            <span class="emergency-icon">🆘</span>
+            <h3 class="emergency-title">اگه در بحران هستی</h3>
+        </div>
+        <p class="emergency-subtitle">با این شماره‌ها تماس بگیر:</p>
+        <div class="emergency-contacts">
+            <a href="tel:123" class="emergency-contact">
+                <div class="emergency-contact-left">
+                    <span class="emergency-contact-icon">📞</span>
+                    <span class="emergency-contact-name">اورژانس اجتماعی</span>
+                </div>
+                <span class="emergency-contact-number">۱۲۳</span>
+            </a>
+            <a href="tel:1480" class="emergency-contact">
+                <div class="emergency-contact-left">
+                    <span class="emergency-contact-icon">📞</span>
+                    <span class="emergency-contact-name">صدای مشاور</span>
+                </div>
+                <span class="emergency-contact-number">۱۴۸۰</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .chat-message {
+        animation: fadeIn 0.3s ease;
+        padding: 12px 16px;
+        border-radius: 12px;
+        margin-bottom: 8px;
+        max-width: 80%;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+    .chat-message.user {
+        align-self: flex-end;
+        background: #8B5CF6;
+        color: white;
+    }
+    .chat-message.bot {
+        align-self: flex-start;
+        background: #e2e8f0;
+        color: #1e293b;
+    }
+    .chat-message p { margin: 0; }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .chat-counter {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 16px;
+        margin-bottom: 12px;
+        background: linear-gradient(135deg, #ede9fe, #dbeafe);
+        border-radius: 12px;
+        border-right: 4px solid #8B5CF6;
+        font-size: 14px;
+        color: #4c1d95;
+        font-weight: 600;
+    }
+    .chat-counter.warning {
+        background: linear-gradient(135deg, #fef3c7, #fde68a);
+        border-right-color: #f59e0b;
+        color: #78350f;
+    }
+    .chat-counter.danger {
+        background: linear-gradient(135deg, #fee2e2, #fecaca);
+        border-right-color: #ef4444;
+        color: #991b1b;
+    }
+    body.dark-theme .chat-counter {
+        background: linear-gradient(135deg, #4C1D95, #1E3A5F);
+        color: #ddd6fe;
+    }
+    body.dark-theme .chat-counter.warning {
+        background: linear-gradient(135deg, #78350f, #92400e);
+        color: #fef3c7;
+    }
+    body.dark-theme .chat-counter.danger {
+        background: linear-gradient(135deg, #7f1d1d, #991b1b);
+        color: #fecaca;
+    }
+</style>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    var chatContainer = document.getElementById('chatContainer');
+    var chatInput = document.getElementById('chatInput');
+    var chatSendBtn = document.getElementById('chatSendBtn');
+    var chatCounter = document.getElementById('chatCounter');
+    var chatRemaining = document.getElementById('chatRemaining');
+
+    // ============================================================
+    // به‌روزرسانی شمارنده
+    // ============================================================
+    function updateCounter(remaining) {
+        if (!chatRemaining) return;
+
+        // ===== تبدیل اعداد لاتین به فارسی =====
+        var persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+        var persianNum = String(remaining).split('').map(function(d) {
+            return persianDigits[parseInt(d)] || d;
+        }).join('');
+
+        chatRemaining.textContent = persianNum;
+
+        // ===== پاک کردن کلاس‌ها =====
+        if (chatCounter) {
+            chatCounter.classList.remove('warning', 'danger');
+        }
+
+        // ===== تعیین وضعیت =====
+        if (remaining <= 2) {
+            if (chatCounter) chatCounter.classList.add('danger');
+        } else if (remaining <= 5) {
+            if (chatCounter) chatCounter.classList.add('warning');
+        }
+
+        // ===== غیرفعال اگر صفر شد =====
+        if (remaining <= 0) {
+            if (chatSendBtn) {
+                chatSendBtn.disabled = true;
+                chatSendBtn.textContent = '🚫 تمام شد';
+                chatSendBtn.style.opacity = '0.5';
+                chatSendBtn.style.cursor = 'not-allowed';
+            }
+            if (chatInput) {
+                chatInput.disabled = true;
+                chatInput.placeholder = 'امکان ارسال پیام به پایان رسیده';
+            }
+        }
+    }
+
+    // ============================================================
+    // اضافه کردن پیام
+    // ============================================================
+    function addMessage(text, type) {
+        var div = document.createElement('div');
+        div.className = 'chat-message ' + type;
+        div.innerHTML = '<p>' + text + '</p>';
+        chatContainer.appendChild(div);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    // ============================================================
+    // ارسال پیام
+    // ============================================================
+    function sendMessage() {
+        var message = chatInput.value.trim();
+        if (!message) return;
+
+        addMessage(message, 'user');
+        chatInput.value = '';
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+
+        // ===== غیرفعال موقت =====
+        chatSendBtn.disabled = true;
+
+        fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: message })
+        })
+        .then(function(response) {
+            // ===== فعال کردن دکمه =====
+            chatSendBtn.disabled = false;
+
+            // ===== چک هدر Rate Limit =====
+            var remaining = response.headers.get('X-RateLimit-Remaining');
+            console.log('📊 Remaining:', remaining);
+
+            if (remaining !== null) {
+                updateCounter(parseInt(remaining));
+            }
+
+            // ===== چک 429 =====
+            if (response.status === 429) {
+                addMessage('🚫 <strong>امکان ارسال پیام شما به پایان رسیده.</strong><br>لطفاً ۲۴ ساعت دیگر دوباره تلاش کنید.', 'bot');
+                updateCounter(0);
+                return null;
+            }
+
+            return response.json();
+        })
+        .then(function(data) {
+            if (!data) return;
+
+            var botDiv = document.createElement('div');
+            botDiv.className = 'chat-message bot';
+            botDiv.innerHTML = '<p>' + (data.response || 'متشکرم که با من صحبت می‌کنی.') + '</p>';
+            chatContainer.appendChild(botDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        })
+        .catch(function(err) {
+            console.error('❌ خطا:', err);
+            addMessage('⚠️ خطا در ارتباط با سرور.', 'bot');
+            chatSendBtn.disabled = false;
+        });
+    }
+
+    // ============================================================
+    // Enter
+    // ============================================================
+    chatInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') sendMessage();
+    });
+</script>
+{% endblock %}

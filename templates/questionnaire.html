@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="page active" id="pageQuestions1">
+    <div class="progress-container"><div class="progress-bar"></div></div>
+    <div class="progress-text">۰٪</div>
+    <div class="page-header">📝 سوالات متنی (۱ تا ۵)</div>
+    <div id="qGroup1"></div>
+    <div class="nav-buttons">
+        <button class="btn btn-secondary" disabled>➡️ قبلی</button>
+        <button class="btn" onclick="validateAndGo('pageQuestions2')">بعدی ⬅️</button>
+    </div>
+</div>
+
+<div class="page" id="pageQuestions2">
+    <div class="progress-container"><div class="progress-bar"></div></div>
+    <div class="progress-text">۰٪</div>
+    <div class="page-header">📝 سوالات متنی (۶ تا ۱۰)</div>
+    <div id="qGroup2"></div>
+    <div class="nav-buttons">
+        <button class="btn btn-secondary" onclick="goToPage('pageQuestions1')">➡️ قبلی</button>
+        <button class="btn" onclick="validateAndGo('pageQuestions3')">بعدی ⬅️</button>
+    </div>
+</div>
+
+<div class="page" id="pageQuestions3">
+    <div class="progress-container"><div class="progress-bar"></div></div>
+    <div class="progress-text">۰٪</div>
+    <div class="page-header">📝 سوالات متنی (۱۱ تا ۱۵)</div>
+    <div id="qGroup3"></div>
+    <div class="nav-buttons">
+        <button class="btn btn-secondary" onclick="goToPage('pageQuestions2')">➡️ قبلی</button>
+        <button class="btn" onclick="validateAndGo('pageQuestions4')">بعدی ⬅️</button>
+    </div>
+</div>
+
+<div class="page" id="pageQuestions4">
+    <div class="progress-container"><div class="progress-bar"></div></div>
+    <div class="progress-text">۰٪</div>
+    <div class="page-header">📝 سوالات متنی (۱۶ تا ۲۰)</div>
+    <div id="qGroup4"></div>
+    <div class="nav-buttons">
+        <button class="btn btn-secondary" onclick="goToPage('pageQuestions3')">➡️ قبلی</button>
+        <button class="btn" onclick="validateAndGo('pageOpen1')">بعدی ⬅️</button>
+    </div>
+</div>
+
+<div class="page" id="pageOpen1">
+    <div class="progress-container"><div class="progress-bar"></div></div>
+    <div class="progress-text">۰٪</div>
+    <div class="page-header">🎤 سوالات باز (۱ تا۳)</div>
+    <div id="openGroup1"></div>
+    <div class="nav-buttons">
+        <button class="btn btn-secondary" onclick="goToPage('pageQuestions4')">➡️ قبلی</button>
+        <button class="btn btn-success" onclick="submitAll()">📤 ثبت نهایی</button>
+    </div>
+</div>
+
+<div class="page" id="pageLoading">
+    <div class="loading-container">
+        <div class="spinner"></div>
+        <div class="loading-text"><strong>🧠 در حال تحلیل...</strong><br>لطفاً چند لحظه صبر کنید</div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+<script type="module">
+    console.log('✅ صفحه پرسشنامه بارگذاری شد!');
+
+    import { buildQuestions, loadSavedAnswers } from '/static/js/modules/questionnaire/index.js';
+
+    // ===== پاک کردن جواب‌های قبلی هر بار =====
+    console.log('🔄 پاک کردن جواب‌های قبلی...');
+    localStorage.removeItem('mcq_answers');
+    localStorage.removeItem('open_answers');
+    localStorage.removeItem('questionnaire_progress');
+
+    // ===== پاک کردن IndexedDB (فایل‌های صوتی) =====
+    try {
+        indexedDB.deleteDatabase('ArameshDB');
+        console.log('✅ IndexedDB پاک شد');
+    } catch (e) {
+        console.error('❌ خطا در پاک کردن IndexedDB:', e);
+    }
+
+    buildQuestions();
+    loadSavedAnswers();
+
+    console.log('✅ سوالات ساخته شدند!');
+
+
+</script>
+{% endblock %}

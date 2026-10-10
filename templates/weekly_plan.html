@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page active" id="pageWeeklyPlan">
+<!-- هدر -->
+<div class="weekly-header">
+     <div style="width: 100px;"></div>
+
+    <span class="weekly-title">📅 برنامه درمانی هفتگی</span>
+    <div style="width: 50px;"></div>
+</div>
+    <!-- هدر شخصی -->
+    <div class="weekly-greeting" id="weeklyGreeting">
+        <div class="greeting-text">🌅 هفته‌ی خوبی داشته باشی!</div>
+        <div class="greeting-sub" id="greetingSub">امروز: شنبه</div>
+    </div>
+
+    <!-- پیشرفت هفته -->
+    <div class="weekly-progress-card">
+        <div class="progress-header">
+            <span>📊 پیشرفت هفته</span>
+            <span id="weeklyPercent" class="progress-percent">۰%</span>
+        </div>
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="weeklyBar" style="width: 0%;"></div>
+        </div>
+        <div class="progress-stats">
+            <span>✅ <span id="completedDays">۰</span> روز کامل</span>
+            <span>⏳ <span id="remainingDays">۷</span> روز باقی</span>
+        </div>
+    </div>
+
+    <!-- هفته -->
+    <div class="week-label" id="weekLabel">هفته جاری</div>
+
+    <!-- روزها -->
+    <div id="daysContainer"></div>
+
+    <!-- پیام انگیزشی -->
+    <div class="motivation-card">
+        <p>💫 "هر فعالیت کوچک، یه قدم به سمت آرامشه"</p>
+    </div>
+
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/weekly_plan.js') }}"></script>
+{% endblock %}

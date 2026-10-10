@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page active" id="pageTools">
+
+    <!-- ============================================================
+         عنوان صفحه
+         ============================================================ -->
+    <div class="page-header">
+        <h2 class="page-title">🧘 ابزارهای خودمراقبتی</h2>
+        <p class="page-subtitle">ابزارهایی برای آرامش و خودشناسی</p>
+    </div>
+
+    <!-- ============================================================
+         تمرین تنفس
+         ============================================================ -->
+    <a href="/breathing" class="tool-card">
+        <div class="tool-card-icon">🌬️</div>
+        <div class="tool-card-content">
+            <div class="tool-card-title">تمرین تنفس</div>
+            <div class="tool-card-desc">آرام‌سازی با تنفس عمیق ۴-۴-۴</div>
+            <div class="tool-card-meta">⏱️ ۵ دقیقه</div>
+        </div>
+        <div class="tool-card-arrow">›</div>
+    </a>
+
+    <!-- ============================================================
+         مدیتیشن
+         ============================================================ -->
+    <a href="/meditation" class="tool-card">
+        <div class="tool-card-icon">🧘</div>
+        <div class="tool-card-content">
+            <div class="tool-card-title">مدیتیشن هدایت‌شده</div>
+            <div class="tool-card-desc">۳ سناریو: صبحگاهی، تنفس عمیق، شبانه</div>
+            <div class="tool-card-meta">⏱️ ۵-۱۵ دقیقه</div>
+        </div>
+        <div class="tool-card-arrow">›</div>
+    </a>
+
+    <!-- ============================================================
+         روزنگار
+         ============================================================ -->
+    <a href="/journal" class="tool-card">
+        <div class="tool-card-icon">📖</div>
+        <div class="tool-card-content">
+            <div class="tool-card-title">روزنگار</div>
+            <div class="tool-card-desc">نوشتن یادداشت روزانه و ثبت حالات</div>
+            <div class="tool-card-meta">✍️ روزانه</div>
+        </div>
+        <div class="tool-card-arrow">›</div>
+    </a>
+
+    <!-- ============================================================
+         برنامه هفتگی
+         ============================================================ -->
+    <a href="/weekly-plan" class="tool-card">
+        <div class="tool-card-icon">📋</div>
+        <div class="tool-card-content">
+            <div class="tool-card-title">برنامه‌ی هفتگی</div>
+            <div class="tool-card-desc">برنامه‌ی شخصی‌سازی‌شده‌ی ۷ روزه</div>
+            <div class="tool-card-meta">📅 هفتگی</div>
+        </div>
+        <div class="tool-card-arrow">›</div>
+    </a>
+
+    <!-- ============================================================
+         چت‌بات
+         ============================================================ -->
+    <a href="/chat" class="tool-card">
+        <div class="tool-card-icon">💬</div>
+        <div class="tool-card-content">
+            <div class="tool-card-title">چت‌بات همدل</div>
+            <div class="tool-card-desc">گفتگو با همراه هوشمند و همدل</div>
+            <div class="tool-card-meta">🤖 ۲۴ ساعته</div>
+        </div>
+        <div class="tool-card-arrow">›</div>
+    </a>
+    <!-- ============================================================
+     باغ آرامش
+     ============================================================ -->
+    <a href="/garden" class="tool-card">
+        <div class="tool-card-icon">🌸</div>
+        <div class="tool-card-content">
+            <div class="tool-card-title">باغ آرامش</div>
+            <div class="tool-card-desc">هر فعالیت، یه گل 🌱</div>
+            <div class="tool-card-meta">🎮 بازی</div>
+        </div>
+        <div class="tool-card-arrow">›</div>
+    </a>
+
+</div>
+
+{% endblock %}

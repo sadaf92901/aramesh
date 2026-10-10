@@ -1,0 +1,140 @@
+/* ============================================================
+   همراه آرامش — Icon Styles
+   ============================================================
+   استایل برای آیکون‌های SVG (Lucide)
+   استفاده: <svg class="icon"><use href=".../icons.svg#icon-brain"/></svg>
+   ============================================================ */
+
+
+/* ============================================================
+   استایل پایه
+   ============================================================ */
+
+.icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+
+/* ============================================================
+   سایزها
+   ============================================================ */
+
+.icon-xs { width: 12px; height: 12px; }
+.icon-sm { width: 16px; height: 16px; }
+.icon-md { width: 20px; height: 20px; }
+.icon-lg { width: 24px; height: 24px; }
+.icon-xl { width: 32px; height: 32px; }
+.icon-2xl { width: 40px; height: 40px; }
+.icon-3xl { width: 48px; height: 48px; }
+.icon-4xl { width: 64px; height: 64px; }
+
+
+/* ============================================================
+   ضخامت خط (Stroke Width)
+   ============================================================ */
+
+.icon-thin { stroke-width: 1; }
+.icon-normal { stroke-width: 2; }
+.icon-bold { stroke-width: 2.5; }
+.icon-thicker { stroke-width: 3; }
+
+
+/* ============================================================
+   رنگ‌ها (از متغیرهای Design System)
+   ============================================================ */
+
+.icon-primary { color: var(--color-primary-500); }
+.icon-success { color: var(--color-success); }
+.icon-warning { color: var(--color-warning); }
+.icon-danger { color: var(--color-danger); }
+.icon-info { color: var(--color-info); }
+
+.icon-white { color: #ffffff; }
+.icon-black { color: #000000; }
+.icon-current { color: currentColor; }
+
+
+/* ============================================================
+   ترکیب با دکمه‌ها
+   ============================================================ */
+
+.btn .icon {
+    margin-left: 0.25rem;
+}
+
+.btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+
+/* ============================================================
+   انیمیشن
+   ============================================================ */
+
+.icon-spin {
+    animation: icon-spin 1s linear infinite;
+}
+
+@keyframes icon-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.icon-pulse {
+    animation: icon-pulse 2s ease-in-out infinite;
+}
+
+@keyframes icon-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.icon-bounce {
+    animation: icon-bounce 1s ease-in-out infinite;
+}
+
+@keyframes icon-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+}
+
+
+/* ============================================================
+   حالت‌های خاص
+   ============================================================ */
+
+/* آیکون در کارت‌های بزرگ (مثل diagnosis-icon) */
+.icon-feature {
+    width: 48px;
+    height: 48px;
+    stroke-width: 1.5;
+}
+
+/* آیکون در Empty States */
+.icon-empty {
+    width: 64px;
+    height: 64px;
+    stroke-width: 1.5;
+    color: var(--color-gray-300);
+    margin-bottom: var(--space-4);
+}
+
+/* آیکون‌های ناوبری (Bottom Nav, Sidebar) */
+.icon-nav {
+    width: 24px;
+    height: 24px;
+    stroke-width: 2;
+}

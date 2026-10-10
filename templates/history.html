@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page active" id="pageHistory">
+
+    <!-- هدر -->
+    <div class="history-header">
+        <div style="width: 100px;"></div>
+        <span class="history-title">📜 تاریخچه‌ی من</span>
+        <div style="width: 100px;"></div>
+    </div>
+
+    <!-- خلاصه‌ی آمار -->
+    <div class="history-summary">
+        <div class="summary-item">
+            <div class="summary-value" id="statDiagnoses">۰</div>
+            <div class="summary-label">🧠 تشخیص</div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-value" id="statAvg">۰٪</div>
+            <div class="summary-label">📊 میانگین</div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-value" id="statNotes">۰</div>
+            <div class="summary-label">📝 یاداشت</div>
+        </div>
+        <div class="summary-item">
+            <div class="summary-value" id="statBreaths">۰</div>
+            <div class="summary-label">🌬️ تنفس</div>
+        </div>
+    </div>
+
+    <!-- فیلترها -->
+    <div class="history-filters">
+        <button class="filter-chip active" data-type="all" onclick="filterHistory('all')">همه</button>
+        <button class="filter-chip" data-type="diagnosis" onclick="filterHistory('diagnosis')">🧠 تشخیص</button>
+        <button class="filter-chip" data-type="note" onclick="filterHistory('note')">📝 یاداشت</button>
+        <button class="filter-chip" data-type="meditation" onclick="filterHistory('meditation')">🧘 مدیتیشن</button>
+        <button class="filter-chip" data-type="breathing" onclick="filterHistory('breathing')">🌬️ تنفس</button>
+        <button class="filter-chip" data-type="weekly_plan" onclick="filterHistory('weekly_plan')">📋 برنامه</button>
+    </div>
+        <!-- گزارش هفتگی -->
+    <div class="weekly-summary" id="weeklySummary">
+        <div class="weekly-summary-header">
+            <span class="weekly-summary-title">📊 گزارش این هفته</span>
+            <span class="weekly-summary-range" id="weekRange">-</span>
+        </div>
+
+        <div class="weekly-summary-stats" id="weeklyStats">
+            <!-- JS پر می‌کنه -->
+        </div>
+
+        <div class="weekly-summary-text" id="weeklyText">
+            🔄 در حال بارگذاری...
+        </div>
+    </div>
+        <!-- نمودار پیشرفت -->
+    <div class="progress-chart-card">
+        <div class="progress-chart-header">
+            <span class="progress-chart-title">📈 روند پیشرفت</span>
+            <div class="progress-chart-filters">
+                <button class="chart-filter-btn active" data-range="7" onclick="changeChartRange(7)">۷ روز</button>
+                <button class="chart-filter-btn" data-range="30" onclick="changeChartRange(30)">۳۰ روز</button>
+                <button class="chart-filter-btn" data-range="all" onclick="changeChartRange('all')">همه</button>
+            </div>
+        </div>
+
+        <div class="progress-chart-stats" id="chartStats">
+            <!-- JS پر می‌کنه -->
+        </div>
+
+        <div class="progress-chart-wrapper">
+            <canvas id="progressChart"></canvas>
+        </div>
+
+        <div class="progress-chart-empty" id="chartEmpty" style="display: none;">
+            <span class="empty-icon">📊</span>
+            <p>برای دیدن نمودار، حداقل ۲ تشخیص لازمه</p>
+        </div>
+    </div>
+
+    <!-- خط زمانی -->
+    <div class="history-timeline" id="historyTimeline">
+        <div class="history-loading">🔄 در حال بارگذاری...</div>
+    </div>
+
+</div>
+
+<!-- مودال جزئیات -->
+<div id="detailModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;z-index:1000;">
+    <div class="modal-content" id="detailContent"></div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/history.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="{{ url_for('static', filename='js/history.js') }}"></script>
+{% endblock %}

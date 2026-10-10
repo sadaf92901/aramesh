@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page active" id="pageProgress">
+
+    <!-- ============================================================
+         عنوان صفحه
+         ============================================================ -->
+    <div class="page-header">
+        <h2 class="page-title">📈 پیشرفت شما</h2>
+        <p class="page-subtitle">روند بهبود و دستاوردهای شما</p>
+    </div>
+
+    <!-- ============================================================
+         خلاصه‌ی آماری
+         ============================================================ -->
+    <div class="summary-card">
+        <div class="section-title">📊 خلاصه‌ی آماری</div>
+        <div class="summary-grid">
+            <div class="summary-item">
+                <div class="summary-value" id="streakValue">۰</div>
+                <div class="summary-label">🔥 روز استریک</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-value" id="levelValue">۱</div>
+                <div class="summary-label">🏆 سطح</div>
+            </div>
+            <div class="summary-item">
+                <div class="summary-value" id="totalValue">۰</div>
+                <div class="summary-label">📝 کل فعالیت</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         نمودار پیشرفت
+         ============================================================ -->
+    <div class="chart-card">
+        <div class="section-title">📊 نمودار پیشرفت</div>
+        <div id="progressChart" style="height: 200px; display: flex; align-items: center; justify-content: center; color: #94a3b8;">
+            📊 نمودار در حال بارگذاری...
+        </div>
+    </div>
+
+    <!-- ============================================================
+         تاریخچه‌ی کامل
+         ============================================================ -->
+    <div class="history-card">
+        <div class="section-title">📜 تاریخچه‌ی کامل</div>
+        <div id="historyContainer">
+            <div class="history-empty">📭 در حال بارگذاری...</div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('📈 صفحه پیشرفت بارگذاری شد!');
+        loadStats();
+        loadHistory();
+    });
+
+    function loadStats() {
+        var streak = parseInt(localStorage.getItem('streakCount') || '0');
+        var level = parseInt(localStorage.getItem('levelCount') || '1');
+
+        document.getElementById('streakValue').textContent = streak;
+        document.getElementById('levelValue').textContent = level;
+
+        fetch('/api/history')
+            .then(res => res.json())
+            .then(data => {
+                if (data && data.length) {
+                    document.getElementById('totalValue').textContent = data.length;
+                }
+            })
+            .catch(() => {});
+    }
+
+    function loadHistory() {
+        var container = document.getElementById('historyContainer');
+        if (!container) return;
+
+        fetch('/api/history')
+            .then(res => res.json())
+            .then(data => {
+                if (!data || data.length === 0) {
+                    container.innerHTML = '<div class="history-empty">📭 هیچ داده‌ای ثبت نشده</div>';
+                    return;
+                }
+
+                var html = '<div class="history-list">';
+                data.forEach(function(item) {
+                    var persianDate = new Date(item.date).toLocaleDateString('fa-IR');
+                    var emojis = ['😊', '🙂', '😐', '😢'];
+                    var emoji = emojis[item.prediction] || '❓';
+                    var labels = ['سالم', 'خفیف', 'متوسط', 'شدید'];
+                    var label = labels[item.prediction] || 'نامشخص';
+                    var score = item.final_score || item.score || 0;
+
+                    html += '<div class="history-item">';
+                    html += '<span class="history-date">' + persianDate + '</span>';
+                    html += '<span class="history-mood">' + emoji + ' ' + label + '</span>';
+                    html += '<span class="history-score">' + Math.round(score) + '%</span>';
+                    html += '</div>';
+                });
+                html += '</div>';
+
+                container.innerHTML = html;
+            })
+            .catch(() => {
+                container.innerHTML = '<div class="history-empty">📭 خطا در دریافت تاریخچه</div>';
+            });
+    }
+</script>
+{% endblock %}

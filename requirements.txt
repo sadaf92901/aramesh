@@ -1,0 +1,22 @@
+# ===== Core =====
+Flask==2.3.3
+Flask-Cors==4.0.0
+Flask-SQLAlchemy==3.1.1
+SQLAlchemy==2.0.23
+python-dotenv==1.0.0
+bcrypt==4.1.2
+jdatetime==5.0.0
+
+# ===== Database Migration =====
+Flask-Migrate==4.1.0
+
+# ===== Security =====
+Flask-Limiter==4.1.1
+
+# ===== AI/ML =====
+openai==1.6.0
+numpy==1.26.2
+sentence-transformers==2.2.2
+
+# ===== Production Server =====
+gunicorn==21.2.0

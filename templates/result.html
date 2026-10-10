@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page active" id="pageResult">
+
+    <!-- هدر -->
+    <div class="result-header">
+         <div style="width: 100px;"></div>
+        <span class="result-title">📊 نتیجه‌ی تحلیل</span>
+        <div style="width: 100px;"></div>
+    </div>
+
+    <div id="resultContent">
+
+        <!-- دایره‌ی امتیاز کلی -->
+        <div class="result-main">
+            <div class="result-circle" id="resultCircle">
+                <span id="resultScore">0%</span>
+            </div>
+            <h2 id="resultStatus" class="result-status">در حال تحلیل...</h2>
+            <p id="resultDetail" class="result-detail"></p>
+        </div>
+
+        <!-- کارت‌های امتیاز -->
+        <div class="score-cards">
+            <div class="score-card mcq-card">
+                <div class="score-icon">🧠</div>
+                <div class="score-label">پرسشنامه</div>
+                <div class="score-value" id="mcqScoreDisplay">0%</div>
+            </div>
+            <div class="score-card llm-card">
+                <div class="score-icon">🤖</div>
+                <div class="score-label">تحلیل هوشمند</div>
+                <div class="score-value" id="llmScoreDisplay">0%</div>
+                <div class="score-status" id="llmStatusDisplay">-</div>
+            </div>
+        </div>
+
+        <!-- مقایسه با تشخیص قبلی -->
+        <div class="comparison-card" id="comparisonCard" style="display: none;">
+            <div class="comparison-header">
+                <span class="comparison-title">📊 مقایسه با تشخیص قبلی</span>
+            </div>
+            <div class="comparison-body" id="comparisonBody">
+                <!-- JS پر می‌کنه -->
+            </div>
+        </div>
+
+        <!-- توصیه‌ها -->
+        <div class="recommendations-card">
+            <div class="recommendations-header">
+                <span class="recommendations-icon">💡</span>
+                <span class="recommendations-title">توصیه‌های عملی</span>
+            </div>
+            <div class="recommendations-body" id="recommendationsBody">
+                <!-- JS پر می‌کنه -->
+            </div>
+        </div>
+
+        <!-- درمان -->
+        <div class="treatment-card">
+            <div class="treatment-header">
+                <span class="treatment-icon">🩺</span>
+                <span class="treatment-title">درمان پیشنهادی</span>
+            </div>
+            <p id="resultTreatment" class="treatment-text"></p>
+        </div>
+
+    </div>
+        <!-- 🆘 کمک فوری (اگه شدید بود) -->
+    <div class="emergency-card" id="emergencyCard" style="display: none;">
+        <div class="emergency-header">
+            <span class="emergency-icon">🆘</span>
+            <h3 class="emergency-title">کمک فوری</h3>
+        </div>
+        <p class="emergency-subtitle">
+            نتیجه‌ی شما نشون میده که بهتره همین الان با یه متخصص صحبت کنی:
+        </p>
+        <div class="emergency-contacts">
+            <a href="tel:123" class="emergency-contact">
+                <div class="emergency-contact-left">
+                    <span class="emergency-contact-icon">📞</span>
+                    <span class="emergency-contact-name">اورژانس اجتماعی</span>
+                </div>
+                <span class="emergency-contact-number">۱۲۳</span>
+            </a>
+            <a href="tel:1480" class="emergency-contact">
+                <div class="emergency-contact-left">
+                    <span class="emergency-contact-icon">📞</span>
+                    <span class="emergency-contact-name">صدای مشاور</span>
+                </div>
+                <span class="emergency-contact-number">۱۴۸۰</span>
+            </a>
+            <a href="tel:115" class="emergency-contact">
+                <div class="emergency-contact-left">
+                    <span class="emergency-contact-icon">🚑</span>
+                    <span class="emergency-contact-name">اورژانس</span>
+                </div>
+                <span class="emergency-contact-number">۱۱۵</span>
+            </a>
+        </div>
+    </div>
+    <!-- Disclaimer -->
+    <div class="medical-disclaimer">
+        <div class="disclaimer-icon">⚠️</div>
+        <div class="disclaimer-text">
+            این نتیجه یه ارزیابی اولیه‌ست و جایگزین تشخیص تخصصی نیست.
+            برای تشخیص دقیق، حتماً با یه روانشناس یا روانپزشک مشورت کن.
+        </div>
+    </div>
+
+    <!-- دکمه‌ها -->
+    <div class="result-buttons">
+        <button class="result-btn primary" onclick="window.location.href='/questionnaire'">
+            🔄 دوباره
+        </button>
+        <button class="result-btn" onclick="window.shareResult()">
+            📤 اشتراک
+        </button>
+        <button class="result-btn" onclick="window.location.href='/history'">
+            📜 تاریخچه
+        </button>
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/result.css') }}">
+<script src="{{ url_for('static', filename='js/result.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const pendingResult = localStorage.getItem('pendingResult');
+        if (pendingResult) {
+            try {
+                const result = JSON.parse(pendingResult);
+                window.showResult(result);
+                localStorage.removeItem('pendingResult');
+            } catch (e) {
+                console.error('خطا در خواندن نتیجه:', e);
+            }
+        }
+    });
+</script>
+{% endblock %}

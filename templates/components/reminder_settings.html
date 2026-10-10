@@ -1,0 +1,138 @@
+<!-- ============================================================
+     کامپوننت تنظیمات یادآوری
+     ============================================================ -->
+
+<div id="reminderSettings" style="display:none; position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;z-index:2000;">
+    <div style="background:white;border-radius:20px;padding:24px;max-width:450px;width:90%;max-height:80vh;overflow-y:auto;">
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+            <h3 style="margin:0;font-size:20px;">⏰ تنظیمات یادآوری</h3>
+            <button onclick="closeReminderSettings()" style="background:none;border:none;font-size:24px;cursor:pointer;color:#94a3b8;">✕</button>
+        </div>
+
+        <!-- فعال/غیرفعال -->
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #e2e8f0;">
+            <span style="font-weight:600;color:#1e293b;">🔔 فعال بودن یادآوری‌ها</span>
+            <label class="switch">
+                <input type="checkbox" id="reminderToggle" onchange="toggleReminderSettings()">
+                <span class="slider"></span>
+            </label>
+        </div>
+
+        <!-- یادآوری روزنگار -->
+        <div style="padding:12px 0;border-bottom:1px solid #e2e8f0;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-weight:600;color:#1e293b;">📝 یادآوری روزنگار</span>
+                <input type="time" id="journalTime" value="21:00" style="padding:4px 8px;border:2px solid #e2e8f0;border-radius:8px;font-family:'Vazirmatn',sans-serif;">
+            </div>
+            <span style="font-size:12px;color:#94a3b8;">هر روز در این ساعت یادآوری میشه</span>
+        </div>
+
+        <!-- یادآوری تمرین تنفس -->
+        <div style="padding:12px 0;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <span style="font-weight:600;color:#1e293b;">🧘 تمرین تنفس صبح</span>
+                <input type="time" id="breathingMorning" value="08:00" style="padding:4px 8px;border:2px solid #e2e8f0;border-radius:8px;font-family:'Vazirmatn',sans-serif;">
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+                <span style="font-weight:600;color:#1e293b;">🧘 تمرین تنفس عصر</span>
+                <input type="time" id="breathingEvening" value="18:00" style="padding:4px 8px;border:2px solid #e2e8f0;border-radius:8px;font-family:'Vazirmatn',sans-serif;">
+            </div>
+        </div>
+
+        <div style="display:flex;gap:10px;margin-top:16px;padding-top:16px;border-top:1px solid #e2e8f0;">
+            <button onclick="saveReminderSettings()" style="flex:1;padding:10px;border:none;border-radius:10px;background:#8B5CF6;color:white;cursor:pointer;font-family:'Vazirmatn',sans-serif;font-size:14px;font-weight:600;">💾 ذخیره تنظیمات</button>
+            <button onclick="closeReminderSettings()" style="padding:10px 20px;border:2px solid #e2e8f0;border-radius:10px;background:white;cursor:pointer;font-family:'Vazirmatn',sans-serif;font-size:14px;">انصراف</button>
+        </div>
+
+        <div style="margin-top:12px;padding:10px;background:#f8fafc;border-radius:10px;font-size:12px;color:#64748b;text-align:center;">
+            ⚠️ یادآوری‌ها فقط زمانی کار میکنن که مرورگر باز باشه
+        </div>
+    </div>
+</div>
+
+<script>
+// ============================================================
+// توابع تنظیمات یادآوری
+// ============================================================
+
+function openReminderSettings() {
+    var modal = document.getElementById('reminderSettings');
+    if (!modal) return;
+
+    modal.style.display = 'flex';
+
+    // بارگذاری تنظیمات از localStorage
+    var settings = JSON.parse(localStorage.getItem('aramesh_reminder_settings') || '{}');var toggle = document.getElementById('reminderToggle');
+    if (toggle) {
+        toggle.checked = settings.enabled !== false;
+    }
+
+    var journalTime = document.getElementById('journalTime');
+    if (journalTime) {
+        journalTime.value = settings.journalTime || '21:00';
+    }
+
+    var breathingMorning = document.getElementById('breathingMorning');
+    if (breathingMorning) {
+        breathingMorning.value = settings.breathingMorning || '08:00';
+    }
+
+    var breathingEvening = document.getElementById('breathingEvening');
+    if (breathingEvening) {
+        breathingEvening.value = settings.breathingEvening || '18:00';
+    }
+}
+
+function closeReminderSettings() {
+    var modal = document.getElementById('reminderSettings');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
+
+function toggleReminderSettings() {
+    var toggle = document.getElementById('reminderToggle');
+    if (!toggle) return;
+
+    var enabled = toggle.checked;
+
+    // ذخیره در localStorage
+    var settings = JSON.parse(localStorage.getItem('aramesh_reminder_settings') || '{}');
+    settings.enabled = enabled;
+    localStorage.setItem('aramesh_reminder_settings', JSON.stringify(settings));
+
+    // نمایش پیام
+    var msg = enabled ? '✅ یادآوری‌ها فعال شد' : '⏸️ یادآوری‌ها غیرفعال شد';
+    if (typeof showToast === 'function') {
+        showToast(msg, '⏰', enabled ? 'success' : 'warning');
+    } else {
+        alert(msg);
+    }
+}
+
+function saveReminderSettings() {
+    var settings = {
+        enabled: document.getElementById('reminderToggle')?.checked || false,
+        journalTime: document.getElementById('journalTime')?.value || '21:00',
+        breathingMorning: document.getElementById('breathingMorning')?.value || '08:00',
+        breathingEvening: document.getElementById('breathingEvening')?.value || '18:00'
+    };
+
+    localStorage.setItem('aramesh_reminder_settings', JSON.stringify(settings));
+
+    if (typeof showToast === 'function') {
+        showToast('✅ تنظیمات یادآوری ذخیره شد', '⏰', 'success');
+    } else {
+        alert('✅ تنظیمات یادآوری ذخیره شد');
+    }
+
+    closeReminderSettings();
+}
+
+// صادر کردن توابع
+window.openReminderSettings = openReminderSettings;
+window.closeReminderSettings = closeReminderSettings;
+window.toggleReminderSettings = toggleReminderSettings;
+window.saveReminderSettings = saveReminderSettings;
+</script>

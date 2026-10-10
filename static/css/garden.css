@@ -1,0 +1,1027 @@
+/* ============================================================
+   همراه آرامش — باغ آرامش
+   ============================================================ */
+
+/* ===== هدر ===== */
+.garden-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 2px solid #f1f5f9;
+    margin-bottom: 16px;
+}
+
+body.dark-theme .garden-header {
+    border-bottom-color: #475569;
+}
+
+.garden-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+body.dark-theme .garden-title {
+    color: #f1f5f9;
+}
+
+/* ===== آمار ===== */
+.garden-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+    padding: 16px;
+    background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+    border-radius: 16px;
+    border: 1px solid #86efac;
+}
+
+body.dark-theme .garden-stats {
+    background: linear-gradient(135deg, #064e3b, #065f46);
+    border-color: rgba(34, 197, 94, 0.3);
+}
+
+.garden-stats .stat-item {
+    text-align: center;
+}
+
+.garden-stats .stat-icon {
+    font-size: 22px;
+    margin-bottom: 4px;
+}
+
+.garden-stats .stat-value {
+    font-size: 26px;
+    font-weight: 800;
+    color: #065f46;
+    margin-bottom: 2px;
+}
+
+body.dark-theme .garden-stats .stat-value {
+    color: #a7f3d0;
+}
+
+.garden-stats .stat-label {
+    font-size: 12px;
+    color: #047857;
+    font-weight: 600;
+}
+
+body.dark-theme .garden-stats .stat-label {
+    color: #6ee7b7;
+}
+
+/* ============================================================
+   دکمه‌ی پیشرفت
+   ============================================================ */
+
+.garden-progress-btn-wrapper {
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.garden-progress-btn {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: white;
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(99, 102, 241, 0.35);
+    transition: all 0.3s ease;
+}
+
+.garden-progress-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(99, 102, 241, 0.5);
+}
+
+/* ============================================================
+   صحنه‌ی باغ (با عکس)
+   ============================================================ */
+
+.garden-scene {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(34, 197, 94, 0.25);
+    margin-bottom: 16px;
+    height: 420px;
+    width: 100%;
+    background-image: url('/static/images/garden-bg.jpg');
+    background-size: cover;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+}
+
+body.dark-theme .garden-scene {
+    filter: brightness(0.85) saturate(1.05);
+}
+
+/* ===== گل‌ها ===== */
+.flowers-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 5;
+    overflow: hidden;
+}
+
+.garden-flower {
+    position: absolute;
+    font-size: 38px;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.25));
+    animation: growFlower 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+    user-select: none;
+    transform-origin: center bottom;
+}
+
+.garden-flower:hover {
+    transform: scale(1.3) translateY(-6px) rotate(5deg);
+    z-index: 10;
+    filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.35));
+}
+
+@keyframes growFlower {
+    0% {
+        transform: scale(0) translateY(20px);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.3);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* ===== بوته (×۱۰) ===== */
+.garden-flower.cluster {
+    animation: growFlower 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) backwards,
+               clusterGlow 3s ease-in-out infinite;
+    z-index: 8;
+}
+
+@keyframes clusterGlow {
+    0%, 100% {
+        filter: drop-shadow(0 6px 10px rgba(16, 185, 129, 0.5)) brightness(1);
+    }
+    50% {
+        filter: drop-shadow(0 6px 25px rgba(16, 185, 129, 0.9)) brightness(1.15);
+    }
+}
+
+.garden-flower.cluster:hover {
+    transform: scale(1.4) translateY(-8px) rotate(8deg) !important;
+    filter: drop-shadow(0 12px 30px rgba(16, 185, 129, 0.8)) !important;
+}
+
+/* ===== بوته‌ی بزرگ (mega) ===== */
+.garden-flower.mega-cluster {
+    animation: growFlower 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) backwards,
+               megaClusterGlow 2s ease-in-out infinite;
+    z-index: 9;
+}
+
+@keyframes megaClusterGlow {
+    0%, 100% {
+        filter: drop-shadow(0 8px 15px rgba(245, 158, 11, 0.6)) brightness(1);
+        transform: scale(1);
+    }
+    50% {
+        filter: drop-shadow(0 10px 35px rgba(245, 158, 11, 1)) brightness(1.2);
+        transform: scale(1.05);
+    }
+}
+
+/* ===== باغچه (×۱۰۰) ===== */
+.garden-flower.garden-cluster {
+    animation: growFlower 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) backwards,
+               gardenClusterGlow 2s ease-in-out infinite;
+    z-index: 9;
+}
+
+@keyframes gardenClusterGlow {
+    0%, 100% {
+        filter: drop-shadow(0 8px 20px rgba(245, 158, 11, 0.7)) brightness(1);
+        transform: scale(1);
+    }
+    50% {
+        filter: drop-shadow(0 12px 40px rgba(245, 158, 11, 1)) brightness(1.2);
+        transform: scale(1.08);
+    }
+}
+
+.garden-flower.garden-cluster:hover {
+    transform: scale(1.5) translateY(-10px) rotate(10deg) !important;
+    filter: drop-shadow(0 15px 40px rgba(245, 158, 11, 0.9)) !important;
+}
+
+/* ===== Badge ===== */
+.flower-badge {
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #10B981, #059669);
+    color: white;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(16, 185, 129, 0.4);
+    white-space: nowrap;
+    font-family: 'Vazirmatn', sans-serif;
+}
+
+.flower-badge.garden-badge {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    box-shadow: 0 2px 10px rgba(245, 158, 11, 0.6);
+    font-size: 12px;
+}
+
+.flower-badge-modal {
+    display: inline-block;
+    background: linear-gradient(135deg, #10B981, #059669);
+    color: white;
+    font-size: 14px;
+    font-weight: 800;
+    padding: 4px 12px;
+    border-radius: 12px;
+    margin-right: 8px;
+    vertical-align: middle;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
+}
+
+.flower-badge-modal.garden-badge {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    box-shadow: 0 2px 10px rgba(245, 158, 11, 0.6);
+}
+
+/* ===== پروانه‌ها ===== */
+.butterfly {
+    position: absolute;
+    font-size: 20px;
+    z-index: 6;
+    pointer-events: none;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
+}
+
+.butterfly.b1 {
+    animation: butterflyPath1 18s ease-in-out infinite;
+}
+
+.butterfly.b2 {
+    animation: butterflyPath2 22s ease-in-out infinite;
+    animation-delay: -5s;
+    font-size: 16px;
+}
+
+.butterfly.b3 {
+    animation: butterflyPath3 25s ease-in-out infinite;
+    animation-delay: -10s;
+    font-size: 18px;
+}
+
+@keyframes butterflyPath1 {
+    0%   { top: 60%; left: 10%; transform: rotate(0deg); }
+    25%  { top: 30%; left: 30%; transform: rotate(15deg) scale(1.1); }
+    50%  { top: 50%; left: 60%; transform: rotate(-10deg); }
+    75%  { top: 25%; left: 80%; transform: rotate(20deg) scale(0.95); }
+    100% { top: 60%; left: 10%; transform: rotate(0deg); }
+}
+
+@keyframes butterflyPath2 {
+    0%   { top: 40%; left: 70%; transform: rotate(0deg); }
+    33%  { top: 60%; left: 40%; transform: rotate(-20deg); }
+    66%  { top: 35%; left: 15%; transform: rotate(15deg); }
+    100% { top: 40%; left: 70%; transform: rotate(0deg); }
+}
+
+@keyframes butterflyPath3 {
+    0%   { top: 55%; left: 50%; transform: rotate(0deg) scale(0.8); }
+    50%  { top: 20%; left: 25%; transform: rotate(25deg) scale(1.1); }
+    100% { top: 55%; left: 50%; transform: rotate(0deg) scale(0.8); }
+}
+
+/* ===== ذرات نور ===== */
+.sparkles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 20;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.sparkle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: radial-gradient(circle, #fef08a, #fde047);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(253, 224, 71, 0.8);
+}
+
+/* ===== کانفتی ===== */
+.confetti {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 30;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: -20px;
+    animation: confettiFall 3s ease-in forwards;
+    border-radius: 2px;
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(0) rotate(0deg) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(500px) rotate(720deg) scale(0.5);
+        opacity: 0;
+    }
+}
+
+/* ============================================================
+   کیف دانه
+   ============================================================ */
+
+.seeds-bag {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border-radius: 16px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+    border-right: 4px solid #f59e0b;
+    animation: seedsBagPulse 2s ease-in-out infinite;
+}
+
+body.dark-theme .seeds-bag {
+    background: linear-gradient(135deg, #78350f, #92400e);
+    border-right-color: #fbbf24;
+}
+
+@keyframes seedsBagPulse {
+    0%, 100% { box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2); }
+    50% { box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4); }
+}
+
+.seeds-bag-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.seeds-bag-icon { font-size: 20px; }
+
+.seeds-bag-title {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 700;
+    color: #78350f;
+}
+
+body.dark-theme .seeds-bag-title {
+    color: #fef3c7;
+}
+
+.seeds-bag-count {
+    background: #f59e0b;
+    color: white;
+    font-size: 12px;
+    font-weight: 800;
+    padding: 3px 10px;
+    border-radius: 10px;
+    min-width: 24px;
+    text-align: center;
+}
+
+.seeds-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.seed-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 14px;
+    background: white;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    animation: seedBounce 2s ease-in-out infinite;
+    min-width: 70px;
+}
+
+body.dark-theme .seed-item {
+    background: #1e293b;
+}
+
+.seed-item:hover {
+    transform: translateY(-3px) scale(1.05);
+    border-color: #f59e0b;
+    box-shadow: 0 6px 16px rgba(245, 158, 11, 0.3);
+}
+
+@keyframes seedBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
+}
+
+.seed-emoji {
+    font-size: 28px;
+    line-height: 1;
+}
+
+.seed-label {
+    font-size: 10px;
+    color: #78350f;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+body.dark-theme .seed-label {
+    color: #fef3c7;
+}
+
+.seeds-bag-hint {
+    font-size: 12px;
+    color: #92400e;
+    text-align: center;
+    font-weight: 600;
+}
+
+body.dark-theme .seeds-bag-hint {
+    color: #fde68a;
+}
+
+/* ============================================================
+   سطح باغ (داخل مودال)
+   ============================================================ */
+
+.garden-level {
+    background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
+    border-radius: 16px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    border: 1px solid #a5b4fc;
+}
+
+body.dark-theme .garden-level {
+    background: linear-gradient(135deg, #312e81, #3730a3);
+    border-color: rgba(165, 180, 252, 0.3);
+}
+
+.level-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.level-icon {
+    font-size: 24px;
+}
+
+.level-title {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 600;
+    color: #3730a3;
+}
+
+body.dark-theme .level-title {
+    color: #c7d2fe;
+}
+
+.level-title strong {
+    font-weight: 800;
+    color: #4f46e5;
+}
+
+body.dark-theme .level-title strong {
+    color: #a5b4fc;
+}
+
+.level-progress {
+    font-size: 12px;
+    font-weight: 700;
+    color: #4f46e5;
+    background: rgba(255, 255, 255, 0.6);
+    padding: 3px 10px;
+    border-radius: 10px;
+}
+
+body.dark-theme .level-progress {
+    color: #c7d2fe;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.level-bar-container {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 6px;
+}
+
+body.dark-theme .level-bar-container {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.level-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #6366f1, #8b5cf6);
+    border-radius: 10px;
+    transition: width 0.6s ease;
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+}
+
+.level-next {
+    font-size: 12px;
+    color: #4f46e5;
+    font-weight: 600;
+    text-align: center;
+}
+
+body.dark-theme .level-next {
+    color: #a5b4fc;
+}
+
+/* ============================================================
+   نمودار رشد (داخل مودال)
+   ============================================================ */
+
+.garden-growth {
+    background: #f8fafc;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 16px;
+    border: 1px solid #e2e8f0;
+}
+
+body.dark-theme .garden-growth {
+    background: #334155;
+    border-color: #475569;
+}
+
+.growth-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 12px;
+}
+
+body.dark-theme .growth-title {
+    color: #f1f5f9;
+}
+
+.growth-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.growth-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+}
+
+.growth-emoji {
+    font-size: 20px;
+    flex-shrink: 0;
+    width: 28px;
+    text-align: center;
+}
+
+.growth-label {
+    flex: 0 0 70px;
+    font-weight: 600;
+    color: #475569;
+}
+
+body.dark-theme .growth-label {
+    color: #cbd5e1;
+}
+
+.growth-bar-container {
+    flex: 1;
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+body.dark-theme .growth-bar-container {
+    background: #1e293b;
+}
+
+.growth-bar-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.8s ease;
+    position: relative;
+}
+
+.growth-bar-fill.flower-1 { background: linear-gradient(90deg, #EC4899, #DB2777); }
+.growth-bar-fill.flower-2 { background: linear-gradient(90deg, #A855F7, #9333EA); }
+.growth-bar-fill.flower-3 { background: linear-gradient(90deg, #10B981, #059669); }
+.growth-bar-fill.flower-4 { background: linear-gradient(90deg, #3B82F6, #2563EB); }
+.growth-bar-fill.flower-5 { background: linear-gradient(90deg, #F59E0B, #D97706); }
+
+.growth-count {
+    font-size: 12px;
+    font-weight: 700;
+    color: #64748b;
+    min-width: 50px;
+    text-align: left;
+}
+
+body.dark-theme .growth-count {
+    color: #94a3b8;
+}
+
+.growth-count.has-cluster {
+    color: #10B981;
+}
+
+/* ============================================================
+   دستاوردها (داخل مودال)
+   ============================================================ */
+
+.achievements {
+    margin-top: 20px;
+    padding: 16px;
+    background: #f8fafc;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+}
+
+body.dark-theme .achievements {
+    background: #334155;
+    border-color: #475569;
+}
+
+.achievements-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 12px;
+}
+
+body.dark-theme .achievements-title {
+    color: #f1f5f9;
+}
+
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+}
+
+.achievement {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+body.dark-theme .achievement {
+    background: #1e293b;
+    border-color: #475569;
+}
+
+.achievement.unlocked {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border-color: #f59e0b;
+}
+
+body.dark-theme .achievement.unlocked {
+    background: linear-gradient(135deg, #78350f, #92400e);
+    border-color: #fbbf24;
+}
+
+.achievement.locked {
+    opacity: 0.5;
+}
+
+.achievement-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.achievement-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.achievement-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 2px;
+}
+
+body.dark-theme .achievement-name {
+    color: #f1f5f9;
+}
+
+.achievement-progress {
+    font-size: 10px;
+    color: #64748b;
+    font-weight: 600;
+}
+
+body.dark-theme .achievement-progress {
+    color: #94a3b8;
+}
+
+/* ============================================================
+   مودال پیشرفت
+   ============================================================ */
+
+.progress-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9998;
+    padding: 20px;
+    animation: modalFadeIn 0.3s ease;
+}
+
+.progress-modal-box {
+    background: white;
+    border-radius: 24px;
+    width: 100%;
+    max-width: 480px;
+    max-height: 85vh;
+    overflow-y: auto;
+    animation: modalSlideUp 0.3s ease;
+}
+
+body.dark-theme .progress-modal-box {
+    background: #1e293b;
+}
+
+.progress-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid #e2e8f0;
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 2;
+    border-radius: 24px 24px 0 0;
+}
+
+body.dark-theme .progress-modal-header {
+    background: #1e293b;
+    border-bottom-color: #334155;
+}
+
+.progress-modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 800;
+    color: #1e293b;
+}
+
+body.dark-theme .progress-modal-header h3 {
+    color: #f1f5f9;
+}
+
+.progress-modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #94a3b8;
+    padding: 0 8px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.progress-modal-close:hover {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+body.dark-theme .progress-modal-close:hover {
+    background: #334155;
+    color: #cbd5e1;
+}
+
+.progress-modal-content {
+    padding: 20px 24px;
+}
+
+.progress-modal-content .garden-level {
+    margin-bottom: 16px;
+}
+
+.progress-modal-content .garden-growth {
+    margin-bottom: 16px;
+}
+
+.progress-modal-content .achievements {
+    margin-top: 0;
+}
+
+/* ============================================================
+   مودال گل
+   ============================================================ */
+
+.flower-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.flower-modal-box {
+    background: white;
+    border-radius: 24px;
+    padding: 32px 28px;
+    max-width: 320px;
+    width: 90%;
+    text-align: center;
+    animation: modalSlideUp 0.3s ease;
+}
+
+body.dark-theme .flower-modal-box {
+    background: #1e293b;
+}
+
+@keyframes modalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.flower-modal-flower {
+    font-size: 80px;
+    line-height: 1;
+    margin-bottom: 16px;
+    animation: flowerPop 0.5s ease;
+}
+
+@keyframes flowerPop {
+    0% { transform: scale(0) rotate(-180deg); }
+    50% { transform: scale(1.2) rotate(10deg); }
+    100% { transform: scale(1) rotate(0deg); }
+}
+
+.flower-modal-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 8px;
+}
+
+body.dark-theme .flower-modal-title {
+    color: #f1f5f9;
+}
+
+.flower-modal-date {
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 20px;
+    text-align: center;
+    line-height: 1.8;
+}
+
+body.dark-theme .flower-modal-date {
+    color: #94a3b8;
+}
+
+.flower-modal-close {
+    padding: 10px 32px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+    color: white;
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.flower-modal-close:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
+}
+
+/* ============================================================
+   موبایل
+   ============================================================ */
+
+@media (max-width: 500px) {
+    .garden-title { font-size: 18px; }
+    .garden-stats .stat-value { font-size: 22px; }
+    .garden-scene { height: 340px; }
+    .garden-flower { font-size: 30px; }
+    .butterfly { font-size: 16px; }
+    .seeds-list { gap: 6px; }
+    .seed-item { padding: 8px 10px; min-width: 60px; }
+    .seed-emoji { font-size: 24px; }
+    .achievements-grid { grid-template-columns: repeat(2, 1fr); }
+}
+/* ============================================================
+   دکمه‌ی صدا توی هدر باغ
+   ============================================================ */
+
+.garden-header-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    border: 2px solid var(--color-gray-200, #e2e8f0);
+    background: var(--bg-primary, white);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    padding: 0;
+    line-height: 1;
+}
+
+body.dark-theme .garden-header-btn {
+    background: var(--color-gray-800, #1e293b);
+    border-color: var(--color-gray-600, #475569);
+}
+
+.garden-header-btn:hover {
+    transform: scale(1.05);
+    border-color: var(--color-primary-500, #8B5CF6);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+}
+
+.garden-header-btn:active {
+    transform: scale(0.95);
+}

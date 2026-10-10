@@ -1,0 +1,826 @@
+/* ============================================================
+   صفحه‌ی پروفایل
+   ============================================================ */
+
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 2px solid #f1f5f9;
+    margin-bottom: 16px;
+}
+
+body.dark-theme .profile-header {
+    border-bottom-color: #475569;
+}
+
+.profile-header .home-btn {
+    background: #22c55e;
+    border: none;
+    border-radius: 50px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    font-family: 'Vazirmatn', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.3s;
+}
+
+.profile-header .home-btn:hover {
+    background: #16a34a;
+    transform: scale(1.02);
+}
+
+.profile-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+body.dark-theme .profile-title {
+    color: #f1f5f9;
+}
+
+/* ===== کارت پروفایل ===== */
+.profile-card {
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 16px;
+    border: 1px solid #e2e8f0;
+}
+
+body.dark-theme .profile-card {
+    background: linear-gradient(135deg, #1e293b, #334155);
+    border-color: #475569;
+}
+
+.avatar-section {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.avatar-wrapper {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #8B5CF6;
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(139, 92, 246, 0.3);
+    transition: 0.3s;
+}
+
+.avatar-wrapper:hover {
+    transform: scale(1.05);
+}
+
+.avatar-display {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    color: white;
+    background-size: cover;
+    background-position: center;
+}
+
+.avatar-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    text-align: center;
+    padding: 4px;
+    font-size: 16px;
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.avatar-wrapper:hover .avatar-overlay {
+    opacity: 1;
+}
+
+.profile-info {
+    margin-bottom: 16px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+body.dark-theme .info-row {
+    border-bottom-color: #475569;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 600;
+}
+
+body.dark-theme .info-label {
+    color: #94a3b8;
+}
+
+.info-value {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+body.dark-theme .info-value {
+    color: #f1f5f9;
+}
+
+.profile-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.profile-btn {
+    padding: 12px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    background: white;
+    cursor: pointer;
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #475569;
+    transition: 0.3s;
+}
+
+body.dark-theme .profile-btn {
+    background: #334155;
+    border-color: #475569;
+    color: #cbd5e1;
+}
+
+.profile-btn:hover {
+    border-color: #8B5CF6;
+    color: #8B5CF6;
+}
+
+.profile-btn.primary {
+    background: linear-gradient(135deg, #8B5CF6, #6D28D9);
+    color: white;
+    border: none;
+}
+
+.profile-btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+    color: white;
+}
+
+/* ===== آمار ===== */
+.stats-section,
+.settings-section,
+.danger-section {
+    margin-bottom: 16px;
+}
+
+.section-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 10px;
+}
+
+body.dark-theme .section-title {
+    color: #f1f5f9;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 10px;
+}
+.stat-card {
+    background: #f8fafc;
+    border-radius: 14px;
+    padding: 14px 10px;
+    text-align: center;
+    border: 1px solid #e2e8f0;
+    transition: 0.3s;
+}
+
+body.dark-theme .stat-card {
+    background: #334155;
+    border-color: #475569;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.stat-card.streak {
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border-color: #fbbf24;
+}
+
+body.dark-theme .stat-card.streak {
+    background: linear-gradient(135deg, #78350f, #92400e);
+    border-color: #f59e0b;
+}
+
+.stat-icon {
+    font-size: 24px;
+    margin-bottom: 4px;
+}
+
+.stat-value {
+    font-size: 20px;
+    font-weight: 700;
+    color: #8B5CF6;
+    margin-bottom: 2px;
+}
+
+body.dark-theme .stat-value {
+    color: #A78BFA;
+}
+
+.stat-card.streak .stat-value {
+    color: #d97706;
+}
+
+body.dark-theme .stat-card.streak .stat-value {
+    color: #fbbf24;
+}
+
+.stat-label {
+    font-size: 11px;
+    color: #64748b;
+    font-weight: 600;
+}
+
+body.dark-theme .stat-label {
+    color: #94a3b8;
+}
+
+/* ===== تنظیمات ===== */
+.setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    background: #f8fafc;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    border: 1px solid #e2e8f0;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+body.dark-theme .setting-row {
+    background: #334155;
+    border-color: #475569;
+}
+
+.setting-row:hover {
+    border-color: #8B5CF6;
+}
+
+.setting-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.setting-icon {
+    font-size: 20px;
+}
+
+.setting-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+body.dark-theme .setting-label {
+    color: #f1f5f9;
+}
+
+.setting-value {
+    font-size: 13px;
+    font-weight: 700;
+    color: #8B5CF6;
+}
+
+body.dark-theme .setting-value {
+    color: #A78BFA;
+}
+
+/* ===== منطقه‌ی خطر ===== */
+.danger-btn {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #fca5a5;
+    border-radius: 12px;
+    background: #fef2f2;
+    color: #b91c1c;
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-bottom: 8px;
+    text-align: right;
+}
+
+body.dark-theme .danger-btn {
+    background: #450a0a;
+    border-color: #7f1d1d;
+    color: #fca5a5;
+}
+
+.danger-btn:hover {
+    background: #fee2e2;
+    border-color: #ef4444;
+}
+
+body.dark-theme .danger-btn:hover {
+    background: #7f1d1d;
+}
+
+.danger-btn.delete {
+    background: #dc2626;
+    color: white;
+    border-color: #dc2626;
+}
+
+.danger-btn.delete:hover {
+    background: #b91c1c;
+}
+
+/* ===== مودال ===== */
+.profile-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.profile-modal[style*="display: flex"] {
+    display: flex !important;
+}
+
+.modal-box {
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    max-width: 450px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+body.dark-theme .modal-box {
+    background: #1e293b;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+body.dark-theme .modal-header {
+    border-bottom-color: #475569;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #1e293b;
+}
+
+body.dark-theme .modal-header h3 {
+    color: #f1f5f9;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #94a3b8;
+}
+
+.modal-box .form-group {
+    margin-bottom: 14px;
+}
+
+.modal-box .form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 6px;
+}
+
+body.dark-theme .modal-box .form-group label {
+    color: #cbd5e1;
+}
+.modal-box .form-group input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 14px;
+    color: #1e293b;
+    background: white;
+    transition: 0.3s;
+}
+
+body.dark-theme .modal-box .form-group input {
+    background: #334155;
+    border-color: #475569;
+    color: #f1f5f9;
+}
+
+.modal-box .form-group input:focus {
+    outline: none;
+    border-color: #8B5CF6;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+.modal-error {
+    font-size: 13px;
+    color: #dc2626;
+    text-align: center;
+    padding: 8px;
+    border-radius: 8px;
+    min-height: 20px;
+    margin-bottom: 8px;
+}
+
+.modal-error:not(:empty) {
+    background: #fef2f2;
+}
+
+body.dark-theme .modal-error:not(:empty) {
+    background: #450a0a;
+    color: #fca5a5;
+}
+
+.modal-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+/* ===== موبایل ===== */
+@media (max-width: 500px) {
+    .profile-title {
+        font-size: 18px;
+    }
+    .profile-actions {
+        grid-template-columns: 1fr;
+    }
+    .stats-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+/* ============================================================
+   دکمه‌ی خروج
+   ============================================================ */
+
+.logout-btn {
+    width: 100%;
+    padding: 16px;
+    border: 2px solid #fca5a5;
+    border-radius: 14px;
+    background: #fef2f2;
+    color: #b91c1c;
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+body.dark-theme .logout-btn {
+    background: #450a0a;
+    border-color: #7f1d1d;
+    color: #fca5a5;
+}
+
+.logout-btn:hover {
+    background: #fee2e2;
+    border-color: #ef4444;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+}
+
+body.dark-theme .logout-btn:hover {
+    background: #7f1d1d;
+}
+
+/* ============================================================
+   profile-section (فاصله‌گذاری)
+   ============================================================ */
+
+.profile-section {
+    margin-bottom: 20px;
+}
+
+.profile-section .section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 10px;
+    padding-right: 4px;
+}
+
+body.dark-theme .profile-section .section-title {
+    color: #f1f5f9;
+}
+/* ============================================================
+   مودال اشتراک
+   ============================================================ */
+
+.subscription-modal-box {
+    max-width: 420px;
+}
+
+.subscription-content {
+    padding: 4px;
+}
+
+/* ===== پلن فعلی ===== */
+.subscription-plan {
+    text-align: center;
+    padding: 20px 16px;
+    background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+    border-radius: 16px;
+    margin-bottom: 20px;
+    border: 2px solid #86efac;
+}
+
+body.dark-theme .subscription-plan {
+    background: linear-gradient(135deg, #064e3b, #065f46);
+    border-color: rgba(34, 197, 94, 0.3);
+}
+
+.subscription-plan-icon {
+    font-size: 48px;
+    margin-bottom: 8px;
+    line-height: 1;
+}
+
+.subscription-plan-name {
+    font-size: 20px;
+    font-weight: 800;
+    color: #065f46;
+    margin-bottom: 4px;
+}
+
+body.dark-theme .subscription-plan-name {
+    color: #a7f3d0;
+}
+
+.subscription-plan-desc {
+    font-size: 13px;
+    color: #047857;
+    font-weight: 600;
+}
+
+body.dark-theme .subscription-plan-desc {
+    color: #6ee7b7;
+}
+
+/* ===== بخش ===== */
+.subscription-section {
+    margin-bottom: 20px;
+}
+
+.subscription-section-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+body.dark-theme .subscription-section-title {
+    color: #f1f5f9;
+    border-bottom-color: #475569;
+}
+
+/* ===== محدودیت ===== */
+.subscription-limit {
+    margin-bottom: 14px;
+}
+
+.subscription-limit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 6px;
+}
+
+body.dark-theme .subscription-limit-header {
+    color: #cbd5e1;
+}
+
+.subscription-limit-header span:last-child {
+    font-size: 12px;
+    color: #8B5CF6;
+    font-weight: 700;
+}
+
+body.dark-theme .subscription-limit-header span:last-child {
+    color: #A78BFA;
+}
+
+.subscription-limit-bar {
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+body.dark-theme .subscription-limit-bar {
+    background: #1e293b;
+}
+
+.subscription-limit-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #8B5CF6, #7C3AED);
+    border-radius: 8px;
+    transition: width 0.5s ease;
+}
+
+.subscription-limit-fill.warning {
+    background: linear-gradient(90deg, #f59e0b, #d97706);
+}
+
+.subscription-limit-fill.danger {
+    background: linear-gradient(90deg, #ef4444, #dc2626);
+}
+
+.subscription-limit-static {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    padding: 8px 12px;
+    background: #f8fafc;
+    border-radius: 10px;
+}
+
+body.dark-theme .subscription-limit-static {
+    color: #cbd5e1;
+    background: #334155;
+}
+
+.subscription-limit-static span:last-child {
+    color: #8B5CF6;
+    font-weight: 700;
+}
+
+body.dark-theme .subscription-limit-static span:last-child {
+    color: #A78BFA;
+}
+
+/* ===== ویژگی‌ها ===== */
+.subscription-features {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.subscription-feature {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.subscription-feature.enabled {
+    background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+    color: #065f46;
+    border: 1px solid #86efac;
+}
+
+body.dark-theme .subscription-feature.enabled {
+    background: linear-gradient(135deg, #064e3b, #065f46);
+    color: #a7f3d0;
+    border-color: rgba(34, 197, 94, 0.3);
+}
+
+.subscription-feature.disabled {
+    background: #f8fafc;
+    color: #94a3b8;
+    border: 1px solid #e2e8f0;
+}
+
+body.dark-theme .subscription-feature.disabled {
+    background: #1e293b;
+    color: #64748b;
+    border-color: #475569;
+}
+
+.subscription-feature-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+/* ===== دکمه ارتقا ===== */
+.subscription-upgrade {
+    text-align: center;
+    padding-top: 16px;
+    border-top: 1px solid #e2e8f0;
+}
+body.dark-theme .subscription-upgrade {
+    border-top-color: #475569;
+}
+
+.subscription-upgrade-btn {
+    width: 100%;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: not-allowed;
+    opacity: 0.6;
+    margin-bottom: 8px;
+}
+
+.subscription-upgrade-hint {
+    font-size: 12px;
+    color: #10B981;
+    font-weight: 600;
+}
+
+body.dark-theme .subscription-upgrade-hint {
+    color: #6ee7b7;
+}
+body.dark-theme .modal-box {
+    background: #1e293b;
+}
+
+body.dark-theme .modal-header h3 {
+    color: #f1f5f9;
+}
+
+body.dark-theme .modal-close {
+    color: #94a3b8;
+}
+
+body.dark-theme .modal-close:hover {
+    background: #334155;
+    color: #f1f5f9;
+}

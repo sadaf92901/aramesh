@@ -1,0 +1,3868 @@
+[
+  {
+    "text": "احساس طرد شدن می‌کنم",
+    "emotion": "تنهایی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "احساس نگرانی می‌کنم ولی خوبم",
+    "emotion": "اضطراب",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "احساس خستگی شدید می‌کنم",
+    "emotion": "خستگی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "یه کم احساس حمایت می‌کنم",
+    "emotion": "حمایت",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "حمایت",
+      "تعلق",
+      "ارتباط"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم همه‌چیز رو از دست دادم",
+    "emotion": "خشم",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "نگران کار و درس هستم",
+    "emotion": "اضطراب",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم به اندازه‌ی کافی خوب نیستم",
+    "emotion": "خودارزیابی منفی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "دیگه هیچ امیدی به آینده ندارم",
+    "emotion": "غم",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "یه کم عصبانی‌ام",
+    "emotion": "خشم",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "نمی‌تونم استراحت کنم",
+    "emotion": "استرس",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "خودم رو دوست دارم",
+    "emotion": "خودارزیابی منفی",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم تحت فشارم",
+    "emotion": "اضطراب",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "از خودم بدم میاد",
+    "emotion": "خودارزیابی منفی",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "احساس نفرت از خودم دارم",
+    "emotion": "خودارزیابی منفی",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم زندگیم بی‌فایده‌ست",
+    "emotion": "غم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "گاهی فکر می‌کنم کافی نیستم",
+    "emotion": "خودارزیابی منفی",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "احساس تنهایی می‌کنم",
+    "emotion": "تنهایی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم کسی هست که منو درک می‌کنه",
+    "emotion": "حمایت",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "حمایت",
+      "تعلق",
+      "ارتباط"
+    ]
+  },
+  {
+    "text": "هیچی برام جذاب نیست",
+    "emotion": "غم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "وحشت زده‌ام و نمی‌دونم چیکار کنم",
+    "emotion": "اضطراب",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "تنهام ولی خوبم",
+    "emotion": "تنهایی",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "احساس ارتباط و تعلق می‌کنم",
+    "emotion": "حمایت",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "حمایت",
+      "تعلق",
+      "ارتباط"
+    ]
+  },
+  {
+    "text": "یه کم بی‌حوصله‌ام",
+    "emotion": "غم",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "احساس انگیزه و امید می‌کنم",
+    "emotion": "امید",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "امید",
+      "انگیزه",
+      "معنا"
+    ]
+  },
+  {
+    "text": "روابط خوبی دارم",
+    "emotion": "حمایت",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "حمایت",
+      "تعلق",
+      "ارتباط"
+    ]
+  },
+  {
+    "text": "یه کم نگران آینده‌ام",
+    "emotion": "اضطراب",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "می‌دونم که ارزشمندم",
+    "emotion": "خودارزیابی منفی",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "احساس دلخوری و کینه دارم",
+    "emotion": "خشم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "یه کم افسرده‌ام ولی کارام رو انجام می‌دم",
+    "emotion": "غم",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "خوشحالم",
+    "emotion": "خوشحالی",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "خوشحالی",
+      "رضایت",
+      "امید"
+    ]
+  },
+  {
+    "text": "نمی‌تونم تحمل کنم",
+    "emotion": "خشم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "از دست همه‌چیز و همه‌کس عصبانی‌ام",
+    "emotion": "خشم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "احساس بی‌ارزشی می‌کنم",
+    "emotion": "خودارزیابی منفی",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "از تنهایی لذت می‌برم",
+    "emotion": "تنهایی",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم دارم منفجر می‌شم",
+    "emotion": "خشم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "نمی‌تونم نگرانیم رو کنترل کنم و قلبم تند می‌زنه",
+    "emotion": "اضطراب",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "احساس بی‌انگیزگی و کسالت دارم",
+    "emotion": "خستگی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "ناراحت شدم ولی تونستم کنترل کنم",
+    "emotion": "خشم",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم کسی رو ندارم",
+    "emotion": "تنهایی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم از دنیا جدا شدم",
+    "emotion": "تنهایی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "خسته‌ام ولی نمی‌تونم بخوابم",
+    "emotion": "خستگی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم دیگه نمی‌تونم ادامه بدم",
+    "emotion": "خستگی",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "امروز حالم خوب نیست ولی نگران نیستم",
+    "emotion": "غم",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم بی‌ارزشم",
+    "emotion": "غم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم هیچ‌وقت خوب نمی‌شم",
+    "emotion": "غم",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "نمی‌تونم از پس کارهام بربیام",
+    "emotion": "استرس",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "فشار روانی زیادی تحمل می‌کنم",
+    "emotion": "استرس",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "خسته‌ام ولی خوبم",
+    "emotion": "خستگی",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "احساس شرم می‌کنم",
+    "emotion": "خودارزیابی منفی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "احساس غم می‌کنم ولی دوستام کمکم می‌کنن",
+    "emotion": "غم",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "یه کم دلشوره دارم ولی خوبم",
+    "emotion": "اضطراب",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "احساس شرم و خجالت می‌کنم",
+    "emotion": "خودارزیابی منفی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "یه کم استرس دارم ولی خوبم",
+    "emotion": "استرس",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "نمی‌تونم خشمم رو کنترل کنم",
+    "emotion": "خشم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "احساس رهاشدگی کامل می‌کنم",
+    "emotion": "تنهایی",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "یه کم ناراحت شدم ولی مدیریتش کردم",
+    "emotion": "خشم",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "احساس طرد شدگی کامل دارم",
+    "emotion": "تنهایی",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "احساس دلخوری شدید دارم",
+    "emotion": "خشم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم کسی منو درک نمی‌کنه",
+    "emotion": "خشم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "احساس خستگی جسمی می‌کنم",
+    "emotion": "خستگی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "احساس ترس و وحشت می‌کنم",
+    "emotion": "اضطراب",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "زندگیم خیلی شلوغه و خسته‌ام",
+    "emotion": "استرس",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم زیر فشار خرد شدم",
+    "emotion": "استرس",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "قلبم تند می‌زنه و عرق می‌کنم",
+    "emotion": "اضطراب",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "نمی‌تونم آروم بشم",
+    "emotion": "اضطراب",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "فکر می‌کنم هیچ‌کس منو دوست نداره",
+    "emotion": "خودارزیابی منفی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "دلم می‌خواد یکی کنارم باشه",
+    "emotion": "تنهایی",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم تنها و بی‌کس‌ام",
+    "emotion": "تنهایی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "یه کم دلهره دارم",
+    "emotion": "اضطراب",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "یه کم نگرانم",
+    "emotion": "اضطراب",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "دلم گرفته ولی می‌دونم فردا بهتر می‌شه",
+    "emotion": "غم",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "احساس بی‌کفایتی می‌کنم",
+    "emotion": "خودارزیابی منفی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "خوشحالم که اینجام",
+    "emotion": "خوشحالی",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "خوشحالی",
+      "رضایت",
+      "امید"
+    ]
+  },
+  {
+    "text": "انرژی انجام هیچ کاری رو ندارم",
+    "emotion": "خستگی",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "دلم گرفته و حوصله هیچی رو ندارم",
+    "emotion": "غم",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "زود از کوره در می‌رم ولی بعد پشیمون می‌شم",
+    "emotion": "خشم",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "یه کم فشار کاری دارم",
+    "emotion": "استرس",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "فکر می‌کنم هیچ کاری رو درست انجام نمی‌دم",
+    "emotion": "خودارزیابی منفی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "خیلی استرس دارم و نمی‌تونم آروم بشم",
+    "emotion": "استرس",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "احساس ارزشمندی توی روابط دارم",
+    "emotion": "خودارزیابی منفی",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "گاهی خودم رو سرزنش می‌کنم",
+    "emotion": "خودارزیابی منفی",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "خشمم آنقدر شدیده که به خودم یا دیگران آسیب می‌زنم",
+    "emotion": "خشم",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "احساس تعلق و ارتباط می‌کنم",
+    "emotion": "حمایت",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "حمایت",
+      "تعلق",
+      "ارتباط"
+    ]
+  },
+  {
+    "text": "خودم رو سرزنش می‌کنم ولی می‌دونم موقتیه",
+    "emotion": "خودارزیابی منفی",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "یه کم احساس تنهایی می‌کنم",
+    "emotion": "تنهایی",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "احساس دلتنگی شدید دارم",
+    "emotion": "غم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "یه کم بی‌حال‌ام",
+    "emotion": "خستگی",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم تو یه چاه عمیق‌ام",
+    "emotion": "غم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "احساس فرسایش و بی‌حالی دارم",
+    "emotion": "خستگی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "احساس هدف و معنا می‌کنم",
+    "emotion": "امید",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "امید",
+      "انگیزه",
+      "معنا"
+    ]
+  },
+  {
+    "text": "یه کم دلتنگی دارم ولی دوستام رو دارم",
+    "emotion": "تنهایی",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "استرس دارم ولی نفس عمیق می‌کشم و آروم می‌شم",
+    "emotion": "اضطراب",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "یه کم به خودم شک دارم",
+    "emotion": "خودارزیابی منفی",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "احساس بی‌حالی و کسالت می‌کنم",
+    "emotion": "غم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "احساس تنهایی عمیق دارم",
+    "emotion": "تنهایی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "دستام می‌لرزه و نفس‌هام تنگ شده",
+    "emotion": "اضطراب",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "از چالش‌ها لذت می‌برم",
+    "emotion": "امید",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "امید",
+      "انگیزه",
+      "معنا"
+    ]
+  },
+  {
+    "text": "دلم می‌خواد فقط گریه کنم",
+    "emotion": "غم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "عصبانی شدم ولی بعدش آروم شدم",
+    "emotion": "خشم",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "احساس خشمی که کنترلش impossible هست",
+    "emotion": "خشم",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم کافی نیستم",
+    "emotion": "خودارزیابی منفی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "یه کم تحریک‌پذیر شدم",
+    "emotion": "خشم",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "انرژی کمتری دارم",
+    "emotion": "خستگی",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "بعضی وقتا احساس حمایت می‌کنم",
+    "emotion": "حمایت",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "حمایت",
+      "تعلق",
+      "ارتباط"
+    ]
+  },
+  {
+    "text": "احساس تنهایی خفیف دارم",
+    "emotion": "تنهایی",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "حملات پنیک دارم و احساس می‌کنم دارم می‌میرم",
+    "emotion": "اضطراب",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم زیر فشار خرد شدم",
+    "emotion": "استرس",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "یه کم زود عصبانی می‌شم",
+    "emotion": "خشم",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "دلم می‌خواد تو تخت بمونم و هیچ کاری نکنم",
+    "emotion": "غم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "غمگینم ولی دوستام کمکم می‌کنن",
+    "emotion": "غم",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "یه کم ناراحت شدم",
+    "emotion": "خشم",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "فشار کاری دارم ولی تعادل دارم",
+    "emotion": "استرس",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم از همه جدا شدم",
+    "emotion": "تنهایی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "تنهام ولی از تنهایی لذت می‌برم",
+    "emotion": "تنهایی",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "احساس دلشوره دارم",
+    "emotion": "اضطراب",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم همه‌چیز درست میشه",
+    "emotion": "امید",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "امید",
+      "انگیزه",
+      "معنا"
+    ]
+  },
+  {
+    "text": "خوابم نمی‌بره چون فکر و خیال زیاد دارم",
+    "emotion": "اضطراب",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "از زندگی راضی‌ام",
+    "emotion": "خوشحالی",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "خوشحالی",
+      "رضایت",
+      "امید"
+    ]
+  },
+  {
+    "text": "یه کم فشار روانی دارم",
+    "emotion": "استرس",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "یه کم مضطربم ولی می‌تونم کارام رو انجام بدم",
+    "emotion": "اضطراب",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم هیچ راهی برای فرار نیست",
+    "emotion": "غم",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "دائماً فکر می‌کنم یه اتفاق بد می‌افته",
+    "emotion": "اضطراب",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "احساس مثبت و انرژی دارم",
+    "emotion": "امید",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "امید",
+      "انگیزه",
+      "معنا"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم هیچ‌کس به من اهمیت نمی‌ده",
+    "emotion": "تنهایی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "نمی‌تونم تمرکز کنم چون نگرانم",
+    "emotion": "اضطراب",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "احساس خوشحالی می‌کنم",
+    "emotion": "خوشحالی",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "خوشحالی",
+      "رضایت",
+      "امید"
+    ]
+  },
+  {
+    "text": "از صبح تا شب غمگینم",
+    "emotion": "غم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم کنترل کامل رو از دست دادم",
+    "emotion": "اضطراب",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "استرس دارم ولی می‌تونم کنار بیام",
+    "emotion": "استرس",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "به موفقیت نزدیکم",
+    "emotion": "امید",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "امید",
+      "انگیزه",
+      "معنا"
+    ]
+  },
+  {
+    "text": "یه کم خسته‌ام ولی استراحت می‌کنم",
+    "emotion": "خستگی",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "یه کم از خودم ناراضی‌ام",
+    "emotion": "خودارزیابی منفی",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "احساس شادی و سرزندگی می‌کنم",
+    "emotion": "خوشحالی",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "خوشحالی",
+      "رضایت",
+      "امید"
+    ]
+  },
+  {
+    "text": "یه کم ناراحتم ولی می‌تونم به کارام برسم",
+    "emotion": "غم",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "یه کم تحت فشارم ولی می‌تونم",
+    "emotion": "استرس",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "احساس ترس از آینده دارم",
+    "emotion": "اضطراب",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "یه کم عصبانی شدم ولی آروم شدم",
+    "emotion": "خشم",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "احساس overwhelmed بودن می‌کنم",
+    "emotion": "استرس",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "احساس خستگی ذهنی می‌کنم",
+    "emotion": "خستگی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم هیچ‌کس منو دوست نداره",
+    "emotion": "تنهایی",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "یه کم بی‌حال‌ام",
+    "emotion": "خستگی",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "احساس آرامش می‌کنم",
+    "emotion": "خوشحالی",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "خوشحالی",
+      "رضایت",
+      "امید"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم دارم دیوونه می‌شم",
+    "emotion": "اضطراب",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "احساس خوبی دارم",
+    "emotion": "خوشحالی",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "خوشحالی",
+      "رضایت",
+      "امید"
+    ]
+  },
+  {
+    "text": "احساس فرسودگی می‌کنم",
+    "emotion": "خستگی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "یه کم دلتنگی دارم ولی خوبم",
+    "emotion": "غم",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "احساس خستگی می‌کنم ولی می‌تونم کارام رو انجام بدم",
+    "emotion": "خستگی",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "نگرانم ولی می‌دونم که موقتیه",
+    "emotion": "اضطراب",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم یه چیزی توی گلوم گیر کرده",
+    "emotion": "اضطراب",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم هیچ‌کس برام نمی‌مونه",
+    "emotion": "تنهایی",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم دیگران از من بهترن",
+    "emotion": "خودارزیابی منفی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "به خودم اعتماد دارم و از خودم راضی‌ام",
+    "emotion": "خودارزیابی منفی",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "دلم می‌خواد داد بزنم",
+    "emotion": "خشم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "استرسم آنقدر شدیده که نمی‌تونم کار کنم",
+    "emotion": "استرس",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "احساس خودکم‌بینی شدید دارم",
+    "emotion": "خودارزیابی منفی",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "همیشه غمگینم و هیچ راهی برای بهتر شدن نمی‌بینم",
+    "emotion": "غم",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم کسی منو درک نمی‌کنه",
+    "emotion": "تنهایی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "دیگران به من اعتماد دارن",
+    "emotion": "حمایت",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "حمایت",
+      "تعلق",
+      "ارتباط"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم کسی نیست که کمکم کنه",
+    "emotion": "تنهایی",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "یه کم ناراحتم ولی می‌تونم مدیریتش کنم",
+    "emotion": "غم",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم هیچ‌کس منو دوست نداره",
+    "emotion": "خودارزیابی منفی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "احساس تنش و فشار روانی مداوم دارم",
+    "emotion": "اضطراب",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "یه کم دلخورم ولی خوبم",
+    "emotion": "خشم",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "خیلی خسته نیستم ولی کم‌انرژی‌ام",
+    "emotion": "خستگی",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم کسی هست که بهم اهمیت بده",
+    "emotion": "حمایت",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "حمایت",
+      "تعلق",
+      "ارتباط"
+    ]
+  },
+  {
+    "text": "از خودم و زندگیم راضی‌ام",
+    "emotion": "خوشحالی",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "خوشحالی",
+      "رضایت",
+      "امید"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم دیگه نمی‌تونم تحمل کنم",
+    "emotion": "خشم",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "همش می‌خوام بخوابم",
+    "emotion": "خستگی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "از دیگران کمک می‌گیرم",
+    "emotion": "حمایت",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "حمایت",
+      "تعلق",
+      "ارتباط"
+    ]
+  },
+  {
+    "text": "احساس خشم و عصبانیت شدید دارم",
+    "emotion": "خشم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "دلم گرفته ولی می‌دونم موقتیه",
+    "emotion": "غم",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "یه کم دلتنگی دارم",
+    "emotion": "تنهایی",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "یه کم حمایت دارم",
+    "emotion": "حمایت",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "حمایت",
+      "تعلق",
+      "ارتباط"
+    ]
+  },
+  {
+    "text": "آرزوهای زیادی دارم",
+    "emotion": "امید",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "امید",
+      "انگیزه",
+      "معنا"
+    ]
+  },
+  {
+    "text": "یه کم مضطربم ولی می‌تونم بخوابم",
+    "emotion": "اضطراب",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "احساس فشار روانی مداوم دارم",
+    "emotion": "استرس",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "احساس فشار و تنش مداوم دارم",
+    "emotion": "استرس",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "احساس دلتنگی می‌کنم",
+    "emotion": "تنهایی",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم هیچ انرژی‌ای ندارم",
+    "emotion": "خستگی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "همیشه در حال دویدنم و خسته شدم",
+    "emotion": "استرس",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم دارم خفه می‌شم",
+    "emotion": "اضطراب",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "به خودم و توانایی‌هام باور دارم",
+    "emotion": "امید",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "امید",
+      "انگیزه",
+      "معنا"
+    ]
+  },
+  {
+    "text": "حالم خیلی خوبه و خوشحالم",
+    "emotion": "خوشحالی",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "خوشحالی",
+      "رضایت",
+      "امید"
+    ]
+  },
+  {
+    "text": "یه کم گرفته‌ام",
+    "emotion": "غم",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "انگیزه دارم و تلاش می‌کنم",
+    "emotion": "امید",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "امید",
+      "انگیزه",
+      "معنا"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم دارم خفه می‌شم",
+    "emotion": "اضطراب",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "احساس دلتنگی شدید دارم",
+    "emotion": "تنهایی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "احساس کینه و دشمنی دارم",
+    "emotion": "خشم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "انرژی انجام کارام رو ندارم",
+    "emotion": "خستگی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "خسته‌ام ولی انگیزه دارم",
+    "emotion": "خستگی",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم زندگی ارزش ادامه دادن نداره",
+    "emotion": "غم",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "یه کم استرس دارم",
+    "emotion": "استرس",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم نمی‌تونم ادامه بدم",
+    "emotion": "استرس",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "خیلی غمگینم و نمی‌تونم از جام بلند شم",
+    "emotion": "غم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم هیچ‌کس منو دوست نداره",
+    "emotion": "خودارزیابی منفی",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم همه‌چیز از کنترل خارج شده",
+    "emotion": "استرس",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "به خودم باور دارم",
+    "emotion": "امید",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "امید",
+      "انگیزه",
+      "معنا"
+    ]
+  },
+  {
+    "text": "همسرم/شریک زندگیم حمایتم می‌کنه",
+    "emotion": "حمایت",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "حمایت",
+      "تعلق",
+      "ارتباط"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم یه آتشفشان درونمه",
+    "emotion": "خشم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "نمی‌تونم تمرکز کنم",
+    "emotion": "خستگی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "احساس بی‌کسی و رهاشدگی دارم",
+    "emotion": "تنهایی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "احساس خودکم‌بینی دارم",
+    "emotion": "خودارزیابی منفی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "یه کم به خودم شک دارم ولی می‌دونم موقتیه",
+    "emotion": "خودارزیابی منفی",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "همیشه خودم رو سرزنش می‌کنم",
+    "emotion": "خودارزیابی منفی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم همه منو ترک کردن",
+    "emotion": "تنهایی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم دارم غرق می‌شم",
+    "emotion": "استرس",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "احساس انرژی و شادابی می‌کنم",
+    "emotion": "خوشحالی",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "خوشحالی",
+      "رضایت",
+      "امید"
+    ]
+  },
+  {
+    "text": "احساس حقارت و کمبود می‌کنم",
+    "emotion": "خودارزیابی منفی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "یه کم تحت فشارم",
+    "emotion": "استرس",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "اضطرابم آنقدر شدیده که نمی‌تونم از خونه بیرون برم",
+    "emotion": "اضطراب",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "دلم می‌خواد گریه کنم ولی نمی‌تونم",
+    "emotion": "غم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "احساس گناه و شرم شدید می‌کنم",
+    "emotion": "خودارزیابی منفی",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "یه کم دلتنگم",
+    "emotion": "تنهایی",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "زندگیم ارزش ادامه دادن داره",
+    "emotion": "امید",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "امید",
+      "انگیزه",
+      "معنا"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم کاملاً تنها و بی‌کس‌ام",
+    "emotion": "تنهایی",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "احساس خستگی از استرس دارم",
+    "emotion": "استرس",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "احساس خستگی مزمن و شدید دارم",
+    "emotion": "خستگی",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "احساس استرس و اضطراب کاری دارم",
+    "emotion": "استرس",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "احساس ناامیدی کامل می‌کنم",
+    "emotion": "غم",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "یه کم استرس دارم",
+    "emotion": "استرس",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم تنها شدم",
+    "emotion": "تنهایی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "به خودم شک دارم",
+    "emotion": "خودارزیابی منفی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "احساس آرامش و رضایت می‌کنم",
+    "emotion": "خوشحالی",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "خوشحالی",
+      "رضایت",
+      "امید"
+    ]
+  },
+  {
+    "text": "احساس خستگی خفیف می‌کنم",
+    "emotion": "خستگی",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "خوابم نمی‌بره و خسته‌ام",
+    "emotion": "خستگی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم تو یه چاله افتادم",
+    "emotion": "غم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم هیچ‌وقت به اندازه‌ی کافی خوب نمی‌شم",
+    "emotion": "خودارزیابی منفی",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "به آینده امیدوارم",
+    "emotion": "امید",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "امید",
+      "انگیزه",
+      "معنا"
+    ]
+  },
+  {
+    "text": "احساس فشار زیاد روی دوشم دارم",
+    "emotion": "استرس",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "از خودم راضی‌ام",
+    "emotion": "خودارزیابی منفی",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "حتی توی جمع هم احساس تنهایی می‌کنم",
+    "emotion": "تنهایی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "کسی رو ندارم که باهاش حرف بزنم",
+    "emotion": "تنهایی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "یه کم خستگی دارم",
+    "emotion": "خستگی",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "خیلی عصبانی‌ام",
+    "emotion": "خشم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "احساس بی‌ارزشی می‌کنم",
+    "emotion": "خودارزیابی منفی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "نگران کار و درس هستم",
+    "emotion": "استرس",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "دائماً نگرانم",
+    "emotion": "اضطراب",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "ناراحتم ولی می‌تونم بخوابم",
+    "emotion": "غم",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "یه کم کم‌انرژی‌ام",
+    "emotion": "خستگی",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "احساس تنهایی می‌کنم ولی می‌دونم دوستام هستن",
+    "emotion": "تنهایی",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "دلم گرفته و نمی‌دونم چرا",
+    "emotion": "غم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم بار سنگینی روی دوشمه",
+    "emotion": "غم",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "دلم می‌خواد با یکی حرف بزنم",
+    "emotion": "تنهایی",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "دلم می‌خواد همه‌چیز رو بشکنم",
+    "emotion": "خشم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "به خودم اعتماد ندارم",
+    "emotion": "خودارزیابی منفی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "احساس ضعف و بی‌حالی می‌کنم",
+    "emotion": "خستگی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "خیلی استرس دارم",
+    "emotion": "استرس",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "یه کم دلم گرفته ولی می‌دونم موقتیه",
+    "emotion": "غم",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم هر لحظه ممکنه منفجر بشم",
+    "emotion": "خشم",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "خانواده‌ام حمایتم می‌کنن",
+    "emotion": "حمایت",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "حمایت",
+      "تعلق",
+      "ارتباط"
+    ]
+  },
+  {
+    "text": "احساس بی‌حالی و کسالت می‌کنم",
+    "emotion": "خستگی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "دلشوره دارم ولی می‌تونم کنترلش کنم",
+    "emotion": "اضطراب",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "احساس رضایت از زندگی دارم",
+    "emotion": "خوشحالی",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "خوشحالی",
+      "رضایت",
+      "امید"
+    ]
+  },
+  {
+    "text": "خودم رو سرزنش می‌کنم",
+    "emotion": "خودارزیابی منفی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "یه کم ناراحتم",
+    "emotion": "خشم",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم بدنم سنگینه",
+    "emotion": "خستگی",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "یه کم دلم می‌خواد گریه کنم",
+    "emotion": "غم",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "گاهی احساس می‌کنم کسی هست",
+    "emotion": "حمایت",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "حمایت",
+      "تعلق",
+      "ارتباط"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم دیگه نمی‌تونم تحمل کنم",
+    "emotion": "استرس",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "دلشوره دارم ولی می‌تونم به کارام برسم",
+    "emotion": "اضطراب",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم همه‌چیز خوب میشه",
+    "emotion": "امید",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "امید",
+      "انگیزه",
+      "معنا"
+    ]
+  },
+  {
+    "text": "احساس جدایی می‌کنم",
+    "emotion": "تنهایی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "یه کم تحریک‌پذیرم",
+    "emotion": "خشم",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم تمام انرژی‌ام تموم شده",
+    "emotion": "خستگی",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "دوستان خوبی دارم که کنارمن",
+    "emotion": "حمایت",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "حمایت",
+      "تعلق",
+      "ارتباط"
+    ]
+  },
+  {
+    "text": "یه کم احساس بی‌کفایتی می‌کنم",
+    "emotion": "خودارزیابی منفی",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم شکست خوردم و هیچ ارزشی ندارم",
+    "emotion": "خودارزیابی منفی",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "احساس استرس شدید دارم",
+    "emotion": "استرس",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "ناراحت شدم ولی تونستم آروم شم",
+    "emotion": "غم",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "احساس پوچی می‌کنم و هیچی خوشحالم نمی‌کنه",
+    "emotion": "غم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "یه کم استرس دارم ولی مدیریتش می‌کنم",
+    "emotion": "استرس",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "احساس خالی بودن می‌کنم",
+    "emotion": "غم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "حالم گرفته‌ست و از هیچی لذت نمی‌برم",
+    "emotion": "غم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "انگار همه‌چیز بی‌معنی شده",
+    "emotion": "غم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "احساس بی‌قراری شدید دارم و نمی‌تونم آروم بشم",
+    "emotion": "اضطراب",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "احساس بی‌ارزشی عمیق می‌کنم",
+    "emotion": "خودارزیابی منفی",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "نمی‌تونم خشمم رو کنترل کنم و داد می‌زنم",
+    "emotion": "خشم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "احساس ترس شدید از مرگ دارم",
+    "emotion": "اضطراب",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "یه کم خسته‌ام",
+    "emotion": "خستگی",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "خیلی زود عصبانی می‌شم و بعدش پشیمون",
+    "emotion": "خشم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "احساس فرسودگی ذهنی و جسمی می‌کنم",
+    "emotion": "خستگی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "احساس خستگی دارم",
+    "emotion": "خستگی",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "دیگه از چیزهایی که قبلاً دوست داشتم لذت نمی‌برم",
+    "emotion": "غم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "احساس فرسودگی شغلی دارم",
+    "emotion": "استرس",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "احساس امیدواری می‌کنم",
+    "emotion": "امید",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "امید",
+      "انگیزه",
+      "معنا"
+    ]
+  },
+  {
+    "text": "خیلی خسته‌ام و انرژی ندارم",
+    "emotion": "خستگی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خستگی",
+      "بی‌خوابی",
+      "کاهش تمرکز"
+    ]
+  },
+  {
+    "text": "از همه‌چیز و همه‌کس خسته شدم",
+    "emotion": "خشم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "احساس دلتنگی می‌کنم",
+    "emotion": "غم",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم کسی هست که دوستم داره",
+    "emotion": "حمایت",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "حمایت",
+      "تعلق",
+      "ارتباط"
+    ]
+  },
+  {
+    "text": "یه کم نگرانم ولی می‌تونم کنترلش کنم",
+    "emotion": "اضطراب",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "نگرانم ولی می‌دونم که موقتیه",
+    "emotion": "اضطراب",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "نمی‌تونم نفس بکشم و می‌ترسم",
+    "emotion": "اضطراب",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "احساس حمایت می‌کنم",
+    "emotion": "حمایت",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "حمایت",
+      "تعلق",
+      "ارتباط"
+    ]
+  },
+  {
+    "text": "احساس تحریک‌پذیری و بی‌قراری دارم",
+    "emotion": "خشم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "به آینده امیدوارم",
+    "emotion": "امید",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "امید",
+      "انگیزه",
+      "معنا"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم تنها نیستم",
+    "emotion": "حمایت",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "حمایت",
+      "تعلق",
+      "ارتباط"
+    ]
+  },
+  {
+    "text": "یه کم استرس کاری دارم",
+    "emotion": "استرس",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم یه فاجعه در راهه",
+    "emotion": "اضطراب",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "یه کم تحت فشارم ولی خوبم",
+    "emotion": "استرس",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "استرس",
+      "فشار",
+      "فرسودگی"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم تو این دنیا تنهام",
+    "emotion": "تنهایی",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "دلم می‌خواد یکی رو داشته باشم",
+    "emotion": "تنهایی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "امروز روز خوبی داشتم",
+    "emotion": "خوشحالی",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "خوشحالی",
+      "رضایت",
+      "امید"
+    ]
+  },
+  {
+    "text": "احساس دلشوره و اضطراب شدید دارم",
+    "emotion": "اضطراب",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "اضطراب",
+      "نگرانی",
+      "ترس",
+      "دلشوره"
+    ]
+  },
+  {
+    "text": "زندگیم خوب پیش میره",
+    "emotion": "خوشحالی",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "خوشحالی",
+      "رضایت",
+      "امید"
+    ]
+  },
+  {
+    "text": "هیچ‌کس منو درک نمی‌کنه",
+    "emotion": "تنهایی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "تنهایی",
+      "انزوا",
+      "درک نشدن"
+    ]
+  },
+  {
+    "text": "دلخورم ولی می‌تونم کنترل کنم",
+    "emotion": "خشم",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم تو یه چاه عمیق افتادم و راه خروج نداره",
+    "emotion": "غم",
+    "level": "severe",
+    "depression_score": 85,
+    "anxiety_score": 80,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "احساس موفقیت و رضایت دارم",
+    "emotion": "خوشحالی",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "خوشحالی",
+      "رضایت",
+      "امید"
+    ]
+  },
+  {
+    "text": "احساس می‌کنم هیچ‌کس منو دوست نداره",
+    "emotion": "غم",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "غم",
+      "بی‌حالی",
+      "آنهدونیا",
+      "پوچی"
+    ]
+  },
+  {
+    "text": "احساس ارزشمندی توی روابط دارم",
+    "emotion": "حمایت",
+    "level": "healthy",
+    "depression_score": 15,
+    "anxiety_score": 15,
+    "signs": [
+      "حمایت",
+      "تعلق",
+      "ارتباط"
+    ]
+  },
+  {
+    "text": "احساس گناه می‌کنم",
+    "emotion": "خودارزیابی منفی",
+    "level": "moderate",
+    "depression_score": 65,
+    "anxiety_score": 70,
+    "signs": [
+      "بی‌ارزشی",
+      "شرم",
+      "گناه",
+      "خودسرزنشگری"
+    ]
+  },
+  {
+    "text": "دلخور شدم ولی خوبم",
+    "emotion": "خشم",
+    "level": "mild",
+    "depression_score": 40,
+    "anxiety_score": 40,
+    "signs": [
+      "خشم",
+      "تحریک‌پذیری",
+      "عصبانیت"
+    ]
+  }
+]

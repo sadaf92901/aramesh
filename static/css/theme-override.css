@@ -1,0 +1,380 @@
+/* ============================================================
+   همراه آرامش — Theme Override
+   ============================================================
+   این فایل رنگ‌های سخت‌کد شده رو با متغیرهای تم عوض می‌کنه.
+   ============================================================ */
+
+
+/* ============================================================
+   1. هدر
+   ============================================================ */
+
+.header {
+    background: var(--gradient-primary) !important;
+    box-shadow: 0 4px 20px var(--shadow-primary) !important;
+}
+
+
+/* ============================================================
+   2. کارت تشخیص
+   ============================================================ */
+
+.diagnosis-card {
+    background: var(--gradient-primary) !important;
+    box-shadow: 0 16px 40px var(--shadow-primary) !important;
+}
+
+.diagnosis-card:hover {
+    box-shadow: 0 20px 50px var(--shadow-primary) !important;
+}
+
+
+/* ============================================================
+   3. سایدبار
+   ============================================================ */
+
+.sidebar-header {
+    background: var(--gradient-primary) !important;
+    box-shadow: 0 8px 24px var(--shadow-primary) !important;
+}
+
+.sidebar-user-avatar {
+    background: var(--gradient-primary) !important;
+}
+
+.sidebar-item.active {
+    background: var(--gradient-primary) !important;
+    box-shadow: 0 6px 16px var(--shadow-primary) !important;
+}
+
+
+/* ============================================================
+   4. نوار پایین (Bottom Nav)
+   ============================================================ */
+
+.nav-item.active {
+    color: var(--color-primary-500) !important;
+}
+
+.nav-item.active::before {
+    background: var(--gradient-primary) !important;
+    box-shadow: 0 4px 16px var(--shadow-primary) !important;
+}
+
+
+/* ============================================================
+   5. دکمه‌ها
+   ============================================================ */
+
+.btn {
+    background: var(--gradient-primary) !important;
+    box-shadow: 0 6px 16px var(--shadow-primary) !important;
+}
+
+.btn:hover {
+    box-shadow: 0 10px 28px var(--shadow-primary) !important;
+}
+
+.btn-outline {
+    border-color: var(--color-primary-500) !important;
+    color: var(--color-primary-500) !important;
+}
+
+.btn-outline:hover {
+    background: var(--color-primary-500) !important;
+}
+
+.diagnosis-btn {
+    color: var(--color-primary-700) !important;
+}
+
+.diagnosis-btn:hover {
+    box-shadow: 0 12px 32px var(--shadow-primary) !important;
+}
+
+
+/* ============================================================
+   6. دکمه‌های وضعیت (mood)
+   ============================================================ */
+
+.mood-btn.selected {
+    background: var(--gradient-primary) !important;
+    border-color: var(--color-primary-500) !important;
+    box-shadow: 0 6px 16px var(--shadow-primary) !important;
+}
+
+
+/* ============================================================
+   7. دکمه‌های ابزار (Tool Mini Card)
+   ============================================================ */
+
+.tool-mini-card {
+    background: linear-gradient(135deg, var(--color-primary-50) 0%, var(--color-primary-100) 100%) !important;
+    border-color: var(--color-primary-200) !important;
+    box-shadow: 0 6px 16px var(--shadow-primary) !important;
+}
+
+.tool-mini-card:hover {
+    border-color: var(--color-primary-500) !important;
+    background: linear-gradient(135deg, var(--color-primary-100) 0%, var(--color-primary-200) 100%) !important;
+    box-shadow: 0 14px 32px var(--shadow-primary) !important;
+}
+
+body.dark-theme .tool-mini-card {
+    background: linear-gradient(135deg, var(--color-gray-800) 0%, var(--color-gray-900) 100%) !important;
+    border-color: var(--color-primary-500) !important;
+}
+
+
+/* ============================================================
+   8. دکمه‌های بزرگ (تنفس/مدیتیشن)
+   ============================================================ */
+.breath-big-btn {
+    background: linear-gradient(135deg, var(--color-primary-100) 0%, var(--color-primary-200) 100%) !important;
+    border-color: var(--color-primary-300) !important;
+    color: var(--color-primary-800) !important;
+    box-shadow: 0 6px 16px var(--shadow-primary) !important;
+}
+
+.breath-big-btn:hover {
+    box-shadow: 0 12px 28px var(--shadow-primary) !important;
+}
+
+.breath-big-btn.meditation {
+    background: linear-gradient(135deg, var(--color-primary-100) 0%, var(--color-primary-200) 100%) !important;
+    border-color: var(--color-primary-300) !important;
+    color: var(--color-primary-700) !important;
+}
+
+
+/* ============================================================
+   9. کارت‌ها و عناصر عمومی
+   ============================================================ */
+
+.card,
+.note-card,
+.tool-card,
+.result-card,
+.stat-card {
+    border-color: var(--color-primary-100) !important;
+}
+
+.section-title {
+    color: var(--color-primary-700) !important;
+}
+
+body.dark-theme .section-title {
+    color: var(--color-primary-300) !important;
+}
+
+.section-title::before,
+.section-title svg {
+    color: var(--color-primary-500) !important;
+}
+
+
+/* ============================================================
+   10. لینک‌ها
+   ============================================================ */
+
+a {
+    color: var(--color-primary-500);
+}
+
+a:hover {
+    color: var(--color-primary-600);
+}
+
+.legal-links a {
+    color: var(--color-primary-500) !important;
+}
+
+.legal-content a {
+    color: var(--color-primary-500) !important;
+}
+
+
+/* ============================================================
+   11. Progress Bar
+   ============================================================ */
+
+.progress-bar {
+    background: var(--gradient-primary) !important;
+}
+
+.progress-bar-fill {
+    background: var(--gradient-primary) !important;
+}
+
+.progress-fill {
+    background: var(--gradient-primary) !important;
+}
+
+
+/* ============================================================
+   12. Inputs
+   ============================================================ */
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-input:focus {
+    border-color: var(--color-primary-500) !important;
+    box-shadow: 0 0 0 4px var(--color-primary-100) !important;
+}
+
+
+/* ============================================================
+   13. Score Cards (نتیجه)
+   ============================================================ */
+
+.score-card.mcq-card {
+    background: linear-gradient(135deg, var(--color-primary-50), var(--color-primary-100)) !important;
+    border-right-color: var(--color-primary-500) !important;
+}
+
+.treatment-card {
+    background: linear-gradient(135deg, var(--color-primary-50), var(--color-primary-100)) !important;
+    border-right-color: var(--color-primary-500) !important;
+}
+
+.treatment-title,
+.treatment-text {
+    color: var(--color-primary-800) !important;
+}
+
+body.dark-theme .treatment-title,
+body.dark-theme .treatment-text {
+    color: var(--color-primary-200) !important;
+}
+
+
+/* ============================================================
+   14. Result Circle
+   ============================================================ */
+
+.result-circle {
+    border-color: var(--color-primary-500) !important;
+    box-shadow: 0 8px 32px var(--shadow-primary) !important;
+}
+
+
+/* ============================================================
+   15. Workout: جایی که رنگ اصلی استفاده شده
+   ============================================================ */
+
+.question-hint {
+    color: var(--color-primary-700) !important;
+    background: linear-gradient(135deg, var(--color-primary-50), var(--color-primary-100)) !important;
+    border-right-color: var(--color-primary-500) !important;
+}
+
+body.dark-theme .question-hint {
+    background: linear-gradient(135deg, var(--color-primary-900), var(--color-primary-800)) !important;
+    color: var(--color-primary-200) !important;
+}
+
+
+/* ============================================================
+   16. Options (پرسشنامه)
+   ============================================================ */
+.options label.selected {
+    background: var(--gradient-primary) !important;
+    border-color: var(--color-primary-500) !important;
+    box-shadow: 0 6px 16px var(--shadow-primary) !important;
+}
+
+.options label:hover {
+    border-color: var(--color-primary-400) !important;
+}
+
+
+/* ============================================================
+   17. Buttons - Override
+   ============================================================ */
+
+.btn-primary,
+.btn-success {
+    background: var(--gradient-primary) !important;
+    box-shadow: 0 6px 16px var(--shadow-primary) !important;
+}
+
+.btn-primary:hover,
+.btn-success:hover {
+    box-shadow: 0 10px 28px var(--shadow-primary) !important;
+}
+
+
+/* ============================================================
+   18. Nav Buttons (پرسشنامه)
+   ============================================================ */
+
+.nav-buttons .btn:not(.btn-secondary):not(:disabled) {
+    background: var(--gradient-primary) !important;
+}
+
+
+/* ============================================================
+   19. Focus Ring
+   ============================================================ */
+
+button:focus-visible,
+input:focus-visible,
+a:focus-visible {
+    outline: 2px solid var(--color-primary-500) !important;
+    outline-offset: 2px;
+}
+/* ============================================================
+   20. Status Section (امروز چطوری)
+   ============================================================ */
+
+.status-section {
+    background: linear-gradient(135deg, var(--color-primary-50) 0%, var(--color-primary-100) 100%) !important;
+    border: 1px solid var(--color-primary-200) !important;
+    box-shadow: 0 6px 16px var(--shadow-primary) !important;
+}
+
+body.dark-theme .status-section {
+    background: linear-gradient(135deg, var(--color-primary-900) 0%, var(--color-primary-800) 100%) !important;
+    border-color: var(--color-primary-700) !important;
+}
+
+.status-section .section-title {
+    color: var(--color-primary-700) !important;
+}
+
+body.dark-theme .status-section .section-title {
+    color: var(--color-primary-200) !important;
+}
+
+.status-section .mood-btn {
+    background: white !important;
+    border: 2px solid var(--color-primary-200) !important;
+}
+
+body.dark-theme .status-section .mood-btn {
+    background: var(--color-gray-800) !important;
+    border-color: var(--color-gray-600) !important;
+}
+
+.status-section .mood-btn:hover {
+    border-color: var(--color-primary-500) !important;
+    box-shadow: 0 6px 14px var(--shadow-primary) !important;
+}
+
+.status-section .mood-btn.selected {
+    background: var(--gradient-primary) !important;
+    border-color: var(--color-primary-500) !important;
+    box-shadow: 0 6px 16px var(--shadow-primary) !important;
+}
+
+.status-section .mood-btn.selected .mood-label {
+    color: white !important;
+}
+
+.status-section .mood-label {
+    color: var(--color-primary-700) !important;
+}
+
+body.dark-theme .status-section .mood-label {
+    color: var(--color-primary-200) !important;
+}

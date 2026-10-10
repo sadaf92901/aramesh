@@ -1,0 +1,325 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- ============================================================
+     پیام انگیزشی
+     ============================================================ -->
+<div class="motivation-banner">
+    <span class="motivation-icon">💫</span>
+    <span class="motivation-text" id="motivationText">
+        هر روز یه قدم کوچیک، یه عمر آرامش میسازه
+    </span>
+</div>
+
+
+<!-- ============================================================
+     کارت تشخیص
+     ============================================================ -->
+<div onclick="window.location.href='/questionnaire'" class="diagnosis-card" id="diagnosisCard">
+    <div class="diagnosis-icon">🧠</div>
+    <div class="diagnosis-title">تشخیص وضعیت روانی</div>
+    <div class="diagnosis-desc">✨ ۲۰ سوال هوشمند بر اساس DSM-5</div>
+    <div class="diagnosis-meta">⏱️ حدود ۱۰ دقیقه &nbsp; • &nbsp; 🔒 محرمانه</div>
+    <button class="diagnosis-btn" id="diagnosisBtn">شروع کن</button>
+</div>
+
+
+<!-- ============================================================
+     وضعیت امروز
+     ============================================================ -->
+<div class="status-section">
+    <div class="section-title">📊 امروز چطوری؟</div>
+    <div class="mood-row">
+        <button onclick="selectStatus('mood','good')" class="mood-btn" data-type="mood" data-value="good">
+            <span class="mood-emoji">😊</span>
+            <span class="mood-label">خوب</span>
+        </button>
+        <button onclick="selectStatus('mood','neutral')" class="mood-btn" data-type="mood" data-value="neutral">
+            <span class="mood-emoji">😐</span>
+            <span class="mood-label">متوسط</span>
+        </button>
+        <button onclick="selectStatus('mood','bad')" class="mood-btn" data-type="mood" data-value="bad">
+            <span class="mood-emoji">😢</span>
+            <span class="mood-label">بد</span>
+        </button>
+    </div>
+</div>
+
+<!-- ============================================================
+     کارت باغ آرامش
+     ============================================================ -->
+<div onclick="checkGuestAndGo('/garden')" class="garden-card">
+    <div class="garden-card-icon">🌸</div>
+    <div class="garden-card-content">
+        <div class="garden-card-title">باغ آرامش</div>
+        <div class="garden-card-desc">هر فعالیت، یه گل 🌱</div>
+    </div>
+    <div class="garden-card-badge" id="gardenBadge" style="display: none;">۰</div>
+    <div class="garden-card-arrow">›</div>
+</div>
+<!-- ============================================================
+     ۴ کارت کوچیک (فقط لپ‌تاپ)
+     ============================================================ -->
+<div class="tools-grid-mini">
+    <div onclick="checkGuestAndGo('/weekly-plan')" class="tool-mini-card">
+        <div class="tool-mini-icon">📋</div>
+        <div class="tool-mini-label">برنامه هفتگی</div>
+    </div>
+    <div onclick="checkGuestAndGo('/journal')" class="tool-mini-card">
+        <div class="tool-mini-icon">📖</div>
+        <div class="tool-mini-label">روزنگار</div>
+    </div>
+    <div onclick="checkGuestAndGo('/history')" class="tool-mini-card">
+        <div class="tool-mini-icon">📜</div>
+        <div class="tool-mini-label">تاریخچه</div>
+    </div>
+    <div onclick="checkGuestAndGo('/chat')" class="tool-mini-card">
+        <div class="tool-mini-icon">💬</div>
+        <div class="tool-mini-label">چت‌بات</div>
+    </div>
+</div>
+
+<!-- ============================================================
+     دو دکمه (فقط لپ‌تاپ)
+     ============================================================ -->
+<div class="breathing-buttons">
+    <button onclick="checkGuestAndGo('/breathing')" class="breath-big-btn">🌬️ تمرین تنفس</button>
+    <button onclick="checkGuestAndGo('/meditation')" class="breath-big-btn meditation">🧘 مدیتیشن</button>
+</div>
+
+
+<!-- ============================================================
+     لینک‌های حقوقی (فقط لپ‌تاپ)
+     ============================================================ -->
+<div class="legal-links">
+    <a href="/privacy">🔒 سیاست حفظ حریم خصوصی</a>
+    <span class="separator">•</span>
+    <a href="/terms">📜 شرایط استفاده</a>
+</div>
+
+
+<!-- ============================================================
+     Disclaimer
+     ============================================================ -->
+<div class="medical-disclaimer">
+    <div class="disclaimer-icon">⚠️</div>
+    <div class="disclaimer-text">
+        این اپلیکیشن فقط یه ابزار غربالگری اولیه‌ست. نتیجه‌ی اون جایگزین تشخیص روانپزشک یا روانشناس نیست.
+        <a href="/about">بیشتر بدانید</a>
+    </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+<script>
+    // ============================================================
+    // 1. راه‌اندازی صفحه
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('✅ صفحه اصلی بارگذاری شد!');
+
+        var params = new URLSearchParams(window.location.search);
+        if (params.get('guest_locked') === '1') {
+            showGuestLockModal();
+            window.history.replaceState({}, '', '/');
+        }
+
+        updateConnectionStatus();
+        checkOnboarding();
+
+        // ===== انتخاب وضعیت امروز =====
+        document.querySelectorAll('.mood-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.mood-btn').forEach(function(b) {
+                    b.classList.remove('selected');
+                });
+                this.classList.add('selected');
+            });
+        });
+
+        // ===== چک وضعیت تشخیص =====
+        checkPredictStatus();
+        checkGardenBadge();
+    });
+
+
+    // ============================================================
+    // 2. چک وضعیت تشخیص
+    // ============================================================
+    function checkPredictStatus() {
+        var diagnosisCard = document.getElementById('diagnosisCard');
+        var diagnosisBtn = document.getElementById('diagnosisBtn');
+
+        if (!diagnosisCard || !diagnosisBtn) {
+            console.log('ℹ️ کارت تشخیص توی این صفحه نیست');
+            return;
+        }
+
+        fetch('/api/predict/status')
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                // ===== فقط اگه محدود شده، پیام بده =====
+                if (!data.can_predict) {
+                    // ===== غیرفعال کردن کارت =====
+                    diagnosisCard.style.opacity = '0.6';
+                    diagnosisCard.style.cursor = 'not-allowed';
+                    diagnosisCard.onclick = null;
+
+                    // ===== غیرفعال کردن دکمه =====
+                    diagnosisBtn.disabled = true;
+                    diagnosisBtn.textContent = '🚫 امروز تمام شد';
+                    diagnosisBtn.style.background = 'rgba(255,255,255,0.3)';
+                    diagnosisBtn.style.cursor = 'not-allowed';
+
+                    // ===== بنر بالای کارت =====
+                    var banner = document.createElement('div');
+                    banner.style.cssText = 'display:flex;align-items:center;gap:8px;padding:10px 14px;margin-bottom:10px;background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:12px;border-right:4px solid #f59e0b;color:#78350f;font-size:13px;font-weight:700;';
+                    banner.innerHTML = '⏰ <span>امکان تشخیص امروز به پایان رسیده. فردا دوباره تلاش کن.</span>';
+                    diagnosisCard.parentNode.insertBefore(banner, diagnosisCard);
+
+                    console.log('⏰ تشخیص محدود شده');
+                }
+                // ===== اگه محدود نشده، هیچی نشون نده =====
+                else {
+                    console.log('📊 تشخیص آزاد:', data.remaining);
+                }
+            })
+            .catch(function(err) {
+                console.error('❌ خطا در چک وضعیت تشخیص:', err);
+            });
+    }
+
+
+    // ============================================================
+    // 3. توابع کمکی
+    // ============================================================
+    function loadAvatarFromServer() {
+        fetch('/api/profile')
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                if (data.avatar_url) {
+                    var avatar = document.getElementById('avatarContainer');
+                    if (avatar) {
+                        avatar.innerHTML = '<img src="' + data.avatar_url + '" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">';
+                    }
+                }
+            })
+            .catch(function() {});
+    }
+
+    function loadUser() {
+        var username = localStorage.getItem('username');
+        var displayName = localStorage.getItem('displayName');
+        var greeting = document.getElementById('userGreeting');
+        if (greeting && username && username !== 'مهمان') {
+            greeting.innerHTML = 'سلام، ' + (displayName || username) + '! 👋';
+        }
+    }
+
+    function updateConnectionStatus() {
+        var status = document.getElementById('connectionStatus');
+        if (!status) return;
+        if (navigator.onLine) {
+            status.textContent = '🟢 آنلاین';
+            status.className = 'connection-status online';
+        } else {
+            status.textContent = '🔴 آفلاین';
+            status.className = 'connection-status offline';
+        }
+    }
+
+    function checkOnboarding() {
+        var done = localStorage.getItem('onboarding_done');
+        if (!done) {
+            setTimeout(function() {
+                window.location.href = '/onboarding';
+            }, 500);
+        }
+    }
+
+
+    // ============================================================
+    // 4. پاک کردن کش (موقت)
+    // ============================================================
+    window.clearAllCache = function() {
+        console.log('🧹 شروع پاک کردن...');
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(function(registrations) {
+                registrations.forEach(function(reg) {
+                    reg.unregister().then(function() {
+                        console.log('✅ SW پاک شد');
+                    });
+                });
+            });
+        }
+
+        if ('caches' in window) {
+            caches.keys().then(function(names) {
+                names.forEach(function(name) {
+                    caches.delete(name);
+                    console.log('✅ Cache پاک شد:', name);
+                });
+            });
+        }
+
+        localStorage.clear();
+        console.log('✅ localStorage پاک شد');
+
+        sessionStorage.clear();
+        console.log('✅ sessionStorage پاک شد');
+
+        if (window.indexedDB && indexedDB.databases) {
+            indexedDB.databases().then(function(dbs) {
+                dbs.forEach(function(db) {
+                    indexedDB.deleteDatabase(db.name);
+                    console.log('✅ IndexedDB پاک شد:', db.name);
+                });
+            });
+        }
+
+        setTimeout(function() {
+            console.log('🔄 رفرش...');
+            window.location.reload(true);
+        }, 1000);
+    };
+// ============================================================
+// چک باغ (Badge)
+// ============================================================
+function checkGardenBadge() {
+    var badge = document.getElementById('gardenBadge');
+    if (!badge) return;
+
+    fetch('/api/garden')
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            if (data.error) return;
+
+            var seedsCount = data.stats.total_seeds || 0;
+
+            if (seedsCount > 0) {
+                badge.style.display = 'flex';
+                badge.textContent = toPersianNumber(seedsCount > 9 ? '۹+' : seedsCount);
+            } else {
+                badge.style.display = 'none';
+            }
+        })
+        .catch(function(err) {
+            console.error('❌ خطا در چک باغ:', err);
+        });
+}
+
+
+// ============================================================
+// تبدیل عدد به فارسی
+// ============================================================
+function toPersianNumber(num) {
+    var persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    return String(num).split('').map(function(d) {
+        return persianDigits[parseInt(d)] || d;
+    }).join('');
+}
+</script>
+
+{% endblock %}

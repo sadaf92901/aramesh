@@ -1,0 +1,307 @@
+/* ============================================================
+   استایل تمرین تنفس - نسخه حرفه‌ای
+   ============================================================ */
+
+.breathing-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.breathing-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #1e293b;
+    text-align: center;
+    flex: 1;
+}
+
+/* ============================================================
+   دکمه شروع
+   ============================================================ */
+
+.breathing-start-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #3B82F6, #2563EB);
+    border: none;
+    border-radius: 20px;
+    padding: 22px 28px;
+    font-size: 50px;
+    font-weight: 900;
+    color: white;
+    cursor: pointer;
+    font-family: 'Vazirmatn', sans-serif;
+    transition: all 0.3s ease;
+    margin: 20px 0;
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
+}
+
+.breathing-start-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(59, 130, 246, 0.4);
+}
+
+.breathing-start-btn:active {
+    transform: translateY(0);
+}
+
+/* ============================================================
+   تمرین تنفس
+   ============================================================ */
+
+.breathing-enhanced {
+    position: relative;
+    background: linear-gradient(180deg, #1e3a8a, #1e40af);
+    border-radius: 24px;
+    padding: 30px 20px;
+    margin: 10px 0;
+    overflow: hidden;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.breath-bg-waves {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 50%);
+    animation: waveMove 8s ease-in-out infinite;
+}
+
+@keyframes waveMove {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.05) rotate(2deg); }
+}
+
+.breath-circle-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 20px auto;
+    z-index: 1;
+}
+
+.breath-ring {
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    right: -15px;
+    bottom: -15px;
+    border: 3px solid rgba(139, 92, 246, 0.25);
+    border-radius: 50%;
+    animation: ringPulse 3s ease-in-out infinite;
+}
+
+@keyframes ringPulse {
+    0%, 100% { transform: scale(1); opacity: 0.3; }
+    50% { transform: scale(1.15); opacity: 1; }
+}
+
+.breath-circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #60a5fa, #3b82f6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 80px rgba(96, 165, 250, 0.4);
+    position: relative;
+    z-index: 2;
+}
+
+.breath-circle.inhale {
+    transform: scale(1.4);
+    background: radial-gradient(circle at 30% 30%, #34d399, #10b981);
+    box-shadow: 0 0 100px rgba(52, 211, 153, 0.5);
+}
+
+.breath-circle.hold {
+    transform: scale(1.4);
+    background: radial-gradient(circle at 30% 30%, #fbbf24, #f59e0b);
+    box-shadow: 0 0 100px rgba(251, 191, 36, 0.5);
+}
+
+.breath-circle.exhale {
+    transform: scale(1);
+    background: radial-gradient(circle at 30% 30%, #60a5fa, #3b82f6);
+    box-shadow: 0 0 80px rgba(96, 165, 250, 0.4);
+}
+
+.breath-icon-inner {
+    font-size: 56px;
+    transition: transform 2s;
+}
+
+.breath-progress-bar {
+    width: 80%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    margin: 20px auto 16px;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+
+.breath-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #8B5CF6, #3B82F6, #10B981);
+    border-radius: 10px;
+    width: 0%;
+    transition: width 1s linear;
+}.breath-text {
+    color: white;
+    font-size: 22px;
+    font-weight: 700;
+    text-align: center;
+    margin: 8px 0 0 0;
+    position: relative;
+    z-index: 1;
+}
+
+.breath-timer {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 18px;
+    text-align: center;
+    margin: 6px 0 0 0;
+    position: relative;
+    z-index: 1;
+    font-weight: 600;
+}
+
+.breath-controls {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 16px;
+    position: relative;
+    z-index: 1;
+}
+
+.breath-controls .btn {
+    min-width: 100px;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 12px;
+}
+
+/* ============================================================
+   راهنما
+   ============================================================ */
+
+.breathing-guide {
+    background: #f8fafc;
+    border-radius: 16px;
+    padding: 16px;
+    margin-top: 16px;
+    border: 1px solid #e2e8f0;
+}
+
+.guide-row {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 8px;
+}
+
+.guide-item {
+    flex: 1;
+    text-align: center;
+    padding: 10px 6px;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.guide-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+    border-color: #3B82F6;
+}
+
+.guide-icon {
+    font-size: 26px;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.guide-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e293b;
+    display: block;
+}
+
+.guide-time {
+    font-size: 11px;
+    color: #64748b;
+    display: block;
+    margin-top: 2px;
+}
+
+/* ============================================================
+   آمار کوچک
+   ============================================================ */
+
+.breathing-stats-mini {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 12px 16px;
+    margin-top: 12px;
+    background: #f1f5f9;
+    border-radius: 12px;
+    font-size: 13px;
+    color: #475569;
+    font-weight: 600;
+}
+
+.breathing-stats-mini span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+/* ============================================================
+   راهنمای زنده‌ی تنفس
+   ============================================================ */
+
+.guide-item {
+    transition: all 0.4s ease;
+    opacity: 0.4;
+    padding: 8px 14px;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background: transparent;
+}
+
+.guide-item.active {
+    opacity: 1;
+    background: rgba(139, 92, 246, 0.2);
+    transform: scale(1.1);
+    box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+}
+
+.guide-item.active .guide-icon {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}

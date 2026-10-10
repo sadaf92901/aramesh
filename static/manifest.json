@@ -1,0 +1,75 @@
+{
+    "name": "همراه آرامش",
+    "short_name": "آرامش",
+    "description": "اپلیکیشن سلامت روان با تحلیل هوشمند متن و صوت",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "theme_color": "#8B5CF6",
+    "background_color": "#ffffff",
+    "lang": "fa",
+    "dir": "rtl",
+    "categories": ["health", "lifestyle", "medical"],
+    "icons": [
+        {
+            "src": "/static/images/icons/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/static/images/icons/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/static/images/icons/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/static/images/icons/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "تشخیص",
+            "short_name": "تشخیص",
+            "url": "/questionnaire",
+            "icons": [
+                {
+                    "src": "/static/images/icons/icon-192.png",
+                    "sizes": "192x192"
+                }
+            ]
+        },
+        {
+            "name": "روزنگار",
+            "short_name": "روزنگار",
+            "url": "/journal",
+            "icons": [
+                {
+                    "src": "/static/images/icons/icon-192.png",
+                    "sizes": "192x192"
+                }
+            ]
+        },
+        {
+            "name": "تمرین تنفس",
+            "short_name": "تنفس",
+            "url": "/breathing",
+            "icons": [
+                {
+                    "src": "/static/images/icons/icon-192.png",
+                    "sizes": "192x192"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page active" id="pageBreathing">
+
+    <!-- هدر -->
+    <div class="breathing-header">
+        <div style="width: 100px;"></div>
+        <span class="breathing-title">🌬️ تمرین تنفس</span>
+        <div style="width: 100px;"></div>
+    </div>
+
+    <!-- محتوای اصلی -->
+    <div id="breathingMain">
+
+
+
+        <!-- تمرین تنفس -->
+        <div class="breathing-enhanced" id="breathingExercise">
+            <div class="breath-bg-waves"></div>
+            <div class="breath-circle-container">
+                <div class="breath-ring"></div>
+                <div class="breath-circle" id="breathCircle">
+                    <span class="breath-icon-inner" id="breathIcon">🌊</span>
+                </div>
+            </div>
+            <div class="breath-progress-bar">
+                <div class="breath-progress-fill" id="breathProgress"></div>
+            </div>
+            <p class="breath-text" id="breathText">آماده‌ای؟</p>
+            <p class="breath-timer" id="breathTimer">۰:۳۰</p>
+            <div class="breath-controls">
+                <button class="btn btn-secondary" onclick="stopPageBreathing()">⏹️ توقف</button>
+                <button class="btn btn-outline" onclick="resetPageBreathing()" style="color:white;border-color:rgba(255,255,255,0.3);">🔄 شروع مجدد</button>
+            </div>
+        </div>
+
+        <!-- راهنما -->
+        <div class="breathing-guide">
+            <div class="guide-row">
+                <div class="guide-item">
+                    <span class="guide-icon">🌬️</span>
+                    <span class="guide-label">دم</span>
+                    <span class="guide-time">۴ ثانیه</span>
+                </div>
+                <div class="guide-item">
+                    <span class="guide-icon">😌</span>
+                    <span class="guide-label">نگه دار</span>
+                    <span class="guide-time">۴ ثانیه</span>
+                </div>
+                <div class="guide-item">
+                    <span class="guide-icon">🌊</span>
+                    <span class="guide-label">بازدم</span>
+                    <span class="guide-time">۴ ثانیه</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- آمار کوچک -->
+        <div class="breathing-stats-mini">
+            <span>✅ امروز: <span id="todayCount">۰</span> بار</span>
+            <span>📅 این هفته: <span id="weekCount">۰</span> بار</span>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="{{ url_for('static', filename='js/breathing.js') }}"></script>
+{% endblock %}

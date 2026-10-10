@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="page active" id="page500">
+
+    <div class="error-page">
+        <div class="error-page-icon">💥</div>
+        <h1 class="error-page-title">۵۰۰</h1>
+        <h2 class="error-page-title" style="font-size: 20px;">خطای داخلی سرور</h2>
+        <p class="error-page-message">
+            یه مشکل فنی پیش اومده. لطفاً چند لحظه دیگه دوباره تلاش کن.
+            اگه مشکل ادامه داشت، با پشتیبانی تماس بگیر.
+        </p>
+        <button class="error-page-btn" onclick="window.location.href='/'">
+            🏠 بازگشت به خانه
+        </button>
+    </div>
+
+</div>
+
+{% endblock %}
