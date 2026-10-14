@@ -1,8 +1,8 @@
 # ============================================================
 # Gemini Provider — استفاده از Google Gemini API
+# (پکیج جدید: google-genai)
 # ============================================================
 
-import google.generativeai as genai
 from .base import LLMProvider
 from ..prompts import PROMPTS
 from ..parser import parse_json_response, get_fallback_analysis
@@ -15,22 +15,57 @@ class GeminiProvider(LLMProvider):
     def __init__(self):
         self.config = get_config()
         self.api_key = self.config.GEMINI_API_KEY
+        self.model_name = self.config.GEMINI_MODEL
 
         if not self.api_key:
             print("⚠️ GEMINI_API_KEY تنظیم نشده")
-            self.model = None
+            self.client = None
             return
 
         try:
-            genai.configure(api_key=self.api_key)
-            self.model = genai.GenerativeModel('gemini-1.5-flash')
-            print("✅ Gemini Provider آماده")
+            from google import genai
+
+            self.client = genai.Client(api_key=self.api_key)
+
+            print(f"✅ Gemini Provider آماده")
+            print(f"   Model: {self.model_name}")
+
+        except ImportError:
+            print("❌ google-genai نصب نیست")
+            print("   نصب: pip install google-genai")
+            self.client = None
         except Exception as e:
             print(f"❌ خطا در راه‌اندازی Gemini: {e}")
-            self.model = None
+            self.client = None
 
     def is_available(self):
-        return self.model is not None
+        return self.client is not None
+
+    # ============================================================
+    # تولید متن پایه
+    # ============================================================
+
+    def _generate(self, prompt, json_mode=False):
+        """تولید متن با Gemini"""
+        if not self.is_available():
+            return None
+
+        try:
+            config = {}
+            if json_mode:
+                config['response_mime_type'] = 'application/json'
+
+            response = self.client.models.generate_content(
+                model=self.model_name,
+                contents=prompt,
+                config=config if config else None
+            )
+
+            return response.text.strip() if response.text else None
+
+        except Exception as e:
+            print(f"❌ خطا در Gemini generate: {e}")
+            return None
 
     # ============================================================
     # تحلیل متن
@@ -41,14 +76,46 @@ class GeminiProvider(LLMProvider):
             return get_fallback_analysis()
 
         try:
-            prompt = PROMPTS['analysis'].format(
+            # ===== RAG context =====
+            rag_context = ""
+            try:
+                from utils.rag.service import get_rag_service
+                rag = get_rag_service()
+
+                if rag.is_ready():
+                    combined_text = " ".join([t for t in text_answers if t and t.strip()])
+                    if combined_text:
+                        rag_context = rag.get_context(combined_text, top_k=3)
+            except Exception as e:
+                print(f"⚠️ خطا در RAG: {e}")
+
+            # ===== ساخت پرامپت =====
+            base_prompt = PROMPTS['analysis'].format(
                 answer1=text_answers[0] if len(text_answers) > 0 else '',
                 answer2=text_answers[1] if len(text_answers) > 1 else '',
                 answer3=text_answers[2] if len(text_answers) > 2 else '',
             )
 
-            response = self.model.generate_content(prompt)
-            result = parse_json_response(response.text)
+            if rag_context:
+                prompt = f"""نمونه‌های مشابه از دیتاست روانشناسی:
+
+{rag_context}
+
+---
+
+حالا بر اساس نمونه‌های بالا، این پاسخ‌های کاربر رو تحلیل کن:
+
+{base_prompt}"""
+            else:
+                prompt = base_prompt
+
+            # ===== فراخوانی =====
+            response_text = self._generate(prompt, json_mode=True)
+
+            if not response_text:
+                return get_fallback_analysis()
+
+            result = parse_json_response(response_text)
 
             if not result:
                 return get_fallback_analysis()
@@ -79,9 +146,31 @@ class GeminiProvider(LLMProvider):
             return None
 
         try:
-            prompt = PROMPTS['chat'].format(message=message)
-            response = self.model.generate_content(prompt)
-            return response.text.strip()
+            # ===== RAG =====
+            rag_context = ""
+            try:
+                from utils.rag.service import get_rag_service
+                rag = get_rag_service()
+
+                if rag.is_ready():
+                    rag_context = rag.get_context(message, top_k=2)
+            except Exception as e:
+                print(f"⚠️ خطا در RAG چت: {e}")
+
+            base_prompt = PROMPTS['chat'].format(message=message)
+
+            if rag_context:
+                prompt = f"""نمونه‌های مشابه از دیتاست روانشناسی:
+
+{rag_context}
+
+---
+
+{base_prompt}"""
+            else:
+                prompt = base_prompt
+
+            return self._generate(prompt)
 
         except Exception as e:
             print(f"❌ خطا در Gemini chat: {e}")
@@ -97,8 +186,7 @@ class GeminiProvider(LLMProvider):
 
         try:
             prompt = PROMPTS['weekly_summary'].format(**data)
-            response = self.model.generate_content(prompt)
-            return response.text.strip()
+            return self._generate(prompt)
 
         except Exception as e:
             print(f"❌ خطا در Gemini summary: {e}")

@@ -14,18 +14,22 @@ import jdatetime
 
 def utcnow():
     """
-    زمان UTC بدون timezone (برای ذخیره در SQLite)
+    زمان UTC بدون timezone (برای ذخیره در SQLite/PostgreSQL)
 
     چرا این تابع؟
     - datetime.utcnow() توی Python 3.12+ deprecated شده
     - datetime.now(timezone.utc) timezone-aware برمی‌گردونه
-    - SQLite نمی‌تونه timezone-aware رو مستقیم ذخیره کنه
+    - دیتابیس نمی‌تونه timezone-aware رو مستقیم ذخیره کنه
 
     Returns:
         datetime: زمان UTC بدون timezone
     """
     return datetime.now(timezone.utc).replace(tzinfo=None)
 
+
+# ============================================================
+# تاریخ شمسی
+# ============================================================
 
 def get_persian_date(date=None):
     """تبدیل تاریخ میلادی به شمسی"""
@@ -82,23 +86,42 @@ def get_persian_weekday_short(weekday):
     return weekdays.get(weekday, '')
 
 
+# ============================================================
+# پاک‌سازی ورودی
+# ============================================================
+
 def sanitize_input(text):
-    """پاک‌سازی ورودی کاربر"""
+    """
+    پاک‌سازی ورودی کاربر
+
+    - حذف null bytes (0x00) — برای سازگاری با PostgreSQL
+    - حذف تگ‌های HTML
+    - حذف کاراکترهای خطرناک
+    - محدودیت طول
+    """
     if not text:
         return ''
 
-    # حذف تگ‌های HTML
+    # ===== 🆕 حذف null bytes (0x00) =====
+    # PostgreSQL اجازه نمی‌ده NUL ذخیره بشه
+    text = text.replace('\x00', '')
+
+    # ===== حذف تگ‌های HTML =====
     text = re.sub(r'<[^>]*>', '', text)
 
-    # حذف کاراکترهای خطرناک
+    # ===== حذف کاراکترهای خطرناک =====
     text = re.sub(r'[<>{}()\[\]]', '', text)
 
-    # محدودیت طول
+    # ===== محدودیت طول =====
     if len(text) > 1000:
         text = text[:1000]
 
     return text.strip()
 
+
+# ============================================================
+# اعتبارسنجی
+# ============================================================
 
 def validate_email(email):
     """اعتبارسنجی ایمیل"""
@@ -118,6 +141,10 @@ def calculate_age(birth_date):
     return today.year - birth_date.year - ((today.month, today.day) < (birth_date.month, birth_date.day))
 
 
+# ============================================================
+# فایل‌ها
+# ============================================================
+
 def format_file_size(size_in_bytes):
     """فرمت کردن حجم فایل"""
     for unit in ['B', 'KB', 'MB', 'GB']:
@@ -131,6 +158,10 @@ def is_allowed_file(filename, allowed_extensions):
     """بررسی مجاز بودن پسوند فایل"""
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extensions
 
+
+# ============================================================
+# JSON
+# ============================================================
 
 def load_json_file(filepath):
     """بارگذاری فایل JSON"""
@@ -150,6 +181,10 @@ def save_json_file(filepath, data):
     except Exception:
         return False
 
+
+# ============================================================
+# آمار خلقیات
+# ============================================================
 
 def get_week_moods(moods_data):
     """گرفتن خلقیات هفته از دیتا"""

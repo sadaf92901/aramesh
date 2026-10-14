@@ -68,6 +68,9 @@ class Config:
     OPENAI_BASE_URL = os.environ.get('OPENAI_BASE_URL', 'https://api.avalai.ir/v1')
     OPENAI_MODEL = os.environ.get('OPENAI_MODEL', 'gpt-4o-mini')
     OPENAI_TRANSCRIBE_MODEL = os.environ.get('OPENAI_TRANSCRIBE_MODEL', 'whisper-1')
+    # ===== Gemini (Google) =====
+    GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
+    GEMINI_MODEL = os.environ.get('GEMINI_MODEL', 'gemini-2.5-flash')
     # ============================================================
     # Speech
     # ============================================================

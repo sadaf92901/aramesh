@@ -2,7 +2,7 @@
 # سرویس اصلی LLM
 # ============================================================
 
-from .providers import OpenAIProvider
+from .providers import OpenAIProvider,GeminiProvider
 
 try:
     from .providers import LocalProvider
@@ -29,6 +29,8 @@ class LLMService:
 
         if provider_name == 'openai':
             return OpenAIProvider()
+        elif provider_name == 'gemini':
+            return GeminiProvider()
         elif provider_name == 'local':
             if LocalProvider is None:
                 print("❌ LocalProvider در دسترس نیست")

@@ -199,7 +199,11 @@ def ensure_database_ready():
     if env != 'development':
         logger.info(f"⏭️ skip ensure_database_ready (env={env})")
         return
-
+    # ===== فقط SQLite =====
+    db_uri = app.config.get('SQLALCHEMY_DATABASE_URI', '')
+    if 'sqlite' not in db_uri:
+        logger.info("⏭️ skip ensure_database_ready (not SQLite)")
+        return
     from sqlalchemy import inspect
 
     with app.app_context():
