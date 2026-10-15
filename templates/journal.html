@@ -5,16 +5,13 @@
 <div class="journal-page">
 
     <!-- هدر -->
-  <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:2px solid #f1f5f9;margin-bottom:16px;">
-
-
-     <div style="width: 100px;"></div>
-    <h1 style="font-size:22px;font-weight:700;color:#1e293b;margin:0;position:absolute;left:50%;transform:translateX(-50%);">📖 روزنگار آرامش</h1>
-
-    <button onclick="openNoteModal()" style="background:#8B5CF6;color:white;border:none;border-radius:50px;padding:8px 20px;font-size:18px;font-weight:600;cursor:pointer;font-family:'Vazirmatn',sans-serif;box-shadow:0 2px 8px rgba(139,92,246,0.3);transition:0.3s;" onmouseover="this.style.background='#7C3AED';this.style.transform='scale(1.02)'" onmouseout="this.style.background='#8B5CF6';this.style.transform='scale(1)'">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:2px solid #f1f5f9;margin-bottom:16px;">
+        <div style="width: 100px;"></div>
+        <h1 style="font-size:22px;font-weight:700;color:#1e293b;margin:0;position:absolute;left:50%;transform:translateX(-50%);">📖 روزنگار آرامش</h1>
+        <button onclick="openNoteModal()" style="background:#8B5CF6;color:white;border:none;border-radius:50px;padding:8px 20px;font-size:18px;font-weight:600;cursor:pointer;font-family:'Vazirmatn',sans-serif;box-shadow:0 2px 8px rgba(139,92,246,0.3);transition:0.3s;" onmouseover="this.style.background='#7C3AED';this.style.transform='scale(1.02)'" onmouseout="this.style.background='#8B5CF6';this.style.transform='scale(1)'">
         ✏️ جدید
-    </button>
-</div>
+        </button>
+    </div>
 
     <!-- وضعیت امروز -->
     <div id="todayStatus" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;background:#f8fafc;border-radius:14px;padding:12px 16px;margin-bottom:16px;border:1px solid #e2e8f0;">
@@ -57,7 +54,9 @@
 
 </div>
 
-<!-- مودال -->
+<!-- ============================================================ -->
+<!-- مودال یاداشت -->
+<!-- ============================================================ -->
 <div class="modal" id="noteModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;z-index:1000;">
     <div style="background:white;border-radius:20px;padding:24px;max-width:500px;width:90%;max-height:90vh;overflow-y:auto;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
@@ -78,6 +77,51 @@
             </div>
             <input type="hidden" id="noteMood" value="">
 
+            <!-- ============================================================ -->
+            <!-- 🆕 ضبط صدا -->
+            <!-- ============================================================ -->
+            <div class="audio-record-section" id="audioRecordSection">
+
+                <!-- دکمه‌ی ضبط -->
+                <button type="button"
+                        class="btn-audio-record"
+                        id="audioRecordBtn"
+                        onclick="startNoteRecording()">
+                    🎤 ضبط صدا به جای تایپ
+                </button>
+
+                <!-- UI ضبط -->
+                <div class="recording-ui" id="recordingUI" style="display: none;">
+                    <div class="recording-status">
+                        <span class="recording-dot"></span>
+                        <span>در حال ضبط...</span>
+                        <span class="recording-timer" id="recordingTimer">۰:۰۰</span>
+                    </div>
+                    <div class="recording-actions">
+                        <button type="button" class="btn-stop-record" onclick="stopNoteRecording()">
+                            ⏹️ توقف و تبدیل
+                        </button>
+                        <button type="button" class="btn-cancel-record" onclick="cancelNoteRecording()">
+                            ❌ لغو
+                        </button>
+                    </div>
+                </div>
+
+                <!-- UI تبدیل -->
+                <div class="transcribing-ui" id="transcribingUI" style="display: none;">
+                    <div class="spinner-small"></div>
+                    <span>🔄 در حال تبدیل صدا به متن...</span>
+                </div>
+
+                <!-- پیام پاک شدن صدا -->
+                <div class="audio-deleted-message" id="audioDeletedMsg" style="display: none;">
+                    🔒 صدا پاک شد — فقط متن ذخیره می‌شه
+                </div>
+            </div>
+
+            <!-- ============================================================ -->
+            <!-- متن یاداشت -->
+            <!-- ============================================================ -->
             <textarea id="noteContent" rows="5" placeholder="امروز چه احساسی داشتی؟ چه اتفاقی افتاد؟" style="width:100%;padding:10px 14px;border:2px solid #e2e8f0;border-radius:10px;font-family:'Vazirmatn',sans-serif;font-size:14px;resize:vertical;margin-bottom:12px;"></textarea>
 
             <input type="text" id="noteTags" placeholder="🏷️ برچسب‌ها (مثلاً: کار، خانواده، دوستان)" style="width:100%;padding:10px 14px;border:2px solid #e2e8f0;border-radius:10px;font-family:'Vazirmatn',sans-serif;font-size:14px;">
@@ -156,7 +200,6 @@ function renderNotes() {
         filtered = allNotes.filter(n => n.mood === currentFilter);
     }
 
-    // ===== فیلتر جستجو =====
     if (searchQuery.trim()) {
         const q = searchQuery.trim().toLowerCase();
         filtered = filtered.filter(n => {
@@ -173,7 +216,7 @@ function renderNotes() {
     }
 
     const emojis = {happy:'😊',sad:'😢',angry:'😤',anxious:'😰',calm:'😌',excited:'🤩',tired:'😴'};
-    const labels = {happy:'خوشحال',sad:'ناراحت',angry:'عصبانی',anxious:'مضطرب',calm:'آرام',excited:'هیجان‌زده',tired:'خسته'};
+    const labels = {happy:'خوشحال',sad:'ناراحت',angry:'عصبان',anxious:'مضطرب',calm:'آرام',excited:'هیجان‌زده',tired:'خسته'};
 
     let html = '';
     filtered.forEach(n => {
@@ -251,8 +294,7 @@ function loadStats() {
                 <div style="text-align:center;"><span style="display:block;font-size:24px;font-weight:700;color:#1e293b;">${data.total || 0}</span><span style="font-size:12px;color:#94a3b8;">📝 کل</span></div>
                 <div style="text-align:center;"><span style="display:block;font-size:24px;font-weight:700;color:#1e293b;">${data.streak || 0}</span><span style="font-size:12px;color:#94a3b8;">🔥 متوالی</span></div>
                 <div style="text-align:center;"><span style="display:block;font-size:24px;font-weight:700;color:#1e293b;">${data.this_week || 0}</span><span style="font-size:12px;color:#94a3b8;">📅 این هفته</span></div>
-                <div style="text-align:center;"><span style="display:block;font-size:24px;font-weight:700;color:#1e293b;">${getMoodEmoji(data.most_common_mood)}</span><span style="font-size:12px;color:#94a3b8;">${data.most_common_mood || 'ثبت نشده'}</span>
-</div>
+                <div style="text-align:center;"><span style="display:block;font-size:24px;font-weight:700;color:#1e293b;">${getMoodEmoji(data.most_common_mood)}</span><span style="font-size:12px;color:#94a3b8;">${data.most_common_mood || 'ثبت نشده'}</span></div>
             </div>
         `;
     })
@@ -270,10 +312,18 @@ function openNoteModal() {
     document.getElementById('modalTitle').textContent = '✍️ نوشتن یاداشت';
     document.getElementById('saveBtn').textContent = '💾 ذخیره';
     editingId = null;
+
+    // ===== reset audio UI =====
+    resetAudioUI();
+    document.getElementById('audioDeletedMsg').style.display = 'none';
 }
 
 function closeNoteModal() {
     document.getElementById('noteModal').style.display = 'none';
+
+    // ===== reset audio UI =====
+    resetAudioUI();
+    document.getElementById('audioDeletedMsg').style.display = 'none';
 }
 
 function selectMood(mood) {
@@ -340,6 +390,10 @@ function editNote(id) {
         b.style.borderColor = b.dataset.mood === note.mood ? '#8B5CF6' : '#e2e8f0';
         b.style.background = b.dataset.mood === note.mood ? '#ede9fe' : 'white';
     });
+
+    // ===== reset audio UI =====
+    resetAudioUI();
+    document.getElementById('audioDeletedMsg').style.display = 'none';
 }
 
 // ===== حذف =====
@@ -402,6 +456,191 @@ function clearSearch() {
     renderNotes();
 }
 
+// ============================================================
+// 🆕 ضبط صدا برای یاداشت
+// ============================================================
+
+let noteMediaRecorder = null;
+let noteAudioChunks = [];
+let noteRecordingTimer = null;
+let noteRecordingSeconds = 0;
+
+const NOTE_MAX_DURATION = 300; // ۵ دقیقه
+const NOTE_MAX_SIZE = 5 * 1024 * 1024; // ۵ مگ
+
+
+function startNoteRecording() {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        alert('⚠️ مرورگر شما از ضبط صدا پشتیبانی نمی‌کنه');
+        return;
+    }
+
+    navigator.mediaDevices.getUserMedia({ audio: true })
+        .then(stream => {
+            noteMediaRecorder = new MediaRecorder(stream);
+            noteAudioChunks = [];
+
+            noteMediaRecorder.ondataavailable = e => {
+                if (e.data.size > 0) {
+                    noteAudioChunks.push(e.data);
+                }
+            };
+
+            noteMediaRecorder.onstop = sendNoteAudioToServer;
+
+            noteMediaRecorder.start();
+
+            // ===== UI =====
+            document.getElementById('audioRecordBtn').style.display = 'none';
+            document.getElementById('recordingUI').style.display = 'block';
+            document.getElementById('audioDeletedMsg').style.display = 'none';
+
+            // ===== Timer =====
+            noteRecordingSeconds = 0;
+            updateNoteTimer();
+
+            noteRecordingTimer = setInterval(() => {
+                noteRecordingSeconds++;
+                updateNoteTimer();
+
+                if (noteRecordingSeconds >= NOTE_MAX_DURATION) {
+                    showToast('⏱️ حداکثر زمان ضبط رسید', '⏱️', 'warning');
+                    stopNoteRecording();
+                }
+            }, 1000);
+
+            showToast('🎤 ضبط شروع شد', '🎤', 'info');
+        })
+        .catch(err => {
+            console.error('❌', err);
+            let msg = 'دسترسی به میکروفون داده نشد';
+
+            if (err.name === 'NotAllowedError') {
+                msg = 'دسترسی به میکروفون داده نشد. لطفاً اجازه بده.';
+            } else if (err.name === 'NotFoundError') {
+                msg = 'میکروفونی پیدا نشد.';
+            }
+
+            alert('⚠️ ' + msg);
+        });
+}
+
+
+function stopNoteRecording() {
+    if (noteMediaRecorder && noteMediaRecorder.state === 'recording') {
+        noteMediaRecorder.stop();
+        noteMediaRecorder.stream.getTracks().forEach(t => t.stop());
+    }
+
+    clearInterval(noteRecordingTimer);
+    document.getElementById('recordingUI').style.display = 'none';
+}
+
+
+function cancelNoteRecording() {
+    if (noteMediaRecorder) {
+        noteMediaRecorder.onstop = null;
+        if (noteMediaRecorder.state === 'recording') {
+            noteMediaRecorder.stop();
+            noteMediaRecorder.stream.getTracks().forEach(t => t.stop());
+        }
+    }
+
+    noteAudioChunks = [];
+    clearInterval(noteRecordingTimer);
+
+    document.getElementById('recordingUI').style.display = 'none';
+    document.getElementById('audioRecordBtn').style.display = 'flex';
+
+    showToast('❌ ضبط لغو شد', '❌', 'info');
+}
+
+
+function updateNoteTimer() {
+    const mins = Math.floor(noteRecordingSeconds / 60);
+    const secs = noteRecordingSeconds % 60;
+    const persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    const toPersian = (n) => String(n).split('').map(d => persianDigits[parseInt(d)] || d).join('');
+
+    const timerEl = document.getElementById('recordingTimer');
+    if (timerEl) {
+        timerEl.textContent = toPersian(mins) + ':' + (secs < 10 ? '۰' : '') + toPersian(secs);
+    }
+}
+
+
+function sendNoteAudioToServer() {
+    const blob = new Blob(noteAudioChunks, { type: 'audio/webm' });
+
+    if (blob.size > NOTE_MAX_SIZE) {
+        alert('⚠️ حجم فایل بیشتر از ۵ مگابایته');
+        resetAudioUI();
+        return;
+    }
+
+    // ===== UI =====
+    document.getElementById('audioRecordBtn').style.display = 'none';
+    document.getElementById('transcribingUI').style.display = 'flex';
+
+    const formData = new FormData();
+    formData.append('audio', blob, 'note.webm');
+
+    fetch('/api/notes/transcribe', {
+        method: 'POST',
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.error) {
+            alert('❌ ' + data.error);
+            resetAudioUI();
+            return;
+        }
+
+        // ===== متن توی textarea =====
+        const textarea = document.getElementById('noteContent');
+        const currentText = textarea.value.trim();
+
+        if (currentText) {
+            textarea.value = currentText + '\n\n' + data.text;
+        } else {
+            textarea.value = data.text;
+        }
+
+        textarea.focus();
+
+        // ===== پیام پاک شدن صدا =====
+        document.getElementById('audioDeletedMsg').style.display = 'block';
+
+        // ===== Toast =====
+        showToast('✅ صدا به متن تبدیل شد! ویرایشش کن', '🎤', 'success');
+    })
+    .catch(err => {
+        console.error('❌', err);
+        alert('❌ خطا در ارتباط با سرور');
+    })
+    .finally(() => {
+        resetAudioUI();
+    });
+}
+
+
+function resetAudioUI() {
+    const btn = document.getElementById('audioRecordBtn');
+    if (btn) {
+        btn.style.display = 'flex';
+        btn.disabled = false;
+        btn.textContent = '🎤 ضبط صدا به جای تایپ';
+    }
+
+    const transcribing = document.getElementById('transcribingUI');
+    if (transcribing) transcribing.style.display = 'none';
+
+    const recUI = document.getElementById('recordingUI');
+    if (recUI) recUI.style.display = 'none';
+}
+
+
 // ===== راه‌اندازی =====
 document.addEventListener('DOMContentLoaded', function() {
     loadNotes();
@@ -426,6 +665,9 @@ window.deleteNote = deleteNote;
 window.filterNotes = filterNotes;
 window.handleSearch = handleSearch;
 window.clearSearch = clearSearch;
+window.startNoteRecording = startNoteRecording;
+window.stopNoteRecording = stopNoteRecording;
+window.cancelNoteRecording = cancelNoteRecording;
 </script>
 
 {% endblock %}

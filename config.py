@@ -60,7 +60,7 @@ class Config:
     # LLM
     # ============================================================
     LLM_ENABLED = True
-    LLM_PROVIDER = 'openai'  # ← 'openai' یا 'local' یا 'gemini'
+    LLM_PROVIDER = os.environ.get('LLM_PROVIDER', 'openai')
     LLM_TEMPERATURE = 0.7
 
     # ===== OpenAI (AvalAI) =====
@@ -75,7 +75,7 @@ class Config:
     # Speech
     # ============================================================
     SPEECH_ENABLED = True
-    SPEECH_PROVIDER = 'avalai'
+    SPEECH_PROVIDER = os.environ.get('SPEECH_PROVIDER', 'avalai')
     WHISPER_MODEL = 'base'
 
     # ============================================================

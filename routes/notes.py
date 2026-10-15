@@ -1,12 +1,23 @@
+from utils.logger import logger
 from utils.garden_helper import give_seed
-from utils.helpers import sanitize_input
+from utils.helpers import sanitize_input,is_allowed_file
 from flask import Blueprint, request, jsonify, session
 from database import db
 from database.models import DailyNote
 from datetime import datetime, timedelta, timezone
+import os
+import uuid
+from config import get_config
 
 notes_bp = Blueprint('notes', __name__)
+# ============================================================
+# تنظیمات ضبط صدا
+# ============================================================
 
+UPLOAD_FOLDER = get_config().UPLOAD_FOLDER
+ALLOWED_EXTENSIONS = {'wav', 'mp3', 'ogg', 'webm', 'm4a'}
+MAX_AUDIO_SIZE = 5 * 1024 * 1024  # ۵ مگابایت
+MAX_AUDIO_DURATION = 300  # ۵ دقیقه
 
 @notes_bp.route('/api/notes', methods=['GET', 'POST'])
 def handle_notes():
@@ -125,3 +136,91 @@ def get_note_stats():
         'streak': streak,
         'this_week': this_week
     })
+# ============================================================
+# /api/notes/transcribe — تبدیل صدا به متن
+# ============================================================
+
+@notes_bp.route('/api/notes/transcribe', methods=['POST'])
+def transcribe_note():
+    """
+    تبدیل صدای یاداشت به متن
+
+    - فایل صوتی دریافت می‌شه
+    - به متن تبدیل می‌شه (Whisper)
+    - فایل صوتی پاک می‌شه
+    - فقط متن برگردونده می‌شه
+    """
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonify({'error': 'لطفاً وارد شوید'}), 401
+
+    # ===== چک فایل =====
+    if 'audio' not in request.files:
+        return jsonify({'error': 'فایلی ارسال نشده'}), 400
+
+    audio_file = request.files['audio']
+
+    if not audio_file.filename:
+        return jsonify({'error': 'نام فایل خالی است'}), 400
+
+    # ===== چک فرمت =====
+    if not is_allowed_file(audio_file.filename, ALLOWED_EXTENSIONS):
+        return jsonify({'error': 'فرمت فایل مجاز نیست'}), 400
+
+    # ===== چک حجم =====
+    audio_file.seek(0, 2)  # برو به آخر
+    size = audio_file.tell()
+    audio_file.seek(0)  # برگرد به اول
+
+    if size > MAX_AUDIO_SIZE:
+        return jsonify({'error': 'حجم فایل بیشتر از ۵ مگابایته'}), 400
+
+    # ===== ذخیره‌ی موقت =====
+    ext = audio_file.filename.rsplit('.', 1)[1].lower()
+    filename = f"note_{uuid.uuid4().hex[:8]}.{ext}"
+    filepath = os.path.join(UPLOAD_FOLDER, filename)
+
+    try:
+        audio_file.save(filepath)
+
+        # ===== تبدیل به متن =====
+        from utils.speech.service import get_speech_service
+        speech_service = get_speech_service()
+
+        if not speech_service.is_available():
+            return jsonify({
+                'error': 'سرویس تبدیل صوت در دسترس نیست. لطفاً بعداً تلاش کن.'
+            }), 503
+
+        logger.info(f"🎤 در حال تبدیل صوت یاداشت... ({size} bytes)")
+
+        text = speech_service.transcribe(filepath)
+
+        if not text or not text.strip():
+            return jsonify({'error': 'تبدیل صوت ناموفق بود. دوباره تلاش کن.'}), 500
+
+        # ===== Sanitize =====
+        text = sanitize_input(text.strip())
+
+        if not text:
+            return jsonify({'error': 'متن استخراج‌شده خالیه'}), 400
+
+        logger.info(f"✅ صوت به متن تبدیل شد ({len(text)} کاراکتر)")
+
+        return jsonify({
+            'success': True,
+            'text': text
+        })
+
+    except Exception as e:
+        logger.error(f"❌ خطا در transcribe یاداشت: {e}")
+        return jsonify({'error': 'خطا در تبدیل صوت'}), 500
+
+    finally:
+        # ===== 🔒 پاک کردن صدا (حریم خصوصی) =====
+        if os.path.exists(filepath):
+            try:
+                os.remove(filepath)
+                logger.info(f"🗑️ فایل صوتی پاک شد: {filename}")
+            except Exception as e:
+                logger.warning(f"⚠️ خطا در پاک کردن {filepath}: {e}")

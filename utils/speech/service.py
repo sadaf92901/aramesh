@@ -2,7 +2,6 @@
 # سرویس Speech
 # ============================================================
 
-from .providers.avalai import AvalAISpeechProvider
 from config import get_config
 
 
@@ -22,7 +21,17 @@ class SpeechService:
         provider_name = self.config.SPEECH_PROVIDER
 
         if provider_name == 'avalai':
+            from .providers.avalai import AvalAISpeechProvider
             return AvalAISpeechProvider()
+
+        elif provider_name == 'gemini':
+            from .providers.gemini import GeminiSpeechProvider
+            return GeminiSpeechProvider()
+
+        elif provider_name == 'local':
+            from .providers.local import LocalSpeechProvider
+            return LocalSpeechProvider()
+
         else:
             print(f"❌ Provider ناشناخته: {provider_name}")
             return None

@@ -8,7 +8,68 @@
 ---
 
 ## [Unreleased]
+## [1.2.0] — 1405/07/24
 
+### ✨ اضافه شده
+
+#### 🎤 ضبط صدا در روزنگار
+- کاربر می‌تونه به جای تایپ، صدا ضبط کنه
+- تبدیل خودکار صدا به متن (Whisper/Gemini)
+- امکان ویرایش متن بعد از تبدیل
+- فایل صوتی بعد از تبدیل پاک می‌شه (حریم خصوصی)
+- حداکثر ۵ دقیقه / ۵ مگابایت
+- UI زیبا با timer + waveform
+
+#### 🗄️ مهاجرت به PostgreSQL
+- مهاجرت کامل از SQLite به PostgreSQL 18
+- افزودن psycopg2-binary
+- پشتیبانی از هر دو دیتابیس (SQLite + PostgreSQL)
+- Migration کامل با Alembic
+- ۹ جدول در PostgreSQL
+- راهنمای Migration
+
+#### 🤖 Gemini Provider
+- افزودن GeminiProvider برای LLM
+- افزودن GeminiSpeechProvider برای Speech
+- پشتیبانی از gemini-2.5-flash
+- Provider قابل تعویض (Gemini ↔ OpenAI ↔ Local)
+
+### 🔄 تغییر یافته
+
+- **config.py** → LLM_PROVIDER و SPEECH_PROVIDER از .env می‌خونن
+- **utils/speech/service.py** → پشتیبانی از Gemini + Local
+- **utils/llm/service.py** → پشتیبانی از Gemini
+- **database/db.py** → چک SQLite/Postgapp.py FK
+- **app.py** → ensure_database_ready فقط برای SQLite
+
+##sanitize_inputsanitize_input** → حذف null bytes (\x00) برای PostgreSQL
+- **speech/service.py** → رفع IndentationError در else
+- **config.py** → LLM_PROVIDER از .env می‌خونه
+- **PostgreSQL** → سازگاری کامل با SQLAفایل صوتی روزنگارنیت
+
+- **فایل صوتی روزنگارsanitize_inputک می‌شه
+- **sanitize_input** → حذف \x00 (Rate Limitingjection)
+- **Rate Limiting** برای /api/notes/transcribe
+
+### 🧪 تCoverage: ۸۰٪ت**تست‌های جدید:erage: ۸۰٪**
+- **تست‌های جدید:**
+  - test_notes/transcribe (ضبط صدا)
+  - PostgreSQL compatibility
+
+### 📊 Lighthouse
+
+| بخش | نمره |
+|۱۰۰-----|
+| Accessibility | ۱۰۰ 🏆 |
+| Best P۹۰es | **۱۰۰** 🏆 |
+| SEO CHANGELOG.md# 📄 مستندات
+
+- **CHANGELOG.md** آپدیت شد
+- **README.md** آپدیت ش.env.exampleGemini + ضبط صدا)
+- **.env.example** آپدیت شد
+- **DEPLOYMENT.md** آپدیت شد
+
+---
 ### 🎯 در حال توسعه
 
 - 🐝 افزودن زنبور و عناصر زنده به باغ

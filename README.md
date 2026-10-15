@@ -9,7 +9,7 @@
 [![Coverage](https://img.shields.io/badge/Coverage-80%25-green?style=for-the-badge)](tests/)
 [![Lighthouse](https://img.shields.io/badge/Lighthouse-100%20A11y-brightgreen?style=for-the-badge)](https://developers.google.com/web/tools/lighthouse)
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-1.1.0-blue?style=for-the-badge)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/Version-1.2.0-blue?style=for-the-badge)](CHANGELOG.md)
 
 ---
 
@@ -52,7 +52,6 @@
 </div>
 
 ---
----
 
 ## 📖 درباره‌ی پروژه
 
@@ -60,6 +59,7 @@
 
 - 🧠 وضعیت روانی خودش رو **بسنجه**
 - 📊 روزانه حالاتش رو **ثبت کنه**
+- 🎤 به جای تایپ، **صدا ضبط کنه** و به متن تبدیل بشه
 - 🌬️ با تمرین‌های **آرامش‌بخش** استرسش رو کم کنه
 - 💬 با یه **چت‌بات همدل** حرف بزنه
 - 📜 روند بهبودش رو **پیگیری کنه**
@@ -78,7 +78,7 @@
 - پرسشنامه‌ی ۲۰ سوالی بر اساس **DSM-5** و **GAD-7**
 - ۳ سوال باز برای تحلیل عمیق‌تر
 - پشتیبانی از **پاسخ متنی** و **صوتی**
-- تحلیل با **GPT-4o-mini** + **RAG**
+- تحلیل با **GPT-4o-mini** / **Gemini** + **RAG**
 - وزن‌دهی علمی به سوالات
 - سطح‌بندی: سالم / خفیف / متوسط / شدید
 
@@ -97,14 +97,17 @@
 - متن‌های آرام‌بخش
 - تایمر + نوار پیشرفت
 
-### 📝 روزنگار
+### 📝 روزنگار (با ضبط صدا) 🆕
 - نوشتن یاداشت روزانه
 - ۷ حال مختلف
 - برچسب‌گذاری
 - فیلتر و **جستجو**
+- **🎤 ضبط صدا → تبدیل به متن** (Whisper/Gemini)
+- **ویرایش متن** بعد از تبدیل
+- **صدا بعد از تبدیل پاک می‌شه** (حریم خصوصی)
 
 ### 💬 چت‌بات همدل
-- پاسخ‌های هوشمند با **GPT-4o-mini**
+- پاسخ‌های هوشمند با **GPT-4o-mini** / **Gemini**
 - تشخیص احساسات از پیام
 - Fallback برای حالت آفلاین
 - **پروتکل بحران** (شماره‌های اورژانس)
@@ -164,7 +167,7 @@
 - **Security Headers** (X-Frame-Options, ...)
 - **XSS Protection** (sanitize + whitelist)
 - **CSRF Protection**
-- **Foreign Key** در SQLite
+- **Foreign Key** در SQLite + PostgreSQL
 - `SECRET_KEY` توی `.env`
 - **پاک کردن فایل صوتی** بعد از transcribe
 
@@ -222,16 +225,19 @@
 | **Flask 2.3** | وب فریمورک |
 | **SQLAlchemy 2.0** | ORM |
 | **Flask-Migrate** | Migration |
-| **SQLite** | دیتابیس (قابل تغییر به PostgreSQL) |
+| **PostgreSQL 18** | دیتابیس production |
+| **SQLite** | دیتابیس development |
 | **bcrypt** | هش رمز |
 | **Flask-Limiter** | Rate Limiting |
 | **jdatetime** | تاریخ شمسی |
+| **psycopg2** | درایور PostgreSQL |
 
 ### AI & ML
 | تکنولوژی | کاربرد |
 |----------|--------|
 | **AvalAI** | واسط LLM و Speech |
-| **GPT-4o-mini** | تحلیل متن و چت |
+| **OpenAI GPT-4o-mini** | تحلیل متن و چت |
+| **Google Gemini 2.5** | جایگزین LLM |
 | **Whisper-1** | صوت → متن |
 | **sentence-transformers** | embedding برای RAG |
 
@@ -253,6 +259,7 @@
 | **GitHub** | مخزن + CI/CD |
 | **GitHub Actions** | تست خودکار |
 | **GitHub Codespaces** | محیط توسعه‌ی آنلاین |
+| **Docker** | (در حال راه‌اندازی) |
 
 ---
 
@@ -260,3 +267,354 @@
 
 ### Provider-based (قابل تعویض)
 
+```
+routes/*.py  →  utils/*/service.py  →  providers/*.py
+              (ثابت)                  (قابل تعویض)
+```
+
+**مثال:** LLM
+
+```python
+# routes/diagnosis.py (ثابت)
+llm = get_llm_service()
+result = llm.analyze_text(texts)
+
+# utils/llm/service.py (interface ثابت)
+class LLMService:
+    def analyze_text(self, texts):
+        return self.provider.analyze_text(texts)
+
+# utils/llm/providers/openai.py
+class OpenAIProvider(LLMProvider):
+    def analyze_text(self, texts):
+        # فراخوانی OpenAI
+        ...
+
+# utils/llm/providers/gemini.py
+class GeminiProvider(LLMProvider):
+    def analyze_text(self, texts):
+        # فراخوانی Gemini
+        ...
+```
+
+**مزیت:** می‌تونی `OpenAI` رو با `Gemini` یا `Local` عوض کنی **بدون تغییر route**.
+
+**پشتیبانی:**
+- **LLM:** OpenAI, Gemini, Local
+- **Speech:** AvalAI (Whisper), Gemini, Local
+
+---
+
+## 📁 ساختار پروژه
+
+```
+.
+├── app.py                  # نقطه ورود
+├── config.py               # تنظیمات
+├── extensions.py           # Rate Limiter
+├── startup.py              # preload services
+├── wsgi.py                 # production entry
+│
+├── database/
+│   ├── db.py
+│   └── models/            # ۹ مدل
+│
+├── routes/                # ۱۴ Blueprint
+│   ├── auth.py, chat.py, diagnosis.py
+│   ├── breathing.py, meditation.py, weekly_plan.py
+│   ├── garden.py, subscription.py, health.py
+│   ├── notes.py (با ضبط صدا)
+│   └── ...
+│
+├── utils/
+│   ├── helpers.py, logger.py, errors.py
+│   ├── features.py (اشتراک)
+│   ├── garden_helper.py
+│   ├── llm/             # Provider pattern
+│   ├── speech/          # Provider pattern
+│   └── rag/             # RAG
+│
+├── templates/             # ۲۵ HTML
+├── static/
+│   ├── css/             # Design System + ۶ تم
+│   ├── js/              # ماژولار
+│   └── images/
+│
+├── migrations/           # Alembic
+├── data/                # دیتاست + cache
+├── logs/                # app.log, errors.log
+├── docs/
+│   └── screenshots/     # ۸ تصویر
+└── tests/               # ۳۱۸ تست
+```
+
+---
+
+## 🚀 نصب و راه‌اندازی
+
+### پیش‌نیازها
+- Python 3.10+
+- pip
+- Git
+- PostgreSQL 15+ (اختیاری — برای production)
+
+### نصب
+
+```bash
+# ۱. کلون
+git clone https://github.com/sadaf92901/aramesh.git
+cd aramesh
+
+# ۲. Virtual Environment
+python -m venv venv
+
+# ویندوز
+venv\Scripts\activate
+
+# لینوکس/مک
+source venv/bin/activate
+
+# ۳. نصب پکیج‌ها
+pip install -r requirements.txt
+pip install -r requirements-dev.txt
+```
+
+### تنظیمات
+
+```bash
+# کپی فایل نمونه
+copy .env.example .env   # ویندوز
+cp .env.example .env     # لینوکس/مک
+```
+
+**محتوای `.env`:**
+
+```bash
+SECRET_KEY=<رشته ۶۴ کاراکتری>
+FLASK_ENV=development
+
+# Database (SQLite برای dev)
+DATABASE_URL=sqlite:///aramesh.db
+
+# یا PostgreSQL
+# DATABASE_URL=postgresql://aramesh:aramesh123@localhost:5432/aramesh
+
+# LLM + Speech (AvalAI)
+LLM_PROVIDER=openai
+OPENAI_API_KEY=aa-...
+OPENAI_BASE_URL=https://api.avalai.ir/v1
+OPENAI_MODEL=gpt-4o-mini
+
+SPEECH_PROVIDER=avalai
+```
+
+**برای ساخت SECRET_KEY:**
+```bash
+python -c "import secrets; print(secrets.token_hex(32))"
+```
+
+### دیتابیس
+
+#### گزینه ۱: SQLite (ساده — برای development)
+
+```bash
+DATABASE_URL=sqlite:///aramesh.db
+python app.py
+```
+
+#### گزینه ۲: PostgreSQL (production)
+
+**نصب PostgreSQL:**
+- [Windows](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads)
+- [Ubuntu](https://www.postgresql.org/download/linux/ubuntu/)
+
+**ساخت Database:**
+
+```sql
+CREATE DATABASE aramesh;
+CREATE USER aramesh WITH PASSWORD 'aramesh123';
+GRANT ALL PRIVILEGES ON DATABASE aramesh TO aramesh;
+ALTER DATABASE aramesh OWNER TO aramesh;
+```
+
+**Migration:**
+
+```bash
+flask db upgrade
+```
+
+### اجرا
+
+```bash
+python app.py
+```
+
+**باز کن:** `http://localhost:5000`
+
+### Healthcheck
+
+```bash
+curl http://localhost:5000/healthz
+curl http://localhost:5000/healthz/ready
+curl http://localhost:5000/healthz/live
+```
+
+---
+
+## 🧪 تست
+
+```bash
+# همه‌ی تست‌ها
+pytest tests/ -v
+
+# با Coverage
+pytest tests/ --cov=. --cov-report=term-missing
+
+# فقط باغ
+pytest tests/test_garden.py -v
+
+# فقط امنیت
+pytest tests/test_security.py -v
+```
+
+**آمار:**
+- **۳۱۸ تست**
+- **Coverage: ۸۰٪**
+- **زمان: ~۲ دقیقه**
+
+---
+
+## 📊 Lighthouse
+
+| بخش | نمره |
+|-----|------|
+| **Accessibility** | **۱۰۰** 🏆 |
+| **Best Practices** | **۱۰۰** 🏆 |
+| **SEO** | **۹۰** ✅ |
+| **Performance** | ۶۶ (localhost — در production بهتر) |
+
+**چطور تست کنی:**
+1. F12 → Lighthouse
+2. انتخاب: Accessibility + SEO + Best Practices
+3. Analyze page load
+
+---
+
+## 🎨 تم‌ها
+
+۶ تم رنگی + ۲ حالت:
+
+| تم | رنگ |
+|-----|------|
+| 🟣 بنفش | #8B5CF6 (پیش‌فرض) |
+| 🔵 آبی | #3B82F6 |
+| 🟢 سبز | #10B981 |
+| 🩷 صورتی | #EC4899 |
+| 🟠 نارنجی | #F59E0B |
+| ⚫ خاکستری | #64748B |
+
+**تغییر تم:** از دکمه‌ی 🎨 توی سایدبار یا bottom-nav.
+
+---
+
+## 📝 مستندات
+
+- [README.md](README.md) — این فایل
+- [CHANGELOG.md](CHANGELOG.md) — تاریخچه تغییرات
+- [CONTRIBUTING.md](CONTRIBUTING.md) — راهنمای مشارکت
+- [SECURITY.md](SECURITY.md) — سیاست امنیتی
+- [DEPLOYMENT.md](DEPLOYMENT.md) — راهنمای Deploy
+- [.env.example](.env.example) — نمونه تنظیمات
+
+---
+
+## 🗺 نقشه‌ی راه
+
+### ✅ انجام شده
+- [x] احراز هویت + امنیت
+- [x] تشخیص + چت + RAG + Speech
+- [x] روزنگار + تنفس + مدیتیشن + برنامه هفتگی + تاریخچه
+- [x] **ضبط صدا در روزنگار**
+- [x] باغ آرامش (gamification)
+- [x] صفحه‌ی اشتراک
+- [x] تم پیشرفته + Design System
+- [x] Rate Limiting + Security Headers
+- [x] Logging + Migration
+- [x] SEO + Accessibility
+- [x] **PostgreSQL support**
+- [x] **Gemini Provider**
+- [x] ۳۱۸ تست + Coverage ۸۰٪
+- [x] CI/CD (GitHub Actions)
+- [x] Healthcheck endpoints
+
+### 🟡 در حال انجام
+- [ ] Docker + docker-compose
+- [ ] Deploy روی VPS
+- [ ] Capacitor (APK)
+- [ ] مجوز وزارت بهداشت
+
+### 🔴 آینده
+- [ ] Sentry integration
+- [ ] Push Notifications
+- [ ] درگاه پرداخت (Zarinpal)
+- [ ] پنل ادمین
+- [ ] Analytics
+- [ ] Community
+
+---
+
+## 🤝 مشارکت
+
+از اینکه می‌خوای کمک کنی، ممنون! 💚
+
+راهنمای کامل توی [CONTRIBUTING.md](CONTRIBUTING.md) هست.
+
+**خلاصه:**
+1. Fork کن
+2. Branch بساز (`git checkout -b feature/amazing`)
+3. Commit کن (`git commit -m 'feat: add amazing'`)
+4. Push کن (`git push origin feature/amazing`)
+5. Pull Request باز کن
+
+---
+
+## 🔒 امنیت
+
+اگه آسیب‌پذیری پیدا کردی، **عمومی نکن**. به [SECURITY.md](SECURITY.md) مراجعه کن.
+
+📧 **security@aramesh.app**
+
+---
+
+## 📜 مجوز
+
+این پروژه تحت [MIT License](LICENSE) منتشر شده.
+
+---
+
+## 🙏 تشکر
+
+- [Vazirmatn](https://github.com/rastikerdar/vazirmatn) — فونت فارسی
+- [Lucide](https://lucide.dev) — آیکون‌ها
+- [AvalAI](https://avalai.ir) — LLM + Speech
+- [OpenAI](https://openai.com) — GPT + Whisper
+- [Google Gemini](https://ai.google.dev) — LLM + Speech
+- [sentence-transformers](https://www.sbert.net) — Embedding
+
+---
+
+## 📞 تماس
+
+- 📧 ایمیل: [support@aramesh.app](mailto:support@aramesh.app)
+- 🐛 باگ: [bugs@aramesh.app](mailto:bugs@aramesh.app)
+- 🔒 امنیت: [security@aramesh.app](mailto:security@aramesh.app)
+
+---
+
+<div align="center">
+
+**🌿 همراه آرامش — هر قدم کوچک، یک تغییر بزرگ 🌿**
+
+**ساخته شده با 💚**
+
+</div>
