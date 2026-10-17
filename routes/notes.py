@@ -17,7 +17,7 @@ notes_bp = Blueprint('notes', __name__)
 UPLOAD_FOLDER = get_config().UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = {'wav', 'mp3', 'ogg', 'webm', 'm4a'}
 MAX_AUDIO_SIZE = 5 * 1024 * 1024  # ۵ مگابایت
-MAX_AUDIO_DURATION = 300  # ۵ دقیقه
+
 
 @notes_bp.route('/api/notes', methods=['GET', 'POST'])
 def handle_notes():
@@ -79,9 +79,9 @@ def handle_note(note_id):
     if request.method == 'PUT':
         data = request.json
         if 'title' in data:
-            note.title = data['title'].strip()
+            note.title = sanitize_input(data['title'].strip())
         if 'content' in data:
-            note.content = data['content'].strip()
+            note.content = sanitize_input(data['content'].strip())
         if 'mood' in data:
             note.mood = data['mood']
         if 'tags' in data:
@@ -136,6 +136,8 @@ def get_note_stats():
         'streak': streak,
         'this_week': this_week
     })
+
+
 # ============================================================
 # /api/notes/transcribe — تبدیل صدا به متن
 # ============================================================

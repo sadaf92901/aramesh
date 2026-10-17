@@ -1,6 +1,6 @@
-from  utils.logger import logger
+from utils.logger import logger
 from extensions import limiter
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, session
 from utils.llm.service import get_llm_service
 import random
 
@@ -51,6 +51,8 @@ CRISIS_RESPONSE = """🆘 من نگرانتم. چیزی که گفتی خیلی �
 تو ارزشمند هستی و کمک در دسترسه. 💚
 
 اگه دوستی یا عضوی از خانواده داری، لطفاً بهشون بگو که به کمک نیاز داری."""
+
+
 # ============================================================
 # /api/chat
 # ============================================================
@@ -58,11 +60,17 @@ CRISIS_RESPONSE = """🆘 من نگرانتم. چیزی که گفتی خیلی �
 @chat_bp.route('/api/chat', methods=['POST'])
 @limiter.limit("50 per day")
 def chat():
+    # ===== چک لاگین (مهمان نمی‌تونه چت کنه) =====
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonify({'error': 'برای چت باید وارد شوید'}), 401
+
     try:
         user_message = request.json.get('message', '').strip()
 
         if not user_message:
             return jsonify({'error': 'پیامی ارسال نشده'}), 400
+
         # ===== چک پروتکل بحران =====
         if any(kw in user_message for kw in CRISIS_KEYWORDS):
             logger.warning(f"🆘 پیام بحرانی شناسایی شد")
@@ -71,6 +79,7 @@ def chat():
                 'source': 'crisis',
                 'is_crisis': True
             })
+
         # ===== تلاش برای استفاده از LLM =====
         llm_service = get_llm_service()
 
@@ -117,6 +126,5 @@ def get_fallback_response(message):
     # ===== تشکر =====
     if any(w in msg for w in ['مرسی', 'ممنون', 'سپاس']):
         return "خواهش می‌کنم 🌸 خوشحالم که تونستم کمکت کنم."
-
-    # ===== پیش‌فرض =====
+        # ===== پیش‌فرض =====
     return random.choice(FALLBACK_RESPONSES['default'])

@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify, session
+from extensions import limiter
 from database import db
 from database.models.weekly_plan import WeeklyPlan
 from database.models.diagnosis import Diagnosis
@@ -23,6 +24,7 @@ def get_weekly_plan():
 
 
 @weekly_plan_bp.route('/api/weekly-plan/generate', methods=['POST'])
+@limiter.limit("3 per day")
 def generate_weekly_plan():
     user_id = session.get('user_id')
     if not user_id:
@@ -66,15 +68,30 @@ def toggle_activity():
     if not user_id:
         return jsonify({'error': 'لطفاً وارد شوید'}), 401
 
-    data = request.json
+    data = request.json or {}
     day_index = data.get('day')
     activity_index = data.get('activity')
+
+    # ===== اعتبارسنجی =====
+    if not isinstance(day_index, int) or day_index < 0 or day_index > 6:
+        return jsonify({'error': 'روز نامعتبر'}), 400
+    if not isinstance(activity_index, int) or activity_index < 0:
+        return jsonify({'error': 'فعالیت نامعتبر'}), 400
 
     plan = WeeklyPlan.query.filter_by(user_id=user_id).order_by(WeeklyPlan.id.desc()).first()
     if not plan:
         return jsonify({'error': 'برنامه‌ای یافت نشد'}), 404
 
     plan_data = json.loads(plan.plan_data)
+
+    # ===== چک وجود روز و فعالیت =====
+    if day_index >= len(plan_data.get('days', [])):
+        return jsonify({'error': 'روز نامعتبر'}), 400
+
+    activities = plan_data['days'][day_index].get('activities', [])
+    if activity_index >= len(activities):
+        return jsonify({'error': 'فعالیت نامعتبر'}), 400
+
     plan_data['days'][day_index]['activities'][activity_index]['done'] = \
         not plan_data['days'][day_index]['activities'][activity_index]['done']
 
@@ -102,7 +119,8 @@ def build_plan_by_level(level):
         activities = [
             {'icon': '🧘', 'title': 'تمرین تنفس + مدیتیشن', 'duration': '۱۵ دقیقه', 'done': False},
             {'icon': '📝', 'title': 'نوشتن افکار منفی و جایگزینی', 'duration': '۱۰ خط', 'done': False},
-            {'icon': '🚶', 'title': 'ورزش سبک', 'duration': '۳۰ دقیقه', 'done': False},{'icon': '☎️', 'title': 'جلسه مشاوره', 'duration': '۳۰ دقیقه', 'done': False},
+            {'icon': '🚶', 'title': 'ورزش سبک', 'duration': '۳۰ دقیقه', 'done': False},
+            {'icon': '☎️', 'title': 'جلسه مشاوره', 'duration': '۳۰ دقیقه', 'done': False},
         ]
     else:
         activities = [

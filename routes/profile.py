@@ -3,8 +3,13 @@ from database import db
 from database.models.user import User
 from database.models.diagnosis import Diagnosis
 from database.models.daily_note import DailyNote
+from database.models.daily_status import DailyStatus
 from database.models.breathing import BreathingExercise
 from database.models.meditation import Meditation
+from database.models.garden import Garden
+from database.models.weekly_plan import WeeklyPlan
+from database.models.subscription import Subscription
+from extensions import limiter
 from datetime import datetime
 import bcrypt
 import os
@@ -131,10 +136,11 @@ def update_profile():
 
 
 # ============================================================
-# تغییر رمز عبور
+# تغییر رمز عبور — محدودیت: ۵ بار در ساعت
 # ============================================================
 
 @profile_bp.route('/api/profile/change-password', methods=['POST'])
+@limiter.limit("5 per hour")
 def change_password():
     user_id = session.get('user_id')
     if not user_id:
@@ -180,6 +186,8 @@ def change_password():
     db.session.commit()
 
     return jsonify({'success': True, 'message': 'رمز عبور تغییر کرد'})
+
+
 # ============================================================
 # آپلود آواتار
 # ============================================================
@@ -238,14 +246,20 @@ def delete_account():
     user_id = session.get('user_id')
     if not user_id:
         return jsonify({'error': 'لاگین نیستید'}), 401
+
     user = db.session.get(User, user_id)
     if not user:
         return jsonify({'error': 'کاربر یافت نشد'}), 404
-    # ===== پاک کردن همه‌ی داده‌ها =====
+
+    # ===== پاک کردن همه‌ی داده‌های مرتبط =====
     Diagnosis.query.filter_by(user_id=user_id).delete()
     DailyNote.query.filter_by(user_id=user_id).delete()
+    DailyStatus.query.filter_by(user_id=user_id).delete()
     BreathingExercise.query.filter_by(user_id=user_id).delete()
     Meditation.query.filter_by(user_id=user_id).delete()
+    Garden.query.filter_by(user_id=user_id).delete()
+    WeeklyPlan.query.filter_by(user_id=user_id).delete()
+    Subscription.query.filter_by(user_id=user_id).delete()
 
     # ===== پاک کردن خود کاربر =====
     db.session.delete(user)

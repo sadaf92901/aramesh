@@ -410,50 +410,6 @@ def history():
 
 
 # ============================================================
-# /api/upload-audio
-# ============================================================
-
-@diagnosis_bp.route('/api/upload-audio', methods=['POST'])
-@limiter.limit('9 per day')
-def upload_audio():
-    """آپلود فایل صوتی"""
-    if 'audio' not in request.files:
-        return jsonify({'error': 'فایلی ارسال نشده'}), 400
-
-    audio_file = request.files['audio']
-
-    if audio_file.filename == '':
-        return jsonify({'error': 'نام فایل خالی است'}), 400
-
-    if not is_allowed_file(audio_file.filename, ALLOWED_EXTENSIONS):
-        return jsonify({'error': 'فرمت فایل مجاز نیست'}), 400
-
-    filename = f"audio_{uuid.uuid4().hex[:8]}.wav"
-    filepath = os.path.join(UPLOAD_FOLDER, filename)
-    audio_file.save(filepath)
-
-    return jsonify({
-        'success': True,
-        'filename': filename,
-        'url': f'/uploads/{filename}'
-    })
-
-
-# ============================================================
-# /uploads/<filename>
-# ============================================================
-
-@diagnosis_bp.route('/uploads/<filename>')
-def serve_upload(filename):
-    """سرو کردن فایل صوتی"""
-    from flask import send_file
-    return send_file(
-        os.path.join(UPLOAD_FOLDER, filename),
-        as_attachment=False
-    )
-
-
-# ============================================================
 # /api/predict/status — چک وضعیت تشخیص
 # ============================================================
 

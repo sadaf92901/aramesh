@@ -76,4 +76,4 @@ class TestSpeechNotLoggedIn:
     def test_audio_upload_no_auth(self, client):
         """آپلود صوت بدون لاگین"""
         response = client.post('/api/upload-audio')
-        assert response.status_code in [400, 401, 403]
+        assert response.status_code == 404
