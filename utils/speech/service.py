@@ -3,7 +3,7 @@
 # ============================================================
 
 from config import get_config
-
+from utils.logger import logger
 
 class SpeechService:
     """سرویس Speech — Interface ثابت"""
@@ -15,7 +15,7 @@ class SpeechService:
 
     def _create_provider(self):
         if not self.enabled:
-            print("⚠️ Speech غیرفعاله")
+            logger.warning("⚠️ Speech غیرفعاله")
             return None
 
         provider_name = self.config.SPEECH_PROVIDER
@@ -33,7 +33,7 @@ class SpeechService:
             return LocalSpeechProvider()
 
         else:
-            print(f"❌ Provider ناشناخته: {provider_name}")
+            logger.error(f"❌ Provider ناشناخته: {provider_name}")
             return None
 
     def transcribe(self, audio_path):

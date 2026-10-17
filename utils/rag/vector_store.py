@@ -5,6 +5,7 @@ import numpy as np
 import json
 import os
 from config import get_config
+from utils.logger import logger
 
 class VectorStore:
     """
@@ -33,7 +34,7 @@ class VectorStore:
         self.vectors = embeddings
         self._loaded = True
 
-        print(f"✅ Index ساخته شد: {len(documents)} داکیومنت")
+        logger.info(f"✅ Index ساخته شد: {len(documents)} داکیومنت")
 
     def search(self, query_vector, top_k=3):
         """
@@ -70,7 +71,7 @@ class VectorStore:
             return results
 
         except Exception as e:
-            print(f"❌ خطا در search: {e}")
+            logger.error(f"❌ خطا در search: {e}")
             return []
 
     def save(self, path=None):
@@ -88,10 +89,10 @@ class VectorStore:
             with open(path, 'w', encoding='utf-8') as f:
                 json.dump(data, f, ensure_ascii=False)
 
-            print(f"✅ Index ذخیره شد: {path}")
+            logger.info(f"✅ Index ذخیره شد: {path}")
 
         except Exception as e:
-            print(f"❌ خطا در save: {e}")
+            logger.error(f"❌ خطا در save: {e}")
 
     def load(self, path=None):
         """لود index"""
@@ -109,12 +110,12 @@ class VectorStore:
             self._loaded = len(self.documents) > 0
 
             if self._loaded:
-                print(f"✅ Index لود شد: {len(self.documents)} داکیومنت")
+                logger.info(f"✅ Index لود شد: {len(self.documents)} داکیومنت")
 
             return self._loaded
 
         except Exception as e:
-            print(f"❌ خطا در load: {e}")
+            logger.error(f"❌ خطا در load: {e}")
             return False
 
     def is_loaded(self):

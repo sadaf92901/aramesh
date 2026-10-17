@@ -7,7 +7,7 @@ import ssl
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from config import get_config
-
+from utils.logger import logger
 
 class EmailService:
     """
@@ -40,7 +40,7 @@ class EmailService:
             bool: موفقیت
         """
         if not self.enabled:
-            print("⚠️ ایمیل غیرفعاله")
+            logger.warning("⚠️ ایمیل غیرفعاله")
             return False
 
         if self.provider == 'mock':
@@ -48,7 +48,7 @@ class EmailService:
         elif self.provider == 'smtp':
             return self._smtp_send(to_email, subject, body)
         else:
-            print(f"❌ Provider ناشناخته: {self.provider}")
+            logger.error(f"❌ Provider ناشناخته: {self.provider}")
             return False
 
     # ============================================================
@@ -57,14 +57,14 @@ class EmailService:
 
     def _mock_send(self, to_email, subject, body):
         """ارسال Mock — فقط چاپ توی Console"""
-        print("\n" + "=" * 60)
-        print("📧 ایمیل (Mock)")
-        print("=" * 60)
-        print(f"به: {to_email}")
-        print(f"موضوع: {subject}")
-        print("-" * 60)
-        print(body)
-        print("=" * 60 + "\n")
+        logger.info("\n" + "=" * 60)
+        logger.info("📧 ایمیل (Mock)")
+        logger.info("=" * 60)
+        logger.info(f"به: {to_email}")
+        logger.info(f"موضوع: {subject}")
+        logger.info("-" * 60)
+        logger.info(body)
+        logger.info("=" * 60 + "\n")
         return True
 
     # ============================================================
@@ -85,11 +85,11 @@ class EmailService:
         """
         # ===== چک تنظیمات =====
         if not self.config.SMTP_HOST:
-            print("❌ SMTP_HOST تنظیم نشده")
+            logger.error("❌ SMTP_HOST تنظیم نشده")
             return False
 
         if not self.config.SMTP_USER or not self.config.SMTP_PASSWORD:
-            print("❌ SMTP_USER یا SMTP_PASSWORD تنظیم نشده")
+            logger.error("❌ SMTP_USER یا SMTP_PASSWORD تنظیم نشده")
             return False
 
         try:
@@ -128,19 +128,19 @@ class EmailService:
                     server.login(self.config.SMTP_USER, self.config.SMTP_PASSWORD)
                     server.send_message(msg)
 
-            print(f"✅ ایمیل ارسال شد به {to_email}")
+            logger.info(f"✅ ایمیل ارسال شد به {to_email}")
             return True
 
         except smtplib.SMTPAuthenticationError:
-            print("❌ خطا در احراز هویت SMTP — یوزر/پسورد رو چک کن")
+            logger.error("❌ خطا در احراز هویت SMTP — یوزر/پسورد رو چک کن")
             return False
 
         except smtplib.SMTPException as e:
-            print(f"❌ خطای SMTP: {e}")
+            logger.error(f"❌ خطای SMTP: {e}")
             return False
 
         except Exception as e:
-            print(f"❌ خطای غیرمنتظره در ایمیل: {e}")
+            logger.error(f"❌ خطای غیرمنتظره در ایمیل: {e}")
             return False
 
     # ============================================================

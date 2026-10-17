@@ -7,6 +7,7 @@ from .base import LLMProvider
 from ..prompts import PROMPTS
 from ..parser import parse_json_response, get_fallback_analysis
 from config import get_config
+from utils.logger import logger
 
 
 class OpenAIProvider(LLMProvider):
@@ -19,7 +20,7 @@ class OpenAIProvider(LLMProvider):
         self.model_name = self.config.OPENAI_MODEL
 
         if not self.api_key:
-            print("⚠️ OPENAI_API_KEY تنظیم نشده")
+            logger.warning("⚠️ OPENAI_API_KEY تنظیم نشده")
             self.client = None
             return
 
@@ -31,16 +32,16 @@ class OpenAIProvider(LLMProvider):
                 base_url=self.base_url
             )
 
-            print(f"✅ OpenAI Provider آماده")
-            print(f"   Base URL: {self.base_url}")
-            print(f"   Model: {self.model_name}")
+            logger.info(f"✅ OpenAI Provider آماده")
+            logger.info(f"   Base URL: {self.base_url}")
+            logger.info(f"   Model: {self.model_name}")
 
         except ImportError:
-            print("❌ openai نصب نیست")
-            print("   نصب: pip install openai")
+            logger.error("❌ openai نصب نیست")
+            logger.error("   نصب: pip install openai")
             self.client = None
         except Exception as e:
-            print(f"❌ خطا در راه‌اندازی OpenAI: {e}")
+            logger.error(f"❌ خطا در راه‌اندازی OpenAI: {e}")
             self.client = None
 
     def is_available(self):
@@ -69,11 +70,11 @@ class OpenAIProvider(LLMProvider):
                         rag_context = rag.get_context(combined_text, top_k=3)
 
                         if rag_context:
-                            print(f"✅ RAG context دریافت شد ({len(rag_context)} کاراکتر)")
+                            logger.info(f"✅ RAG context دریافت شد ({len(rag_context)} کاراکتر)")
                         else:
-                            print("⚠️ RAG context خالی برگشت")
+                            logger.warning("⚠️ RAG context خالی برگشت")
             except Exception as e:
-                print(f"⚠️ خطا در RAG: {e}")
+                logger.warning(f"⚠️ خطا در RAG: {e}")
 
             # ===== ساخت پرامپت =====
             base_prompt = PROMPTS['analysis'].format(
@@ -127,7 +128,7 @@ class OpenAIProvider(LLMProvider):
             }
 
         except Exception as e:
-            print(f"❌ خطا در OpenAI analyze: {e}")
+            logger.error(f"❌ خطا در OpenAI analyze: {e}")
             return None
 
     # ============================================================
@@ -150,11 +151,11 @@ class OpenAIProvider(LLMProvider):
                     rag_context = rag.get_context(message, top_k=2)
 
                     if rag_context:
-                        print(f"✅ RAG context برای چت دریافت شد ({len(rag_context)} کاراکتر)")
+                        logger.info(f"✅ RAG context برای چت دریافت شد ({len(rag_context)} کاراکتر)")
                     else:
-                        print("⚠️ RAG context خالی برگشت")
+                        logger.warning("⚠️ RAG context خالی برگشت")
             except Exception as e:
-                print(f"⚠️ خطا در RAG چت: {e}")
+                logger.error(f"⚠️ خطا در RAG چت: {e}")
 
             # ===== ساخت پرامپت =====
             base_prompt = PROMPTS['chat'].format(message=message)
@@ -184,7 +185,7 @@ class OpenAIProvider(LLMProvider):
             return response.choices[0].message.content.strip()
 
         except Exception as e:
-            print(f"❌ خطا در OpenAI chat: {e}")
+            logger.error(f"❌ خطا در OpenAI chat: {e}")
             return None
 
     # ============================================================
@@ -211,5 +212,5 @@ class OpenAIProvider(LLMProvider):
             return response.choices[0].message.content.strip()
 
         except Exception as e:
-            print(f"❌ خطا در OpenAI summary: {e}")
+            logger.error(f"❌ خطا در OpenAI summary: {e}")
             return None

@@ -6,7 +6,7 @@ import os
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask import session, request
-
+from utils.logger import logger
 
 # ============================================================
 # تعیین کلید برای Rate Limiter
@@ -56,7 +56,7 @@ if is_development:
         strategy="fixed-window",
         headers_enabled=True,
     )
-    print("🔧 Rate Limiter: Development mode (محدودیت‌های بالا)")
+    logger.info("🔧 Rate Limiter: Development mode (محدودیت‌های بالا)")
 else:
     # ===== توی production: محدودیت‌های واقعی =====
     limiter = Limiter(
@@ -66,4 +66,4 @@ else:
         strategy="fixed-window",
         headers_enabled=True,
     )
-    print("🔒 Rate Limiter: Production mode (محدودیت‌های واقعی)")
+    logger.info("🔒 Rate Limiter: Production mode (محدودیت‌های واقعی)")

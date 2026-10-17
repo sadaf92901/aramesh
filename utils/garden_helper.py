@@ -5,7 +5,7 @@
 from database import db
 from database.models import Garden, User
 from datetime import datetime
-
+from utils.logger import logger
 FLOWERS = {
     'diagnosis':    '🌸',
     'note':         '🌷',
@@ -61,5 +61,5 @@ def give_seed(user_id, activity_type):
         return seed
     except Exception as e:
         db.session.rollback()
-        print(f"⚠️ خطا در دادن دانه: {e}")
+        logger.warning(f"⚠️ خطا در دادن دانه: {e}")
         return None

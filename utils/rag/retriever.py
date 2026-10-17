@@ -4,7 +4,7 @@
 
 from .embeddings import EmbeddingModel
 from .vector_store import VectorStore
-
+from utils.logger import logger
 
 class Retriever:
     """
@@ -18,7 +18,7 @@ class Retriever:
     def build_index(self, documents):
         """ساخت index از داکیومنت‌ها"""
         if not documents:
-            print("⚠️ داکیومنت خالی")
+            logger.warning("⚠️ داکیومنت خالی")
             return False
 
         # ===== لود مدل embedding =====

@@ -2,6 +2,7 @@
 # Embeddings — تبدیل متن به بردار
 # ============================================================
 from config import get_config
+from utils.logger import logger
 class EmbeddingModel:
     """
     مدل تبدیل متن به بردار
@@ -24,16 +25,16 @@ class EmbeddingModel:
         try:
             from sentence_transformers import SentenceTransformer
 
-            print(f"🔄 در حال لود مدل embedding: {self.model_name}...")
+            logger.info(f"🔄 در حال لود مدل embedding: {self.model_name}...")
             self.model = SentenceTransformer(self.model_name)
             self._loaded = True
-            print(f"✅ مدل embedding لود شد")
+            logger.info(f"✅ مدل embedding لود شد")
 
         except ImportError:
-            print("❌ sentence-transformers نصب نیست")
-            print("   نصب: pip install sentence-transformers")
+            logger.error("❌ sentence-transformers نصب نیست")
+            logger.error("   نصب: pip install sentence-transformers")
         except Exception as e:
-            print(f"❌ خطا در لود embedding: {e}")
+            logger.error(f"❌ خطا در لود embedding: {e}")
 
     def is_available(self):
         return self._loaded and self.model is not None
@@ -62,5 +63,5 @@ class EmbeddingModel:
             )
             return embeddings
         except Exception as e:
-            print(f"❌ خطا در encode: {e}")
+            logger.error(f"❌ خطا در encode: {e}")
             return None

@@ -4,7 +4,7 @@
 
 from .base import SpeechProvider
 from config import get_config
-
+from utils.logger import logger
 
 class AvalAISpeechProvider(SpeechProvider):
     """Provider تبدیل صوت به متن با AvalAI"""
@@ -16,7 +16,7 @@ class AvalAISpeechProvider(SpeechProvider):
         self.model_name = self.config.OPENAI_TRANSCRIBE_MODEL
 
         if not self.api_key:
-            print("⚠️ OPENAI_API_KEY تنظیم نشده")
+            logger.warning("⚠️ OPENAI_API_KEY تنظیم نشده")
             self.client = None
             return
 
@@ -28,14 +28,14 @@ class AvalAISpeechProvider(SpeechProvider):
                 base_url=self.base_url
             )
 
-            print(f"✅ AvalAI Speech Provider آماده")
-            print(f"   Model: {self.model_name}")
+            logger.info(f"✅ AvalAI Speech Provider آماده")
+            logger.info(f"   Model: {self.model_name}")
 
         except ImportError:
-            print("❌ openai نصب نیست")
+            logger.error("❌ openai نصب نیست")
             self.client = None
         except Exception as e:
-            print(f"❌ خطا در راه‌اندازی AvalAI Speech: {e}")
+            logger.error(f"❌ خطا در راه‌اندازی AvalAI Speech: {e}")
             self.client = None
 
     def is_available(self):
@@ -77,7 +77,7 @@ class AvalAISpeechProvider(SpeechProvider):
             return str(transcript).strip() if transcript else None
 
         except Exception as e:
-            print(f"❌ خطا در transcribe: {e}")
+            logger.error(f"❌ خطا در transcribe: {e}")
             return None
     # ============================================================
     # تحلیل احساسات (فقط متن برمی‌گردونه)

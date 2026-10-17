@@ -5,6 +5,7 @@
 from .dataset import PsychologyDataset
 from .retriever import Retriever
 from config import get_config
+from utils.logger import logger
 
 
 class RAGService:
@@ -32,7 +33,7 @@ class RAGService:
         - وگرنه index می‌سازه و ذخیره می‌کنه
         """
         if not self.enabled:
-            print("⚠️ RAG غیرفعاله")
+            logger.warning("⚠️ RAG غیرفعاله")
             return False
 
         # ===== جلوگیری از راه‌اندازی دوباره =====
@@ -51,18 +52,18 @@ class RAGService:
         # ===== ۳. ساخت index =====
         documents = self.dataset.get_all()
         if not documents:
-            print("⚠️ دیتاست خالیه")
+            logger.warning("⚠️ دیتاست خالیه")
             return False
 
         if not self.retriever.build_index(documents):
-            print("❌ خطا در ساخت index")
+            logger.error("❌ خطا در ساخت index")
             return False
 
         # ===== ۴. ذخیره برای بار بعد =====
         try:
             self.retriever.vector_store.save()
         except Exception as e:
-            print(f"⚠️ خطا در ذخیره‌ی cache: {e}")
+            logger.warning(f"⚠️ خطا در ذخیره‌ی cache: {e}")
 
         self._ready = True
         return True

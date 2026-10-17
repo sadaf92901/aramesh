@@ -5,7 +5,7 @@
 import json
 import os
 from config import get_config
-
+from utils.logger import logger
 
 class PsychologyDataset:
     """
@@ -21,17 +21,17 @@ class PsychologyDataset:
         """لود دیتاست از فایل JSON"""
         try:
             if not os.path.exists(self.dataset_path):
-                print(f"⚠️ دیتاست پیدا نشد: {self.dataset_path}")
+                logger.warning(f"⚠️ دیتاست پیدا نشد: {self.dataset_path}")
                 return False
 
             with open(self.dataset_path, 'r', encoding='utf-8') as f:
                 self.documents = json.load(f)
 
-            print(f"✅ دیتاست لود شد: {len(self.documents)} نمونه")
+            logger.info(f"✅ دیتاست لود شد: {len(self.documents)} نمونه")
             return True
 
         except Exception as e:
-            print(f"❌ خطا در لود دیتاست: {e}")
+            logger.error(f"❌ خطا در لود دیتاست: {e}")
             return False
 
     def get_all(self):

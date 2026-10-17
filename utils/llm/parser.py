@@ -4,7 +4,7 @@
 
 import json
 import re
-
+from utils.logger import logger
 
 def parse_json_response(text):
     """
@@ -34,7 +34,7 @@ def parse_json_response(text):
         return json.loads(text)
 
     except (json.JSONDecodeError, AttributeError) as e:
-        print(f"⚠️ خطا در parse JSON: {e}")
+        logger.warning(f"⚠️ خطا در parse JSON: {e}")
         return None
 
 def get_fallback_analysis():

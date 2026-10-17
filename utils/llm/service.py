@@ -10,7 +10,7 @@ except ImportError:
     LocalProvider = None
 
 from config import get_config
-
+from utils.logger import logger
 
 class LLMService:
     """سرویس LLM — Interface ثابت"""
@@ -22,7 +22,7 @@ class LLMService:
 
     def _create_provider(self):
         if not self.enabled:
-            print("⚠️ LLM غیرفعاله")
+            logger.warning("⚠️ LLM غیرفعاله")
             return None
 
         provider_name = self.config.LLM_PROVIDER
@@ -33,11 +33,11 @@ class LLMService:
             return GeminiProvider()
         elif provider_name == 'local':
             if LocalProvider is None:
-                print("❌ LocalProvider در دسترس نیست")
+                logger.error("❌ LocalProvider در دسترس نیست")
                 return None
             return LocalProvider()
         else:
-            print(f"❌ Provider ناشناخته: {provider_name}")
+            logger.error(f"❌ Provider ناشناخته: {provider_name}")
             return None
 
     def analyze_text(self, text_answers):
