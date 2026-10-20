@@ -129,6 +129,8 @@ app.register_blueprint(subscription_bp)
 from routes.health import health_bp
 app.register_blueprint(health_bp)
 
+from  routes.admin import admin_bp
+app.register_blueprint(admin_bp)
 
 # ============================================================
 # Security Headers

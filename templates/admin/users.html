@@ -1,0 +1,139 @@
+{% extends "admin/base.html" %}
+
+{% block title %}کاربران — پنل مدیریت{% endblock %}
+{% block page_title %}👥 مدیریت کاربران{% endblock %}
+
+{% block content %}
+
+<!-- ===== جستجو ===== -->
+<form method="GET" action="{{ url_for('admin.users') }}" class="search-box">
+    <input
+        type="text"
+        name="search"
+        class="search-input"
+        placeholder="جستجو بر اساس نام کاربری، ایمیل یا نام نمایشی..."
+        value="{{ search }}"
+    >
+    <button type="submit" class="btn btn-primary">🔍 جستجو</button>
+    {% if search %}
+        <a href="{{ url_for('admin.users') }}" class="btn btn-danger">✕ پاک کردن</a>
+    {% endif %}
+</form>
+
+<!-- ===== جدول ===== -->
+<div class="admin-card">
+    <div class="admin-card-title">
+        📋 لیست کاربران
+        <span class="badge badge-user" style="margin-right: 8px;">{{ pagination.total }}</span>
+    </div>
+
+    {% if users %}
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>نام کاربری</th>
+                <th>نام نمایشی</th>
+                <th>ایمیل</th>
+                <th>تاریخ عضویت</th>
+                <th>وضعیت</th>
+                <th>عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>
+                    <a href="{{ url_for('admin.user_detail', user_id=user.id) }}"
+                       style="color: #8B5CF6; text-decoration: none; font-weight: 600;">
+                        {{ user.username }}
+                    </a>
+                </td>
+                <td>{{ user.display_name or '-' }}</td>
+                <td style="direction: ltr; text-align: right;">{{ user.email }}</td>
+                <td>
+                    {% if user.created_at %}
+                        {{ user.created_at.strftime('%Y-%m-%d') }}
+                    {% else %}
+                        -
+                    {% endif %}
+                </td>
+                <td>
+                    {% if user.is_admin %}
+                        <span class="badge badge-admin">👑 ادمین</span>
+                    {% else %}
+                        <span class="badge badge-user">👤 کاربر</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ url_for('admin.user_detail', user_id=user.id) }}"
+                       class="btn btn-primary btn-sm">مشاهده</a>
+                    {% if user.id != session.get('user_id') %}
+                    <button
+                        onclick="deleteUser({{ user.id }}, '{{ user.username }}')"
+                        class="btn btn-danger btn-sm">حذف</button>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- ===== صفحه‌بندی ===== -->
+    {% if pagination.pages > 1 %}
+    <div class="pagination">
+        {% if pagination.has_prev %}
+            <a href="{{ url_for('admin.users', page=pagination.prev_num, search=search) }}">‹ قبلی</a>
+        {% endif %}
+
+        {% for page_num in pagination.iter_pages() %}
+            {% if page_num %}
+                {% if page_num == pagination.page %}
+                    <span class="current">{{ page_num }}</span>
+                {% else %}
+                    <a href="{{ url_for('admin.users', page=page_num, search=search) }}">{{ page_num }}</a>
+                {% endif %}
+            {% else %}
+                <span>...</span>
+            {% endif %}
+        {% endfor %}
+
+        {% if pagination.has_next %}
+            <a href="{{ url_for('admin.users', page=pagination.next_num, search=search) }}">بعدی ›</a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-icon">👥</div>
+        <p>کاربری یافت نشد</p>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+function deleteUser(userId, username) {
+    if (!confirm(`آیا از حذف کاربر «${username}» مطمئن هستی؟\n\nهمه‌ی داده‌های این کاربر (تشخیص‌ها، یادداشت‌ها، باغ و...) پاک می‌شوند.`)) {
+        return;
+    }
+
+    fetch(`/admin/api/users/${userId}`, { method: 'DELETE' })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                alert('✅ کاربر حذف شد');
+                location.reload();
+            } else {
+                alert('❌ ' + (data.error || 'خطا در حذف'));
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            alert('❌ خطا در ارتباط با سرور');
+        });
+}
+</script>
+
+{% endblock %}

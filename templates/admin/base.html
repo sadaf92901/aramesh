@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}پنل مدیریت — همراه آرامش{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="admin-layout">
+
+    <!-- ============================================================ -->
+    <!-- سایدبار -->
+    <!-- ============================================================ -->
+    <aside class="admin-sidebar">
+        <div class="admin-logo">
+            <span class="logo-icon">🌿</span>
+            <span class="logo-text">پنل مدیریت</span>
+        </div>
+
+        <nav class="admin-nav">
+            <a href="{{ url_for('admin.dashboard') }}"
+               class="nav-link {% if request.endpoint == 'admin.dashboard' %}active{% endif %}">
+                <span class="nav-icon">📊</span>
+                <span>داشبورد</span>
+            </a>
+            <a href="{{ url_for('admin.users') }}"
+               class="nav-link {% if request.endpoint == 'admin.users' %}active{% endif %}">
+                <span class="nav-icon">👥</span>
+                <span>کاربران</span>
+            </a>
+            <a href="{{ url_for('admin.diagnoses') }}"
+               class="nav-link {% if request.endpoint == 'admin.diagnoses' %}active{% endif %}">
+                <span class="nav-icon">🧠</span>
+                <span>تشخیص‌ها</span>
+            </a>
+            <a href="{{ url_for('admin.notes') }}"
+               class="nav-link {% if request.endpoint == 'admin.notes' %}active{% endif %}">
+                <span class="nav-icon">📝</span>
+                <span>یادداشت‌ها</span>
+            </a>
+        </nav>
+
+        <div class="admin-sidebar-footer">
+            <a href="{{ url_for('pages.index') }}" class="nav-link">
+                <span class="nav-icon">🏠</span>
+                <span>بازگشت به اپ</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- ============================================================ -->
+    <!-- محتوای اصلی -->
+    <!-- ============================================================ -->
+    <main class="admin-main">
+        <div class="admin-header">
+            <h1 class="admin-page-title">{% block page_title %}داشبورد{% endblock %}</h1>
+            <div class="admin-user-badge">
+                <span>👤 {{ session.get('username', 'ادمین') }}</span>
+            </div>
+        </div>
+
+        <div class="admin-content">
+            {% block content %}{% endblock %}
+            <!-- ⬆️ این تنها بلوک content هست — فقط یک بار -->
+        </div>
+    </main>
+
+</div>
+
+{% block scripts %}{% endblock %}
+
+</body>
+</html>

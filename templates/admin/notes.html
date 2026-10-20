@@ -1,0 +1,78 @@
+{% extends "admin/base.html" %}
+
+{% block title %}یادداشت‌ها — پنل مدیریت{% endblock %}
+{% block page_title %}📝 مدیریت یادداشت‌ها{% endblock %}
+
+{% block content %}
+
+<div class="admin-card">
+    <div class="admin-card-title">
+        📋 لیست یادداشت‌ها
+        <span class="badge badge-user" style="margin-right: 8px;">{{ pagination.total }}</span>
+    </div>
+
+    {% if notes %}
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>کاربر</th>
+                <th>تاریخ</th>
+                <th>عنوان</th>
+                <th>محتوا</th>
+                <th>حالت</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for n in notes %}
+            <tr>
+                <td>{{ n.id }}</td>
+                <td>
+                    <a href="{{ url_for('admin.user_detail', user_id=n.user_id) }}"
+                       style="color: #8B5CF6; text-decoration: none; font-weight: 600;">
+                        کاربر #{{ n.user_id }}
+                    </a>
+                </td>
+                <td>{{ n.date }}</td>
+                <td>{{ n.title or '-' }}</td>
+                <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    {{ n.content[:60] }}{% if n.content|length > 60 %}...{% endif %}
+                </td>
+                <td>{{ n.mood or '-' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- ===== صفحه‌بندی ===== -->
+    {% if pagination.pages > 1 %}
+    <div class="pagination">
+        {% if pagination.has_prev %}
+            <a href="{{ url_for('admin.notes', page=pagination.prev_num) }}">‹ قبلی</a>
+        {% endif %}
+        {% for page_num in pagination.iter_pages() %}
+            {% if page_num %}
+                {% if page_num == pagination.page %}
+                    <span class="current">{{ page_num }}</span>
+                {% else %}
+                    <a href="{{ url_for('admin.notes', page=page_num) }}">{{ page_num }}</a>
+                {% endif %}
+            {% else %}
+                <span>...</span>
+            {% endif %}
+        {% endfor %}
+        {% if pagination.has_next %}
+            <a href="{{ url_for('admin.notes', page=pagination.next_num) }}">بعدی ›</a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-icon">📝</div>
+        <p>یادداشتی ثبت نشده</p>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

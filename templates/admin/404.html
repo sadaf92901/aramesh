@@ -1,0 +1,14 @@
+{% extends "admin/base.html" %}
+
+{% block title %}پیدا نشد{% endblock %}
+{% block page_title %}❌ پیدا نشد{% endblock %}
+
+{% block content %}
+<div class="empty-state">
+    <div class="empty-icon">🔍</div>
+    <p>صفحه یا کاربر مورد نظر پیدا نشد</p>
+    <a href="{{ url_for('admin.dashboard') }}" class="btn btn-primary" style="margin-top: 16px;">
+        بازگشت به داشبورد
+    </a>
+</div>
+{% endblock %}

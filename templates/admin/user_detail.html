@@ -1,0 +1,191 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ user.username }} — پنل مدیریت{% endblock %}
+{% block page_title %}👤 جزئیات کاربر{% endblock %}
+
+{% block content %}
+
+<!-- ===== اطلاعات کاربر ===== -->
+<div class="admin-card">
+    <div class="admin-card-title">📋 اطلاعات کاربر</div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+        <div>
+            <div style="font-size: 12px; color: #64748b; margin-bottom: 4px;">نام کاربری</div>
+            <div style="font-size: 16px; font-weight: 700;">{{ user.username }}</div>
+        </div>
+        <div>
+            <div style="font-size: 12px; color: #64748b; margin-bottom: 4px;">نام نمایشی</div>
+            <div style="font-size: 16px; font-weight: 700;">{{ user.display_name or '-' }}</div>
+        </div>
+        <div>
+            <div style="font-size: 12px; color: #64748b; margin-bottom: 4px;">ایمیل</div>
+            <div style="font-size: 14px; font-weight: 600; direction: ltr; text-align: right;">{{ user.email }}</div>
+        </div>
+        <div>
+            <div style="font-size: 12px; color: #64748b; margin-bottom: 4px;">تاریخ عضویت</div>
+            <div style="font-size: 14px; font-weight: 600;">
+                {{ user.created_at.strftime('%Y-%m-%d') if user.created_at else '-' }}
+            </div>
+        </div>
+        <div>
+            <div style="font-size: 12px; color: #64748b; margin-bottom: 4px;">وضعیت</div>
+            <div>
+                {% if user.is_admin %}
+                    <span class="badge badge-admin">👑 ادمین</span>
+                {% else %}
+                    <span class="badge badge-user">👤 کاربر</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    {% if user.id != session.get('user_id') %}
+    <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e2e8f0; display: flex; gap: 8px;">
+        <button onclick="toggleAdmin({{ user.id }}, {{ 'true' if user.is_admin else 'false' }})" class="btn btn-primary">
+            {% if user.is_admin %}⬇️ حذف دسترسی ادمین{% else %}👑 ارتقا به ادمین{% endif %}
+        </button>
+        <button onclick="deleteUser({{ user.id }}, '{{ user.username }}')" class="btn btn-danger">
+            🗑️ حذف کاربر
+        </button>
+    </div>
+    {% endif %}
+</div>
+
+<!-- ===== آمار کاربر ===== -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon">🧠</div>
+        <div class="stat-value">{{ stats.diagnoses }}</div>
+        <div class="stat-label">تشخیص</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">📝</div>
+        <div class="stat-value">{{ stats.notes }}</div>
+        <div class="stat-label">یادداشت</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">🌬️</div>
+        <div class="stat-value">{{ stats.breathings }}</div>
+        <div class="stat-label">تمرین تنفس</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">🧘</div>
+        <div class="stat-value">{{ stats.meditations }}</div>
+        <div class="stat-label">مدیتیشن</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">🌸</div>
+        <div class="stat-value">{{ stats.flowers }}</div>
+        <div class="stat-label">گل کاشته‌شده</div>
+    </div>
+</div>
+
+<!-- ===== تشخیص‌های اخیر ===== -->
+<div class="admin-card">
+    <div class="admin-card-title">🧠 آخرین تشخیص‌ها</div>
+    {% if diagnoses %}
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>تاریخ</th>
+                <th>امتیاز</th>
+                <th>سطح</th>
+                <th>MCQ</th>
+                <th>LLM</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in diagnoses %}
+            <tr>
+                <td>{{ d.date }}</td>
+                <td>{{ d.final_score }}%</td>
+                <td>
+                    {% set labels = ['سالم', 'خفیف', 'متوسط', 'شدید'] %}
+                    {% set badges = ['badge-success', 'badge-warning', 'badge-warning', 'badge-danger'] %}
+                    <span class="badge {{ badges[d.prediction] if d.prediction < 4 else 'badge-user' }}">
+                        {{ labels[d.prediction] if d.prediction < 4 else 'نامشخص' }}
+                    </span>
+                </td>
+                <td>{{ d.mcq_score }}%</td>
+                <td>{{ d.llm_score }}%</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-icon">🧠</div>
+        <p>تشخیصی ثبت نشده</p>
+    </div>
+    {% endif %}
+</div>
+
+<!-- ===== یادداشت‌های اخیر ===== -->
+<div class="admin-card">
+    <div class="admin-card-title">📝 آخرین یادداشت‌ها</div>
+    {% if notes %}
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>تاریخ</th>
+                <th>عنوان</th>
+                <th>محتوا</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for n in notes %}
+            <tr>
+                <td>{{ n.date }}</td>
+                <td>{{ n.title or '-' }}</td>
+                <td style="max-width: 400px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    {{ n.content[:80] }}{% if n.content|length > 80 %}...{% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-icon">📝</div>
+        <p>یادداشتی ثبت نشده</p>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+function toggleAdmin(userId, isAdmin) {
+    const action = isAdmin ? 'حذف دسترسی ادمین' : 'ارتقا به ادمین';
+    if (!confirm(`آیا از ${action} مطمئنی؟`)) return;
+
+    fetch(`/admin/api/users/${userId}/toggle-admin`, { method: 'POST' })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                alert('✅ وضعیت تغییر کرد');
+                location.reload();
+            } else {
+                alert('❌ ' + (data.error || 'خطا'));
+            }
+        })
+        .catch(err => alert('❌ خطا در ارتباط'));
+}
+
+function deleteUser(userId, username) {
+    if (!confirm(`آیا از حذف «${username}» مطمئنی؟ همه‌ی داده‌ها پاک می‌شوند.`)) return;
+
+    fetch(`/admin/api/users/${userId}`, { method: 'DELETE' })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                alert('✅ کاربر حذف شد');
+                window.location.href = '/admin/users';
+            } else {
+                alert('❌ ' + (data.error || 'خطا'));
+            }
+        })
+        .catch(err => alert('❌ خطا در ارتباط'));
+}
+</script>
+
+{% endblock %}

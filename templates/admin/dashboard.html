@@ -1,0 +1,40 @@
+{% extends "admin/base.html" %}
+
+{% block title %}داشبورد — پنل مدیریت{% endblock %}
+{% block page_title %}📊 داشبورد{% endblock %}
+
+{% block content %}
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-value">{{ stats.total_users }}</div>
+        <div class="stat-label">کاربران</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">🧠</div>
+        <div class="stat-value">{{ stats.total_diagnoses }}</div>
+        <div class="stat-label">تشخیص‌ها</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">📝</div>
+        <div class="stat-value">{{ stats.total_notes }}</div>
+        <div class="stat-label">یادداشت‌ها</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">🌸</div>
+        <div class="stat-value">{{ stats.total_flowers }}</div>
+        <div class="stat-label">گل‌ها</div>
+    </div>
+</div>
+
+<div class="admin-card">
+    <div class="admin-card-title">👋 خوش آمدی!</div>
+    <p style="color: #64748b; font-size: 14px; line-height: 1.8;">
+        پنل مدیریت با موفقیت راه‌اندازی شد.
+        <br>
+        از منوی سمت راست، بخش‌های مختلف رو انتخاب کن.
+    </p>
+</div>
+
+{% endblock %}
