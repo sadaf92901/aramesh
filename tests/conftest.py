@@ -85,3 +85,62 @@ def logged_in_client(client, registered_user):
         'password': 'Ali12345'
     })
     return client
+
+
+# ============================================================
+# Fixtures برای پنل ادمین
+# ============================================================
+
+@pytest.fixture
+def auth_user(app):
+    """ساخت کاربر عادی برای تست"""
+    import bcrypt
+    from database.models import User
+
+    with app.app_context():
+        # پاک کردن کاربر قبلی (اگر وجود داره)
+        existing = User.query.filter_by(username='normaluser').first()
+        if existing:
+            db.session.delete(existing)
+            db.session.commit()
+
+        # هش کردن رمز عبور
+        password_hash = bcrypt.hashpw('Test1234'.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
+        user = User(
+            username='normaluser',
+            display_name='کاربر عادی',
+            email='normal@test.com',
+            password_hash=password_hash,
+            is_admin=False
+        )
+        db.session.add(user)
+        db.session.commit()
+        return user
+
+
+@pytest.fixture
+def auth_admin(app):
+    """ساخت کاربر ادمین برای تست"""
+    import bcrypt
+    from database.models import User
+
+    with app.app_context():
+        # پاک کردن ادمین قبلی (اگر وجود داره)
+        existing = User.query.filter_by(username='adminuser').first()
+        if existing:
+            db.session.delete(existing)
+            db.session.commit()
+
+        password_hash = bcrypt.hashpw('Test1234'.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
+        admin = User(
+            username='adminuser',
+            display_name='مدیر سیستم',
+            email='admin@test.com',
+            password_hash=password_hash,
+            is_admin=True
+        )
+        db.session.add(admin)
+        db.session.commit()
+        return admin
