@@ -400,9 +400,8 @@ function clearOldDataAndGo() {
     window.location.href = '/questionnaire';
 }
 
-
 // ============================================================
-// بارگذاری کاربر
+// بارگذاری کاربر و آواتار
 // ============================================================
 function loadUser() {
     var username = localStorage.getItem('username');
@@ -414,8 +413,25 @@ function loadUser() {
     } else {
         if (greeting) greeting.innerHTML = 'سلام، مهمان! 👋';
     }
-}
 
+    // 🆕 گرفتن آواتار از سرور
+    fetch('/api/profile')
+        .then(res => res.json())
+        .then(data => {
+            if (data.avatar_url) {
+                var mainAvatar = document.getElementById('avatarContainer');
+                if (mainAvatar) {
+                    mainAvatar.innerHTML = `<img src="${data.avatar_url}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
+                }
+
+                var sidebarAvatar = document.getElementById('sidebarAvatar');
+                if (sidebarAvatar) {
+                    sidebarAvatar.innerHTML = `<img src="${data.avatar_url}" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">`;
+                }
+            }
+        })
+        .catch(err => console.log('⚠️ خطا در دریافت آواتار:', err));
+}
 
 // ============================================================
 // خروج از حساب

@@ -12,7 +12,15 @@
     </span>
 </div>
 
-
+<!-- ============================================================
+     آواتار و سلام کاربر
+     ============================================================ -->
+<div class="home-user-header">
+    <div class="home-avatar" id="homeAvatar">
+        👤
+    </div>
+    <div class="home-greeting" id="userGreeting">سلام! 👋</div>
+</div>
 <!-- ============================================================
      کارت تشخیص
      ============================================================ -->
@@ -124,7 +132,7 @@
             showGuestLockModal();
             window.history.replaceState({}, '', '/');
         }
-
+        setTimeout(loadAvatarFromServer,100);
         updateConnectionStatus();
         checkOnboarding();
 
@@ -194,28 +202,28 @@
     // ============================================================
     // 3. توابع کمکی
     // ============================================================
-    function loadAvatarFromServer() {
+   function loadAvatarFromServer() {
         fetch('/api/profile')
             .then(function(res) { return res.json(); })
             .then(function(data) {
                 if (data.avatar_url) {
-                    var avatar = document.getElementById('avatarContainer');
+                    var avatar = document.getElementById('homeAvatar');
                     if (avatar) {
-                        avatar.innerHTML = '<img src="' + data.avatar_url + '" style="width:100%; height:100%; border-radius:50%; object-fit:cover;">';
+                        avatar.innerHTML = '<img src="' + data.avatar_url + '" alt="آواتار">';
                     }
                 }
+
+                // ===== به‌روزرسانی سلام =====
+                var greeting = document.getElementById('userGreeting');
+                if (greeting && data.display_name) {
+                    greeting.innerHTML = 'سلام، ' + data.display_name + '! 👋';
+                }
             })
-            .catch(function() {});
+            .catch(function(err) {
+                console.error('❌ خطا در دریافت آواتار:', err);
+            });
     }
 
-    function loadUser() {
-        var username = localStorage.getItem('username');
-        var displayName = localStorage.getItem('displayName');
-        var greeting = document.getElementById('userGreeting');
-        if (greeting && username && username !== 'مهمان') {
-            greeting.innerHTML = 'سلام، ' + (displayName || username) + '! 👋';
-        }
-    }
 
     function updateConnectionStatus() {
         var status = document.getElementById('connectionStatus');

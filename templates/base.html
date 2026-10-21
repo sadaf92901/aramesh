@@ -140,7 +140,12 @@
                 <span class="sidebar-icon" aria-hidden="true">📈</span>
                 <span class="sidebar-label">پیشرفت</span>
             </a>
-
+            <a href="/history" class="sidebar-item {% if request.path == '/history' %}active{% endif %}"
+               {% if request.path == '/history' %}aria-current="page"{% endif %}
+               aria-label="تاریخچه من">
+                <span class="sidebar-icon" aria-hidden="true">📜</span>
+                <span class="sidebar-label">تاریخچه</span>
+            </a>
             <a href="/profile" class="sidebar-item {% if request.path == '/profile' %}active{% endif %}"
                {% if request.path == '/profile' %}aria-current="page"{% endif %}
                aria-label="پروفایل من">
@@ -237,11 +242,12 @@
         <span class="nav-label">پروفایل</span>
     </a>
 
-    <a onclick="openThemeModal()" class="nav-item" role="button" tabindex="0" aria-label="تغییر تم">
-        <span class="nav-icon" aria-hidden="true">🎨</span>
-        <span class="nav-label">تم</span>
+    <a href="/history" class="nav-item {% if request.path == '/history' %}active{% endif %}"
+       {% if request.path == '/history' %}aria-current="page"{% endif %}
+       aria-label="تاریخچه">
+        <span class="nav-icon" aria-hidden="true">📜</span>
+        <span class="nav-label">تاریخچه</span>
     </a>
-
 </nav>
 
 <!-- ============================================================ -->

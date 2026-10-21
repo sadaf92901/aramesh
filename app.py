@@ -78,11 +78,24 @@ def ratelimit_handler(e):
 # ============================================================
 # دیتابیس + Migration
 # ============================================================
-
 db.init_app(app)
 migrate = Migrate(app, db)
 
-
+# ============================================================
+# اطمینان از وجود جدول‌ها در دیتابیس (محافظت برای production)
+# ============================================================
+with app.app_context():
+    try:
+        from sqlalchemy import inspect
+        inspector = inspect(db.engine)
+        if 'user' not in inspector.get_table_names():
+            logger.warning("⚠️ جدول‌ها پیدا نشدند! در حال ساخت...")
+            db.create_all()
+            logger.info("✅ جدول‌ها ساخته شدند.")
+        else:
+            logger.info("✅ دیتابیس آماده است.")
+    except Exception as e:
+        logger.error(f"❌ خطا در بررسی دیتابیس: {e}")
 # ============================================================
 # ثبت Blueprintها
 # ============================================================

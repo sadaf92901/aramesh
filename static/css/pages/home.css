@@ -505,3 +505,44 @@ body.dark-theme .garden-card-desc {
         box-shadow: 0 6px 16px rgba(239, 68, 68, 0.6);
     }
 }
+/* ============================================================
+   آواتار و سلام کاربر در صفحه اصلی
+   ============================================================ */
+
+.home-user-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    background: var(--bg-card, #ffffff);
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    border: 1px solid var(--border, #e2e8f0);
+}
+
+.home-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--primary-light, #ede9fe);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    border: 2px solid var(--primary, #8B5CF6);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.home-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.home-greeting {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-main, #1e293b);
+}
