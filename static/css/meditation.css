@@ -8,54 +8,24 @@
     justify-content: space-between;
     padding: 12px 0;
     margin-bottom: 10px;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid var(--border, #f1f5f9);
 }
 
 .meditation-title {
     font-size: 20px;
     font-weight: 700;
-    color: #1e293b;
+    color: var(--text-main, #1e293b);
     text-align: center;
     flex: 1;
 }
 
-.home-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 18px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
-    border: 1px solid #e2e8f0;
-    color: #475569;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 700;
-    font-family: 'Vazirmatn', sans-serif;
-    transition: all 0.3s ease;
-    flex-shrink: 0;
-}
-
-.home-btn:hover {
-    background: linear-gradient(135deg, #ede9fe, #dbeafe);
-    border-color: #8B5CF6;
-    color: #6d28d9;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
-}
-
-.home-icon {
-    font-size: 24px;
-    line-height: 1;
-}
-
 /* آمار */
 .meditation-stats {
-    background: linear-gradient(135deg, #ede9fe, #dbeafe);
+    background: var(--primary-light, #ede9fe);
     border-radius: 16px;
     padding: 14px 18px;
     margin: 10px 0;
-    border-right: 4px solid #8B5CF6;
+    border-right: 4px solid var(--primary, #8B5CF6);
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -68,58 +38,66 @@
 .stat-value {
     font-size: 20px;
     font-weight: 800;
-    color: #6d28d9;
+    color: var(--primary, #6d28d9);
 }
 
 .stat-label {
     font-size: 12px;
-    color: #7c3aed;
+    color: var(--text-muted, #7c3aed);
     margin-top: 2px;
 }
 
 .stat-divider {
     width: 1px;
     height: 30px;
-    background: rgba(139, 92, 246, 0.2);
+    background: var(--border, rgba(139, 92, 246, 0.2));
 }
 
-/* کارت مدیتیشن */
+/* ============================================================
+   کارت‌های مدیتیشن — هماهنگ با ۶ تم رنگی
+   ============================================================ */
+
 .meditation-card {
-    background: white;
+    background: var(--bg-card, white);
     border-radius: 16px;
     padding: 18px;
     margin-bottom: 12px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--border, #e2e8f0);
     display: flex;
     align-items: center;
     gap: 14px;
     transition: all 0.3s ease;
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+/* نوار رنگی سمت راست کارت */
+.meditation-card::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 5px;
+    background: var(--primary, #8B5CF6);
 }
 
 .meditation-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(139, 92, 246, 0.12);
-    border-color: #8B5CF6;
-}
-
-.meditation-card.morning {
-    background: linear-gradient(135deg, #fef3c7, #fde68a);
-    border-color: #f59e0b;
-}
-
-.meditation-card.breathing {
-    background: linear-gradient(135deg, #dbeafe, #bfdbfe);
-    border-color: #3B82F6;
-}
-
-.meditation-card.night {
-    background: linear-gradient(135deg, #e0e7ff, #c7d2fe);
-    border-color: #6366f1;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    border-color: var(--primary, #8B5CF6);
 }
 
 .meditation-icon {
-    font-size: 42px;
+    font-size: 38px;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary-light, #ede9fe);
+    border-radius: 14px;
     flex-shrink: 0;
 }
 
@@ -130,24 +108,24 @@
 .meditation-name {
     font-size: 16px;
     font-weight: 700;
-    color: #1e293b;
+    color: var(--text-main, #1e293b);
 }
 
 .meditation-desc {
     font-size: 13px;
-    color: #64748b;
+    color: var(--text-muted, #64748b);
     margin-top: 2px;
 }
 
 .meditation-duration {
     font-size: 13px;
     font-weight: 600;
-    color: #8B5CF6;
+    color: var(--primary, #8B5CF6);
     margin-top: 6px;
 }
 
 .meditation-start {
-    background: linear-gradient(135deg, #7C3AED, #5B21B6);
+    background: var(--primary, #7C3AED);
     color: white;
     border: none;
     padding: 10px 18px;
@@ -162,10 +140,14 @@
 
 .meditation-start:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(124, 58, 237, 0.3);
+    opacity: 0.9;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
 }
 
-/* صفحه در حال تمرین */
+/* ============================================================
+   صفحه در حال تمرین
+   ============================================================ */
+
 .meditation-session {
     background: linear-gradient(180deg, #1e1b4b, #312e81);
     border-radius: 20px;
@@ -204,7 +186,8 @@
     margin: 20px 0;
     letter-spacing: 2px;
     color: #a78bfa;
-}.session-text {
+}
+.session-text {
     font-size: 16px;
     line-height: 1.8;
     max-width: 400px;
@@ -259,19 +242,22 @@
     background: rgba(239, 68, 68, 0.3);
 }
 
-/* آمار پایین */
+/* ============================================================
+   آمار پایین
+   ============================================================ */
+
 .meditation-footer-stats {
-    background: #f8fafc;
+    background: var(--bg-card, #f8fafc);
     border-radius: 16px;
     padding: 16px;
     margin-top: 16px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--border, #e2e8f0);
 }
 
 .footer-stats-title {
     font-size: 14px;
     font-weight: 700;
-    color: #1e293b;
+    color: var(--text-main, #1e293b);
     margin-bottom: 10px;
 }
 
@@ -282,21 +268,21 @@
 }
 
 .footer-stat {
-    background: white;
+    background: var(--bg-main, white);
     border-radius: 12px;
     padding: 10px;
     text-align: center;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--border, #e2e8f0);
 }
 
 .footer-stat-value {
     font-size: 18px;
     font-weight: 800;
-    color: #8B5CF6;
+    color: var(--primary, #8B5CF6);
 }
 
 .footer-stat-label {
     font-size: 11px;
-    color: #94a3b8;
+    color: var(--text-muted, #94a3b8);
     margin-top: 2px;
 }
