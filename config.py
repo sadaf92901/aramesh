@@ -43,7 +43,7 @@ class Config:
     # تنظیمات آپلود
     # ============================================================
     UPLOAD_FOLDER = os.path.join(BASE_DIR, 'uploads')
-    ALLOWED_EXTENSIONS = {'wav', 'mp3', 'ogg'}
+    ALLOWED_EXTENSIONS = {'wav', 'mp3', 'ogg', 'webm', 'm4a'}
 
     # ============================================================
     # CORS
@@ -68,9 +68,11 @@ class Config:
     OPENAI_BASE_URL = os.environ.get('OPENAI_BASE_URL', 'https://api.avalai.ir/v1')
     OPENAI_MODEL = os.environ.get('OPENAI_MODEL', 'gpt-4o-mini')
     OPENAI_TRANSCRIBE_MODEL = os.environ.get('OPENAI_TRANSCRIBE_MODEL', 'whisper-1')
+
     # ===== Gemini (Google) =====
     GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
     GEMINI_MODEL = os.environ.get('GEMINI_MODEL', 'gemini-2.5-flash')
+
     # ============================================================
     # Speech
     # ============================================================
@@ -113,13 +115,26 @@ class ProductionConfig(Config):
     """تنظیمات محیط تولید"""
     DEBUG = False
     ENV = 'production'
-    SECRET_KEY = os.environ.get('SECRET_KEY')
+
+    # ===== 🆕 الزامات امنیتی در Production =====
+    def __init__(self):
+        super().__init__()
+        if not self.SECRET_KEY:
+            raise ValueError("⚠️ SECRET_KEY در محیط production تنظیم نشده است!")
+
+        if not os.environ.get('DATABASE_URL'):
+            raise ValueError("⚠️ DATABASE_URL در محیط production تنظیم نشده است!")
+
+        # ===== چک کردن کلیدهای AI (حداقل یکی باید باشه) =====
+        if not self.OPENAI_API_KEY and not self.GEMINI_API_KEY:
+            print("⚠️ هشدار: هیچ کلید API برای LLM تنظیم نشده است. سیستم در حالت fallback کار می‌کند.")
 
 
 class TestingConfig(Config):
     """تنظیمات محیط تست"""
     TESTING = True
     DEBUG = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
 
 
 # ============================================================
@@ -137,4 +152,10 @@ config = {
 def get_config():
     """دریافت تنظیمات مناسب"""
     env = os.environ.get('FLASK_ENV', 'development')
-    return config.get(env, DevelopmentConfig)
+    config_class = config.get(env, DevelopmentConfig)
+
+    # ===== 🆕 برای اینکه ProductionConfig درست مقداردهی بشه =====
+    if env == 'production':
+        return ProductionConfig()
+
+    return config_class

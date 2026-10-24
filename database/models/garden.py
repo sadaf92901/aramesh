@@ -7,8 +7,8 @@ class Garden(db.Model):
     __tablename__ = 'garden'
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    activity_type = db.Column(db.String(20), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, index=True)
+    activity_type = db.Column(db.String(20), nullable=False, index=True)
     flower_type = db.Column(db.String(20), nullable=False)
     date = db.Column(db.String(20), nullable=False)
     is_planted = db.Column(db.Boolean, default=False)
