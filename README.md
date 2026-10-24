@@ -5,7 +5,7 @@
 [![Tests](https://github.com/sadaf92901/aramesh/actions/workflows/test.yml/badge.svg)](https://github.com/sadaf92901/aramesh/actions/workflows/test.yml)
 [![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![Flask](https://img.shields.io/badge/Flask-2.3-000000?style=for-the-badge&logo=flask&logoColor=white)](https://flask.palletsprojects.com)
-[![Tests Count](https://img.shields.io/badge/Tests-318%20Passed-success?style=for-the-badge)](tests/)
+[![Tests Count](https://img.shields.io/badge/Tests-327%20Passed-success?style=for-the-badge)](tests/)
 [![Coverage](https://img.shields.io/badge/Coverage-80%25-green?style=for-the-badge)](tests/)
 [![Lighthouse](https://img.shields.io/badge/Lighthouse-100%20A11y-brightgreen?style=for-the-badge)](https://developers.google.com/web/tools/lighthouse)
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
@@ -151,6 +151,15 @@
 - **Toggle صدا**
 - **دانلود داده‌ها** (JSON)
 - **حذف حساب**
+
+### ⚙️ پنل مدیریت (Admin Panel) 🆕
+- داشبورد آمار (کاربران، تشخیص‌ها، گل‌ها و...)
+- مدیریت کاربران (جستجو، صفحه‌بندی، حذف کاربر)
+- تغییر سطح دسترسی (ارتقا به ادمین)
+- مشاهده تشخیص‌ها و یادداشت‌ها کاربران
+- نمودار فعالیت هفتگی (با Chart.js)
+- دسترسی امن (فقط برای کاربرانی که is_admin=True دارند)
+- کاملاً جدا از اپ موبایل (در templates/admin/، نه در static/)
 
 ### 🎨 تم پیشرفته
 - **۶ تم رنگی**: بنفش، آبی، سبز، صورتی، نارنجی، خاکستری
@@ -308,7 +317,6 @@ class GeminiProvider(LLMProvider):
 ## 📁 ساختار پروژه
 
 ```
-.
 ├── app.py                  # نقطه ورود
 ├── config.py               # تنظیمات
 ├── extensions.py           # Rate Limiter
@@ -319,7 +327,8 @@ class GeminiProvider(LLMProvider):
 │   ├── db.py
 │   └── models/            # ۹ مدل
 │
-├── routes/                # ۱۴ Blueprint
+├── routes/                # ۱۵ Blueprint
+│   ├── admin.py           # 🆕 پنل مدیریت
 │   ├── auth.py, chat.py, diagnosis.py
 │   ├── breathing.py, meditation.py, weekly_plan.py
 │   ├── garden.py, subscription.py, health.py
@@ -330,23 +339,32 @@ class GeminiProvider(LLMProvider):
 │   ├── helpers.py, logger.py, errors.py
 │   ├── features.py (اشتراک)
 │   ├── garden_helper.py
-│   ├── llm/             # Provider pattern
-│   ├── speech/          # Provider pattern
-│   └── rag/             # RAG
+│   ├── admin_helpers.py   # 🆕 توابع کمکی پنل ادمین
+│   ├── llm/               # Provider pattern
+│   ├── speech/            # Provider pattern
+│   └── rag/               # RAG
 │
-├── templates/             # ۲۵ HTML
+├── templates/             # ۲۵+ HTML
+│   ├── admin/             # 🆕 قالب‌های پنل مدیریت
+│   │   ├── base.html, dashboard.html, users.html
+│   │   └── user_detail.html, diagnoses.html, notes.html
+│   └── ...
+│
 ├── static/
-│   ├── css/             # Design System + ۶ تم
-│   ├── js/              # ماژولار
+│   ├── css/               # Design System + ۶ تم
+│   │   └── admin.css      # 🆕 استایل پنل مدیریت
+│   ├── js/                # ماژولار
 │   └── images/
 │
-├── migrations/           # Alembic
-├── data/                # دیتاست + cache
-├── logs/                # app.log, errors.log
+├── migrations/            # Alembic
+├── data/                  # دیتاست + cache
+├── logs/                  # app.log, errors.log
 ├── docs/
-│   └── screenshots/     # ۸ تصویر
-└── tests/               # ۳۱۸ تست
-```
+│   └── screenshots/       # ۸ تصویر
+└── tests/                 # ۳۲۷ تست
+├── test_admin.py      # 🆕 تست‌های پنل مدیریت
+├── test_meditation.py # تست‌های مدیتیشن
+└── ...```
 
 ---
 
@@ -478,7 +496,7 @@ pytest tests/test_security.py -v
 ```
 
 **آمار:**
-- **۳۱۸ تست**
+- **۳۲۷ تست**
 - **Coverage: ۸۰٪**
 - **زمان: ~۲ دقیقه**
 
@@ -531,25 +549,15 @@ pytest tests/test_security.py -v
 ## 🗺 نقشه‌ی راه
 
 ### ✅ انجام شده
-- [x] احراز هویت + امنیت
-- [x] تشخیص + چت + RAG + Speech
-- [x] روزنگار + تنفس + مدیتیشن + برنامه هفتگی + تاریخچه
-- [x] **ضبط صدا در روزنگار**
-- [x] باغ آرامش (gamification)
-- [x] صفحه‌ی اشتراک
-- [x] تم پیشرفته + Design System
-- [x] Rate Limiting + Security Headers
-- [x] Logging + Migration
-- [x] SEO + Accessibility
-- [x] **PostgreSQL support**
-- [x] **Gemini Provider**
-- [x] ۳۱۸ تست + Coverage ۸۰٪
-- [x] CI/CD (GitHub Actions)
-- [x] Healthcheck endpoints
+- [x] ...
+- [x] پنل مدیریت (Admin Panel) 🆕
+- [x] تست‌های پنل ادمین و مدیتیشن 🆕
+- [x] رفع باگ‌های UI (آواتار، خروج، تم‌ها) 🆕
+- [x] ۳۲۷ تست + Coverage ۸۰٪
 
 ### 🟡 در حال انجام
 - [ ] Docker + docker-compose
-- [ ] Deploy روی VPS
+- [ ] Deploy روی VPS (لیارا)
 - [ ] Capacitor (APK)
 - [ ] مجوز وزارت بهداشت
 
@@ -557,11 +565,8 @@ pytest tests/test_security.py -v
 - [ ] Sentry integration
 - [ ] Push Notifications
 - [ ] درگاه پرداخت (Zarinpal)
-- [ ] پنل ادمین
 - [ ] Analytics
-- [ ] Community
-
----
+- [ ] Community---
 
 ## 🤝 مشارکت
 

@@ -367,15 +367,24 @@ def predict():
         return jsonify({'error': str(e)}), 500
 
     finally:
-        # ===== 🔒 پاک کردن فایل‌های صوتی (حریم خصوصی) =====
-        for path in audio_paths:
-            try:
-                if os.path.exists(path):
-                    os.remove(path)
-                    logger.info(f"🗑️ فایل صوتی پاک شد: {os.path.basename(path)}")
-            except Exception as e:
-                logger.warning(f"⚠️ خطا در پاک کردن {path}: {e}")
 
+        # ===== 🔒 مدیریت اخلاقی فایل‌های صوتی =====
+        try:
+            from utils.ethical_data import EthicalDataManager
+            from config import get_config
+            from database.models import User
+
+            archive_dir = os.path.join(get_config().BASE_DIR, 'data', 'audio_archive')
+            manager = EthicalDataManager(archive_dir, UPLOAD_FOLDER)
+
+            user_id = session.get('user_id')
+            user = db.session.get(User, user_id) if user_id else None
+            has_consent = user.consent_audio if user else False
+
+            for path in audio_paths:
+                manager.process_audio_for_archive(user_id, path, has_consent)
+        except Exception as e:
+            logger.error(f"❌ خطا در مدیریت اخلاقی صوت‌ها: {e}")
 
 # ============================================================
 # /api/history

@@ -13,8 +13,11 @@ class User(db.Model):
     avatar_url = db.Column(db.String(255), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    # ===== 🆕 ادمین =====
+    # ===== ادمین =====
     is_admin = db.Column(db.Boolean, default=False, nullable=False)
+
+    # ===== 🆕 رضایت برای استفاده از داده‌های ناشناس =====
+    consent_audio = db.Column(db.Boolean, default=False, nullable=False)
 
     # ===== بازیابی رمز =====
     reset_token = db.Column(db.String(100), nullable=True)
@@ -28,5 +31,6 @@ class User(db.Model):
             'email': self.email,
             'avatar_url': self.avatar_url,
             'created_at': self.created_at.isoformat() if self.created_at else None,
-            'is_admin': self.is_admin
+            'is_admin': self.is_admin,
+            'consent_audio': self.consent_audio
         }

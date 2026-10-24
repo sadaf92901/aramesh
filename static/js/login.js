@@ -359,7 +359,7 @@ function registerUserSubmit() {
 
     errorEl.textContent = '🔄 در حال ثبت‌نام...';
     errorEl.style.color = '#8B5CF6';
-
+    const consentChecked = document.getElementById('registerConsent')?.checked || false;
     fetch('/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -367,7 +367,9 @@ function registerUserSubmit() {
             username: usernameValue,
             display_name: displayNameValue,
             email: emailValue,
-            password: passwordValue
+            password: passwordValue,
+            consent_audio:consentChecked
+
         })
     })
     .then(function(response) { return response.json(); })

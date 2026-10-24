@@ -57,6 +57,10 @@ def validate_password(password):
 def register():
     try:
         data = request.json
+        # ===== 🆕 رضایت صوتی =====
+        consent_audio = data.get('consent_audio', False)
+        if isinstance(consent_audio, str):
+            consent_audio = consent_audio.lower() in ['true', '1', 'on', 'yes']
         username = (data.get('username') or '').strip()
         display_name = (data.get('display_name') or '').strip()
         email = (data.get('email') or '').strip()
@@ -91,9 +95,9 @@ def register():
             display_name=display_name,
             email=email,
             password_hash=password_hash,
-            created_at=utcnow()
+            created_at=utcnow(),
+            consent_audio=consent_audio  # 🆕
         )
-
         db.session.add(new_user)
         db.session.commit()
 

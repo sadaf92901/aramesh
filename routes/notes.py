@@ -219,10 +219,19 @@ def transcribe_note():
         return jsonify({'error': 'خطا در تبدیل صوت'}), 500
 
     finally:
-        # ===== 🔒 پاک کردن صدا (حریم خصوصی) =====
-        if os.path.exists(filepath):
-            try:
-                os.remove(filepath)
-                logger.info(f"🗑️ فایل صوتی پاک شد: {filename}")
-            except Exception as e:
-                logger.warning(f"⚠️ خطا در پاک کردن {filepath}: {e}")
+
+        # ===== 🔒 مدیریت اخلاقی فایل صوتی =====
+        try:
+            from utils.ethical_data import EthicalDataManager
+            from config import get_config
+            from database.models import User
+
+            archive_dir = os.path.join(get_config().BASE_DIR, 'data', 'audio_archive')
+            manager = EthicalDataManager(archive_dir, UPLOAD_FOLDER)
+
+            user = db.session.get(User, user_id)
+            has_consent = user.consent_audio if user else False
+
+            manager.process_audio_for_archive(user_id, filepath, has_consent)
+        except Exception as e:
+            logger.error(f"❌ خطا در مدیریت اخلاقی صوت: {e}")
