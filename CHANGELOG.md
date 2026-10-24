@@ -8,6 +8,57 @@
 ---
 
 ## [Unreleased]
+
+## [1.3.0] — 1405/08/03
+
+### ✨ اضافه شده
+
+#### ⚙️ پنل مدیریت (Admin Panel)
+- داشبورد آمار (کاربران، تشخیص‌ها، گل‌ها و...)
+- مدیریت کاربران (جستجو، صفحه‌بندی، حذف کاربر)
+- تغییر سطح دسترسی (ارتقا به ادمین)
+- مشاهده تشخیص‌ها و یادداشت‌ها کاربران
+- نمودار فعالیت هفتگی (با Chart.js)
+- کاملاً جدا از اپ موبایل (در templates/admin/)
+
+#### 🛡️ مدیریت اخلاقی داده‌ها (Ethical Data Management)
+- فیلد `consent_audio` در مدل کاربر (رضایت صوتی)
+- چک‌باکس رضایت در فرم ثبت‌نام
+- سیستم ناشناس‌سازی فایل‌های صوتی در `EthicalDataManager`
+- ذخیره فایل‌های ناشناس در `data/audio_archive/`
+- حذف خودکار فایل‌ها در صورت عدم رضایت
+
+#### 🧘 بهبود مدیتیشن
+- ۴ سناریوی جدید (تنفس آرام، رهاسازی تنش، شکرگزاری، قبل از خواب)
+- پشتیبانی از پخش فایل صوتی (MP3)
+- هماهنگی کامل با ۶ تم رنگی برنامه
+
+### 🔄 تغییر یافته
+
+- **config.py:** ایمن‌سازی Production (چک `SECRET_KEY` و `DATABASE_URL`)
+- **مدل‌های دیتابیس:** اضافه شدن `index=True` به `user_id` و `date` برای افزایش سرعت
+- **login.js:** اصلاح ارسال فیلد رضایت به بک‌اند (`consent_audio`)
+- **login.html:** انتقال چک‌باکس رضایت به بالای دکمه ثبت‌نام
+- **meditation.css:** استفاده از `var(--primary)` به جای رنگ‌های ثابت
+
+### 🐛 رفع شده
+
+- آواتار در صفحه اصلی و سایدبار نمایش داده نمی‌شد.
+- دکمه خروج کار نمی‌کرد (به دلیل لود نشدن `main.js`).
+- دکمه چشم (نمایش رمز) در فرم ثبت‌نام کار نمی‌کرد.
+- تاریخچه در منوی موبایل وجود نداشت.
+- خطای `relation "user" does not exist` با `db.create_all()` برطرف شد.
+
+### 🧪 تست‌ها
+
+- **۳۲۵ تست** (افزایش از ۳۱۸)
+- **تست‌های جدید:**
+  - `test_admin.py` (۹ تست پنل مدیریت)
+  - `test_meditation.py` (۶ تست)
+  - تست‌های امنیتی (۲۳ تست)
+
+---
+
 ## [1.2.0] — 1405/07/24
 
 ### ✨ اضافه شده
@@ -39,19 +90,22 @@
 - **config.py** → LLM_PROVIDER و SPEECH_PROVIDER از .env می‌خونن
 - **utils/speech/service.py** → پشتیبانی از Gemini + Local
 - **utils/llm/service.py** → پشتیبانی از Gemini
-- **database/db.py** → چک SQLite/Postgapp.py FK
+- **database/db.py** → چک SQLite/PostgreSQL FK
 - **app.py** → ensure_database_ready فقط برای SQLite
-
-##sanitize_inputsanitize_input** → حذف null bytes (\x00) برای PostgreSQL
+- **sanitize_input** → حذف null bytes (\x00) برای PostgreSQL
 - **speech/service.py** → رفع IndentationError در else
 - **config.py** → LLM_PROVIDER از .env می‌خونه
-- **PostgreSQL** → سازگاری کامل با SQLAفایل صوتی روزنگارنیت
+- **PostgreSQL** → سازگاری کامل با SQLAlchemy
 
-- **فایل صوتی روزنگارsanitize_inputک می‌شه
-- **sanitize_input** → حذف \x00 (Rate Limitingjection)
+### 🐛 رفع شده
+
+- **فایل صوتی روزنگار** → پاک می‌شه
+- **sanitize_input** → حذف \x00 (SQL Injection)
 - **Rate Limiting** برای /api/notes/transcribe
 
-### 🧪 تCoverage: ۸۰٪ت**تست‌های جدید:erage: ۸۰٪**
+### 🧪 تست‌ها
+
+- **Coverage: ۸۰٪**
 - **تست‌های جدید:**
   - test_notes/transcribe (ضبط صدا)
   - PostgreSQL compatibility
@@ -59,30 +113,19 @@
 ### 📊 Lighthouse
 
 | بخش | نمره |
-|۱۰۰-----|
+|-----|------|
 | Accessibility | ۱۰۰ 🏆 |
-| Best P۹۰es | **۱۰۰** 🏆 |
-| SEO CHANGELOG.md# 📄 مستندات
+| Best Practices | **۱۰۰** 🏆 |
+| SEO | ۹۰ |
+
+### 📄 مستندات
 
 - **CHANGELOG.md** آپدیت شد
-- **README.md** آپدیت ش.env.exampleGemini + ضبط صدا)
-- **.env.example** آپدیت شد
+- **README.md** آپدیت شد
+- **.env.example** آپدیت شد (Gemini + ضبط صدا)
 - **DEPLOYMENT.md** آپدیت شد
 
 ---
-### 🎯 در حال توسعه
-
-- 🐝 افزودن زنبور و عناصر زنده به باغ
-- 💧 قطره‌های شبنم روی گل‌ها
-- 🌈 رنگین‌کمون
-- 🐳 Docker setup
-- 🔄 PostgreSQL support
-- 📊 Sentry integration
-- 💰 درگاه پرداخت (Zarinpal)
-- 👥 پنل ادمین
-- 📱 Capacitor (APK برای کافه بازار)
-- 🔔 Push Notifications
-
 
 ## [1.1.0] — 1405/07/18
 
@@ -422,24 +465,16 @@
 
 ## 🏷 نسخه‌های آینده
 
-### [1.2.0] — برنامه‌ریزی‌شده
-- 🐝 زنبور و عناصر زنده به باغ
-- 💧 قطره‌های شبنم
-- 🌈 رنگین‌کمون
+### [1.4.0] — برنامه‌ریزی‌شده
 - 🐳 Docker + docker-compose
-- 🗄️ PostgreSQL migration
-- 📊 Matomo Analytics
-
-### [1.3.0] — برنامه‌ریزی‌شده
-- 💰 درگاه پرداخت
-- 👥 پنل ادمین
-- 📧 SMTP واقعی
-- 🌐 SEO
 - 📱 Capacitor (APK)
+- 🌐 Deploy روی لیارا
+- 🔔 Push Notifications
+- 💰 درگاه پرداخت (Zarinpal)
+- 🗄️ Matomo Analytics
 
 ### [2.0.0] — برنامه‌ریزی‌شده
 - 📱 اپ موبایل (Capacitor)
-- 🔔 Push Notifications
 - 👨‍⚕️ مشاوره آنلاین
 - 🏢 B2B (کلینیک‌ها)
 
