@@ -62,7 +62,7 @@ class VectorStore:
             for idx in top_indices:
                 score = float(similarities[idx])
                 # فیلتر: فقط شباهت بالای ۰.۳
-                if score >= 0.3:
+                if score >= 0.15:
                     results.append({
                         'document': self.documents[idx],
                         'score': round(score, 3)

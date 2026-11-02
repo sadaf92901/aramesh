@@ -161,21 +161,20 @@ def get_treatment(prediction):
 # ============================================================
 # تحلیل کامل
 # ============================================================
-
 def analyze_answers(mc_answers, text_answers):
     """
     تحلیل کامل پاسخ‌های کاربر
 
     ترکیب دو نمره:
     - mcq_score: نمره‌ی پرسشنامه چندگزینه‌ای
-    - llm_score: نمره‌ی تحلیل متن باز توسط LLM
+    - llm_score: نمره‌ی تحلیل متن باز توسط LLM (یا RAG)
 
     نمره‌ی نهایی (final_score) = «نمره‌ی سلامت روان»
     """
     # ===== ۱. محاسبه‌ی نمره‌ی MCQ =====
     mcq_score = calculate_mcq_score(mc_answers)
 
-    # ===== ۲. تحلیل متن باز با LLM =====
+    # ===== ۲. تحلیل متن باز =====
     valid_texts = [t for t in text_answers if t and len(t.strip()) >= 10]
     has_valid_text = len(valid_texts) > 0
 
@@ -192,7 +191,16 @@ def analyze_answers(mc_answers, text_answers):
             llm_status = llm_result.get('status', 'نامشخص')
             llm_treatment = llm_result.get('treatment', '')
         else:
-            llm_status = 'LLM در دسترس نیست'
+            # 🆕 LLM در دسترس نیست → از RAG استفاده کن
+            logger.info("🔄 LLM در دسترس نیست، تلاش با RAG fallback...")
+            rag_result = analyze_with_rag_fallback(text_answers)
+
+            if rag_result:
+                llm_score = rag_result.get('score', 0)
+                llm_status = rag_result.get('status', 'RAG')
+                llm_treatment = rag_result.get('treatment', '')
+            else:
+                llm_status = 'LLM و RAG در دسترس نیستند'
     else:
         if not LLM_ENABLED:
             llm_status = 'غیرفعال'
@@ -200,9 +208,9 @@ def analyze_answers(mc_answers, text_answers):
             llm_status = 'متنی نیست'
 
     # ===== ۳. محاسبه‌ی نمره‌ی نهایی =====
-    # اگه LLM نمره‌ی معتبر داد، ترکیب کن
+    # اگه LLM/RAG نمره‌ی معتبر داد، ترکیب کن
     # وگرنه فقط MCQ
-    if llm_result and llm_score > 0:
+    if llm_score > 0:
         final_score = (mcq_score * 0.5) + (llm_score * 0.5)
     else:
         final_score = mcq_score
@@ -227,8 +235,6 @@ def analyze_answers(mc_answers, text_answers):
         'llmStatus': llm_status,
         'treatment': treatment
     }
-
-
 # ============================================================
 # ذخیره‌ی نمونه‌ی ناشناس برای بهبود مدل
 # ============================================================
@@ -269,7 +275,63 @@ def save_anonymized_sample(mc_answers, text_answers, result):
     except Exception as e:
         logger.warning(f"⚠️ خطا در ذخیره‌ی نمونه‌ی ناشناس: {e}")
 
+#***************************************************************
+def analyze_with_rag_fallback(text_answers):
+    """
+    تحلیل متن باز با استفاده از RAG (بدون نیاز به LLM)
+    وقتی LLM قطع هست، متن کاربر رو با دیتاست روانشناسی مقایسه می‌کنه.
+    """
+    try:
+        from utils.rag.service import get_rag_service
+        rag = get_rag_service()
 
+        if not rag.is_ready():
+            return None
+
+        # ===== ترکیب متن‌های کاربر =====
+        combined_text = " ".join([t for t in text_answers if t and t.strip()])
+        if not combined_text or len(combined_text) < 10:
+            return None
+
+        # ===== جستجوی نمونه‌های مشابه =====
+        results = rag.retriever.retrieve(combined_text, top_k=3)
+
+        if not results:
+            return None
+
+        # ===== محاسبه‌ی نمره بر اساس نمونه‌های بازیابی‌شده =====
+        total_score = 0
+        total_weight = 0
+
+        for r in results:
+            doc = r['document']
+            similarity = r['score']
+            level = doc.get('level', 2)  # 0=سالم، 1=خفیف، 2=متوسط، 3=شدید
+
+            # ===== تبدیل level به نمره‌ی سلامت روان =====
+            score_map = {0: 100, 1: 70, 2: 40, 3: 10}
+            score = score_map.get(level, 50)
+
+            total_score += score * similarity
+            total_weight += similarity
+
+        if total_weight == 0:
+            return None
+
+        final_score = total_score / total_weight
+
+        return {
+            'score': round(final_score, 1),
+            'status': 'تحلیل RAG (بدون LLM)',
+            'treatment': get_treatment(get_prediction(final_score)),
+            'emotion': 'نامشخص',
+            'key_concerns': [],
+            'source': 'rag_fallback'
+        }
+
+    except Exception as e:
+        logger.warning(f"⚠️ خطا در RAG fallback: {e}")
+        return None
 # ============================================================
 # /api/predict
 # ============================================================

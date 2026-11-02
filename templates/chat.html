@@ -1,7 +1,29 @@
 {% extends "base.html" %}
 
 {% block content %}
+<!-- 🆕 مودال رضایت‌گیری -->
+<div id="consentModal" style="display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+    <div style="background: white; border-radius: 20px; padding: 24px; max-width: 400px; width: 90%; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.2); animation: fadeIn 0.3s ease;">
+        <div style="font-size: 40px; margin-bottom: 16px;">💚</div>
+        <h3 style="margin: 0 0 12px 0; color: #1e293b; font-size: 18px;">حریم خصوصی شما برای ما مهمه</h3>
+        <p style="margin: 0 0 20px 0; color: #64748b; font-size: 14px; line-height: 1.8; text-align: justify;">
+            اجازه می‌دی از این گفتگو (به صورت کاملاً ناشناس، بدون نام و اطلاعات هویتی) برای بهتر شدن هوش مصنوعی «همراه آرامش» در آینده استفاده کنم؟
+            <br><br>
+            <strong>توجه:</strong> در هر صورت، شما می‌تونید چت کنید. این فقط یه انتخاب داوطلبانه‌ست.
+        </p>
+        <div style="display: flex; gap: 10px; justify-content: center;">
+            <button onclick="setChatConsent(true)" style="flex: 1; padding: 12px; border: none; border-radius: 12px; background: linear-gradient(135deg, #8B5CF6, #7C3AED); color: white; font-weight: 700; cursor: pointer; font-family: 'Vazirmatn'; transition: 0.3s;">بله، موافقم</button>
+            <button onclick="setChatConsent(false)" style="flex: 1; padding: 12px; border: 2px solid #e2e8f0; border-radius: 12px; background: white; color: #64748b; font-weight: 700; cursor: pointer; font-family: 'Vazirmatn'; transition: 0.3s;">خیر</button>
+        </div>
+    </div>
+</div>
 
+<style>
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
 <div class="page active" id="pageChat">
     <div class="page-header">💬 چت‌بات درمانی</div>
 
@@ -239,5 +261,41 @@
     chatInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') sendMessage();
     });
+    // ============================================================
+    // ============================================================
+    // مدیریت رضایت چت (مودال) - مخصوص هر کاربر
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', function() {
+        var modal = document.getElementById('consentModal');
+
+        // به سرور بگو وضعیت رضایت این کاربر رو بده
+        fetch('/api/chat/consent/status')
+            .then(res => res.json())
+            .then(data => {
+                if (data.has_decided) {
+                    if (modal) modal.style.display = 'none';
+                } else {
+                    if (modal) modal.style.display = 'flex';
+                }
+            })
+            .catch(err => {
+                console.error('خطا در چک رضایت:', err);
+                if (modal) modal.style.display = 'flex';
+            });
+    });
+
+    function setChatConsent(isApproved) {
+        fetch('/api/chat/consent', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ consent: isApproved })
+        });
+
+        document.getElementById('consentModal').style.display = 'none';
+
+        if (typeof showToast === 'function') {
+            showToast(isApproved ? '✅ ممنون! گفتگوها ناشناس ذخیره می‌شن.' : '🔒 گفتگوها ذخیره نمی‌شن.', '💚', 'info');
+        }
+    }
 </script>
 {% endblock %}

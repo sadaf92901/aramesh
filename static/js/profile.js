@@ -74,11 +74,22 @@ function updateSettingsDisplay() {
         reminderEl.textContent = enabled ? 'فعال' : 'غیرفعال';
     }
 
-    // ===== ✨ صدا (جدید) =====
+    // ===== ✨ صدا =====
     const soundEl = document.getElementById('soundValue');
     if (soundEl) {
         soundEl.textContent = isSoundEnabled() ? 'روشن' : 'خاموش';
     }
+
+    // ===== 🆕 وضعیت رضایت چت =====
+    fetch('/api/chat/consent/status')
+        .then(res => res.json())
+        .then(data => {
+            const chatConsentEl = document.getElementById('chatConsentValue');
+            if (chatConsentEl) {
+                chatConsentEl.textContent = data.consent ? 'فعال' : 'غیرفعال';
+            }
+        })
+        .catch(err => console.warn('⚠️ خطا در دریافت وضعیت چت:', err));
 }
 
 
@@ -323,17 +334,15 @@ function toggleThemeFromProfile() {
 
 
 // ============================================================
-// ✨ صدا (جدید)
+// ✨ صدا
 // ============================================================
 
 function toggleSoundFromProfile() {
     const current = isSoundEnabled();
     setSoundEnabled(!current);
 
-    // ===== به‌روزرسانی UI =====
     updateSettingsDisplay();
 
-    // ===== Toast =====
     if (typeof showToast === 'function') {
         showToast(
             !current ? '🔊 صدا روشن شد' : '🔇 صدا خاموش شد',
@@ -341,6 +350,37 @@ function toggleSoundFromProfile() {
             'success'
         );
     }
+}
+
+
+// ============================================================
+// 🆕 مدیریت رضایت چت از پروفایل
+// ============================================================
+
+function toggleChatConsentFromProfile() {
+    fetch('/api/chat/consent/status')
+        .then(res => res.json())
+        .then(data => {
+            const currentConsent = data.consent;
+            const newConsent = !currentConsent;
+
+            const msg = newConsent
+                ? 'آیا موافقید از چت‌های بعدی شما (به صورت ناشناس) برای آموزش استفاده شود؟'
+                : 'آیا موافقید ذخیره‌سازی چت‌های شما متوقف شود؟';
+
+            if (confirm(msg)) {
+                fetch('/api/chat/consent', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ consent: newConsent })
+                }).then(() => {
+                    updateSettingsDisplay();
+                    if (typeof showToast === 'function') {
+                        showToast(newConsent ? '✅ ذخیره‌سازی فعال شد.' : '🔒 ذخیره‌سازی غیرفعال شد.', '💚', 'info');
+                    }
+                });
+            }
+        });
 }
 
 
@@ -378,3 +418,4 @@ window.downloadData = downloadData;
 window.deleteAccount = deleteAccount;
 window.toggleThemeFromProfile = toggleThemeFromProfile;
 window.toggleSoundFromProfile = toggleSoundFromProfile;
+window.toggleChatConsentFromProfile = toggleChatConsentFromProfile; // 🆕
