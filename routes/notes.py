@@ -1,6 +1,6 @@
 from utils.logger import logger
 from utils.garden_helper import give_seed
-from utils.helpers import sanitize_input,is_allowed_file
+from utils.helpers import sanitize_input,is_allowed_file,is_persian
 from flask import Blueprint, request, jsonify, session
 from database import db
 from database.models import DailyNote
@@ -40,7 +40,11 @@ def handle_notes():
 
         content = sanitize_input(data.get('content', '').strip())
         title = sanitize_input(data.get('title', '').strip())
-
+        # 🆕 چک فارسی بودن متن یادداشت
+        if not is_persian(content):
+            return jsonify({'error': 'لطفاً متن یادداشت را به زبان فارسی بنویسید'}), 400
+        if title and not is_persian(title):
+            return jsonify({'error': 'لطفاً عنوان یادداشت را به زبان فارسی بنویسید'}), 400
         if not content:
             return jsonify({'error': 'متن یاداشت را وارد کنید'}), 400
 

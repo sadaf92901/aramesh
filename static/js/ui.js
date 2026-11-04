@@ -292,7 +292,28 @@ function isSoundEnabled() {
 function setSoundEnabled(enabled) {
     localStorage.setItem('aramesh_sound_enabled', enabled ? 'true' : 'false');
 }
+// ============================================================
+// 🆕 جلوگیری از تایپ حروف انگلیسی
+// ============================================================
 
+function enforcePersianInput(inputElement) {
+    if (!inputElement) return;
+
+    inputElement.addEventListener('input', function(e) {
+        // الگوی حروف انگلیسی (a-z, A-Z)
+        var englishRegex = /[a-zA-Z]/g;
+
+        // اگر متن شامل حروف انگلیسی بود، اون‌ها رو حذف کن
+        if (englishRegex.test(this.value)) {
+            this.value = this.value.replace(englishRegex, '');
+
+            // اگر می‌خوای به کاربر پیام هم بدی:
+            if (typeof showToast === 'function') {
+                showToast('⚠️ لطفاً فقط فارسی تایپ کنید', '⚠️', 'warning');
+            }
+        }
+    });
+}
 
 // ============================================================
 // صادر کردن

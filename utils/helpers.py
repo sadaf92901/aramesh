@@ -218,7 +218,24 @@ def get_week_moods(moods_data):
             })
 
     return week_days
+# ============================================================
+# 🆕 اعتبارسنجی زبان
+# ============================================================
 
+def is_persian(text):
+    """چک می‌کنه که آیا متن حداقل یک حرف فارسی داره یا نه"""
+    if not text:
+        return False
+    import re
+    return bool(re.search(r'[\u0600-\u06FF]', text))
+
+
+def is_english_only(text):
+    """چک می‌کنه که آیا متن فقط شامل حروف انگلیسی، عدد و _ هست یا نه"""
+    if not text:
+        return False
+    import re
+    return bool(re.match(r'^[a-zA-Z0-9_]+$', text))
 
 def calculate_stats(moods_data):
     """محاسبه آمار خلقیات"""

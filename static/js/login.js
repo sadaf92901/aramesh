@@ -467,8 +467,8 @@ window.togglePassword=togglePassword;
 // ============================================================
 // پاک کردن فیلدها هنگام لود صفحه
 // ============================================================
-
 document.addEventListener('DOMContentLoaded', function() {
+    // ===== کدهای قبلی (پاک کردن فیلدها) =====
     var clearLoginFields = function() {
         var u = document.getElementById('loginUsername');
         var p = document.getElementById('loginPassword');
@@ -480,4 +480,34 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(clearLoginFields, 50);
     setTimeout(clearLoginFields, 200);
     setTimeout(clearLoginFields, 500);
+
+    // ============================================================
+    // 🆕 جلوگیری از تایپ فارسی در فیلدهای انگلیسی
+    // ============================================================
+
+    function blockPersianInput(inputId) {
+        var input = document.getElementById(inputId);
+        if (!input) return;
+
+        input.addEventListener('input', function() {
+            var persianRegex = /[\u0600-\u06FF]/g;
+            if (persianRegex.test(this.value)) {
+                this.value = this.value.replace(persianRegex, '');
+                if (typeof showToast === 'function') {
+                    showToast('⚠️ این فیلد باید به انگلیسی پر شود', '⚠️', 'warning');
+                }
+            }
+        });
+    }
+
+    // ===== فرم ورود =====
+    blockPersianInput('loginUsername');
+    blockPersianInput('loginPassword');
+
+    // ===== فرم ثبت‌نام =====
+    blockPersianInput('registerUsername');
+    blockPersianInput('registerEmail');
+    blockPersianInput('registerPassword');
+
+    // ⚠️ نام نمایشی (Display Name) رو بلاک نمی‌کنیم، چون می‌تونه فارسی یا انگلیسی باشه.
 });

@@ -141,6 +141,9 @@
 
 {% block scripts %}
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    enforcePersianInput(document.getElementById('chatInput')); // فیلد چت
+    });
     var chatContainer = document.getElementById('chatContainer');
     var chatInput = document.getElementById('chatInput');
     var chatSendBtn = document.getElementById('chatSendBtn');

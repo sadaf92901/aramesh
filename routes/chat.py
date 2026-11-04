@@ -1,4 +1,5 @@
 from utils.logger import logger
+from utils.helpers import is_persian
 from extensions import limiter
 from flask import Blueprint, request, jsonify, session
 from utils.llm.service import get_llm_service
@@ -278,6 +279,14 @@ def chat():
         user_message = request.json.get('message', '').strip()
 
         if not user_message:
+            if not user_message:
+                return jsonify({'error': 'پیامی ارسال نشده'}), 400
+
+            # 🆕 چک زبان فارسی
+            if not is_persian(user_message):
+                return jsonify({
+                    'error': 'لطفاً پیام خود را به زبان فارسی بنویسید.'
+                }), 400
             return jsonify({'error': 'پیامی ارسال نشده'}), 400
 
         add_to_chat_history('user', user_message)

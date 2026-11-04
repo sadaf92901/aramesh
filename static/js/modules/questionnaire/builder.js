@@ -42,6 +42,7 @@ function buildMcqQuestions() {
     });
     console.log('✅ ساخت MCQ تمام شد!');
 }
+
 function buildOpenQuestions() {
     console.log('🏗️ ساخت سوالات باز...');
     const openGroup = document.getElementById('openGroup1');
@@ -72,6 +73,20 @@ function buildOpenQuestions() {
             <audio id="audioPlayback${index}" controls style="display:none;"></audio>
         `;
         openGroup.appendChild(div);
+
+        // 🆕 جلوگیری از تایپ انگلیسی
+        const textarea = document.getElementById(`openText${index}`);
+        if (textarea) {
+            textarea.addEventListener('input', function() {
+                var englishRegex = /[a-zA-Z]/g;
+                if (englishRegex.test(this.value)) {
+                    this.value = this.value.replace(englishRegex, '');
+                    if (typeof window.showToast === 'function') {
+                        window.showToast('⚠️ لطفاً فقط فارسی تایپ کنید', '⚠️', 'warning');
+                    }
+                }
+            });
+        }
     });
     console.log('✅ ساخت سوالات باز تمام شد!');
 }
@@ -111,6 +126,7 @@ window.buildQuestions = buildQuestions;
 window.buildMcqQuestions = buildMcqQuestions;
 window.buildOpenQuestions = buildOpenQuestions;
 window.loadSavedAnswers = loadSavedAnswers;
+
 export {
     buildQuestions,
     buildMcqQuestions,

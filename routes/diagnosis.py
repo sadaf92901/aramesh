@@ -1,7 +1,7 @@
 # ============================================================
 # routes/diagnosis.py — تشخیص هوشمند
 # ============================================================
-
+from utils.helpers import sanitize_input, is_allowed_file, is_persian
 from utils.garden_helper import give_seed
 from utils.logger import logger
 from extensions import limiter
@@ -12,7 +12,6 @@ from datetime import datetime
 import json
 import uuid
 import os
-from utils.helpers import sanitize_input, is_allowed_file
 from config import get_config
 
 diagnosis_bp = Blueprint('diagnosis', __name__)
@@ -20,7 +19,6 @@ diagnosis_bp = Blueprint('diagnosis', __name__)
 UPLOAD_FOLDER = get_config().UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = get_config().ALLOWED_EXTENSIONS
 LLM_ENABLED = get_config().LLM_ENABLED
-
 
 # ============================================================
 # سوالات چندگزینه‌ای (برای محاسبه‌ی MCQ)
@@ -78,66 +76,10 @@ def calculate_mcq_score(mc_answers):
 
 
 # ============================================================
-# تحلیل با LLM
-# ============================================================
-
-def analyze_with_llm(text_answers):
-    """
-    تحلیل با LLM
-
-    Returns:
-        dict یا None (اگه LLM در دسترس نبود)
-    """
-    if not LLM_ENABLED:
-        return None
-
-    valid_texts = [t for t in text_answers if t and len(t.strip()) >= 10]
-
-    if not valid_texts:
-        return None
-
-    try:
-        from utils.llm.service import get_llm_service
-        llm_service = get_llm_service()
-
-        if not llm_service.is_available():
-            logger.warning("⚠️ LLMService در دسترس نیست")
-            return None
-
-        result = llm_service.analyze_text(text_answers)
-
-        # ===== اگه result None بود، یعنی LLM کار نکرده =====
-        if not result:
-            logger.warning("⚠️ LLM نتیجه‌ی معتبر برنگرداند")
-            return None
-
-        return {
-            'score': result.get('final_score', 0),
-            'status': result.get('status', 'نامشخص'),
-            'treatment': result.get('treatment', ''),
-            'emotion': result.get('dominant_emotion', ''),
-            'key_concerns': result.get('key_concerns', [])
-        }
-
-    except Exception as e:
-        logger.error(f"❌ خطا در LLM: {e}")
-        return None
-
-
-# ============================================================
 # تعیین سطح و درمان
 # ============================================================
 
 def get_prediction(score):
-    """
-    تعیین سطح بر اساس «نمره‌ی سلامت روان»
-
-    نمره‌ی بالاتر = سلامت روانی بهتر
-    - ۰ = سالم
-    - ۱ = خفیف
-    - ۲ = متوسط
-    - ۳ = شدید
-    """
     if score >= 65:
         return 0  # سالم
     elif score >= 45:
@@ -159,22 +101,106 @@ def get_treatment(prediction):
 
 
 # ============================================================
-# تحلیل کامل
+# تحلیل با LLM
 # ============================================================
+
+def analyze_with_llm(text_answers):
+    if not LLM_ENABLED:
+        return None
+
+    valid_texts = [t for t in text_answers if t and len(t.strip()) >= 10]
+    if not valid_texts:
+        return None
+
+    try:
+        from utils.llm.service import get_llm_service
+        llm_service = get_llm_service()
+
+        if not llm_service.is_available():
+            logger.warning("⚠️ LLMService در دسترس نیست")
+            return None
+
+        result = llm_service.analyze_text(text_answers)
+
+        if not result:
+            logger.warning("⚠️ LLM نتیجه‌ی معتبر برنگرداند")
+            return None
+
+        return {
+            'score': result.get('final_score', 0),
+            'status': result.get('status', 'نامشخص'),
+            'treatment': result.get('treatment', ''),
+            'emotion': result.get('dominant_emotion', ''),
+            'key_concerns': result.get('key_concerns', [])
+        }
+
+    except Exception as e:
+        logger.error(f"❌ خطا در LLM: {e}")
+        return None
+
+
+# ============================================================
+# 🆕 تحلیل متن باز با کلمات کلیدی (جایگزین RAG)
+# ============================================================
+
+def analyze_with_rag_fallback(text_answers):
+    """تحلیل متن باز با استفاده از کلمات کلیدی (سریع و بدون خطا)"""
+    try:
+        combined_text = " ".join([t for t in text_answers if t and t.strip()]).lower()
+
+        if not combined_text or len(combined_text) < 10:
+            return None
+
+
+        # کلمات کلیدی بر اساس شدت
+        severe_words = [
+            "خودکشی", "بمیرم", "ناامید", "بی ارزش", "افسردگی شدید",
+            "تحمل نمی‌کنم", "دیگه نمی‌تونم", "پوچی", "تنها و بی کس",
+            "خیلی خیلی بد", "خیلی بد", "افتضاح", "داغون", "نابود",
+            "زندگیم تموم شده", "هیچی خوب نیست"
+        ]
+        moderate_words = [
+            "غمگین", "افسرده", "نگران", "استرس", "اضطراب", "خسته",
+            "بی حوصله", "تنها", "عصبی", "عصبانی", "ترس", "دلگیر",
+            "بد", "ناراحت", "نمی‌تونم", "خسته‌ام"
+        ]
+        mild_words = ["کمی", "گاهی", "بعضی وقتا", "کم", "نسبتا", "یکم"]
+        healthy_words = ["خوب", "عالی", "خوشحال", "امیدوار", "آروم", "راضی", "ممنون", "لذت"]
+        # محاسبه نمره
+        score = 50  # پیش‌فرض
+
+        if any(word in combined_text for word in severe_words):
+            score = 15
+        elif any(word in combined_text for word in moderate_words):
+            score = 40
+        elif any(word in combined_text for word in mild_words):
+            score = 70
+        elif any(word in combined_text for word in healthy_words):
+            score = 90
+
+        logger.info(f"✅ تحلیل کلمات کلیدی - نمره: {score}")
+
+        return {
+            'score': score,
+            'status': 'تحلیل هوشمند (کلمات کلیدی)',
+            'treatment': get_treatment(get_prediction(score)),
+            'emotion': 'نامشخص',
+            'key_concerns': [],
+            'source': 'keyword_fallback'
+        }
+
+    except Exception as e:
+        logger.error(f"❌ خطا در تحلیل کلمات کلیدی: {e}")
+        return None
+
+
+# ============================================================
+# تحلیل کامل پاسخ‌ها
+# ============================================================
+
 def analyze_answers(mc_answers, text_answers):
-    """
-    تحلیل کامل پاسخ‌های کاربر
-
-    ترکیب دو نمره:
-    - mcq_score: نمره‌ی پرسشنامه چندگزینه‌ای
-    - llm_score: نمره‌ی تحلیل متن باز توسط LLM (یا RAG)
-
-    نمره‌ی نهایی (final_score) = «نمره‌ی سلامت روان»
-    """
-    # ===== ۱. محاسبه‌ی نمره‌ی MCQ =====
     mcq_score = calculate_mcq_score(mc_answers)
 
-    # ===== ۲. تحلیل متن باز =====
     valid_texts = [t for t in text_answers if t and len(t.strip()) >= 10]
     has_valid_text = len(valid_texts) > 0
 
@@ -191,42 +217,34 @@ def analyze_answers(mc_answers, text_answers):
             llm_status = llm_result.get('status', 'نامشخص')
             llm_treatment = llm_result.get('treatment', '')
         else:
-            # 🆕 LLM در دسترس نیست → از RAG استفاده کن
-            logger.info("🔄 LLM در دسترس نیست، تلاش با RAG fallback...")
+            logger.info("🔄 LLM در دسترس نیست، تلاش با کلمات کلیدی...")
             rag_result = analyze_with_rag_fallback(text_answers)
 
             if rag_result:
                 llm_score = rag_result.get('score', 0)
-                llm_status = rag_result.get('status', 'RAG')
+                llm_status = rag_result.get('status', 'کلمات کلیدی')
                 llm_treatment = rag_result.get('treatment', '')
             else:
-                llm_status = 'LLM و RAG در دسترس نیستند'
+                llm_status = 'LLM و کلمات کلیدی در دسترس نیستند'
     else:
         if not LLM_ENABLED:
             llm_status = 'غیرفعال'
         else:
             llm_status = 'متنی نیست'
 
-    # ===== ۳. محاسبه‌ی نمره‌ی نهایی =====
-    # اگه LLM/RAG نمره‌ی معتبر داد، ترکیب کن
-    # وگرنه فقط MCQ
     if llm_score > 0:
         final_score = (mcq_score * 0.5) + (llm_score * 0.5)
     else:
         final_score = mcq_score
 
     final_score = round(final_score, 1)
-
-    # ===== ۴. تعیین سطح =====
     prediction = get_prediction(final_score)
 
-    # ===== ۵. توصیه‌ی درمانی =====
     if llm_treatment:
         treatment = llm_treatment
     else:
         treatment = get_treatment(prediction)
 
-    # ===== ۶. خروجی =====
     return {
         'prediction': prediction,
         'score': final_score,
@@ -235,26 +253,18 @@ def analyze_answers(mc_answers, text_answers):
         'llmStatus': llm_status,
         'treatment': treatment
     }
+
+
 # ============================================================
-# ذخیره‌ی نمونه‌ی ناشناس برای بهبود مدل
+# ذخیره‌ی نمونه‌ی ناشناس
 # ============================================================
 
 def save_anonymized_sample(mc_answers, text_answers, result):
-    """
-    ذخیره‌ی نمونه‌ی ناشناس (بدون اطلاعات کاربر)
-
-    این داده برای بهبود مدل استفاده می‌شه، ولی:
-    - هیچ user_id ذخیره نمی‌شه
-    - هیچ فایل صوتی ذخیره نمی‌شه
-    - فقط متن + نمره‌ها + تشخیص
-    """
     try:
-        # ===== مسیر فایل =====
         data_dir = os.path.join(get_config().BASE_DIR, 'data')
         os.makedirs(data_dir, exist_ok=True)
         samples_file = os.path.join(data_dir, 'training_samples.jsonl')
 
-        # ===== نمونه‌ی ناشناس =====
         sample = {
             'timestamp': datetime.now().isoformat(),
             'mcq_answers': mc_answers,
@@ -266,7 +276,6 @@ def save_anonymized_sample(mc_answers, text_answers, result):
             'llm_status': result.get('llmStatus', ''),
         }
 
-        # ===== نوشتن (JSONL — هر خط یه نمونه) =====
         with open(samples_file, 'a', encoding='utf-8') as f:
             f.write(json.dumps(sample, ensure_ascii=False) + '\n')
 
@@ -275,63 +284,7 @@ def save_anonymized_sample(mc_answers, text_answers, result):
     except Exception as e:
         logger.warning(f"⚠️ خطا در ذخیره‌ی نمونه‌ی ناشناس: {e}")
 
-#***************************************************************
-def analyze_with_rag_fallback(text_answers):
-    """
-    تحلیل متن باز با استفاده از RAG (بدون نیاز به LLM)
-    وقتی LLM قطع هست، متن کاربر رو با دیتاست روانشناسی مقایسه می‌کنه.
-    """
-    try:
-        from utils.rag.service import get_rag_service
-        rag = get_rag_service()
 
-        if not rag.is_ready():
-            return None
-
-        # ===== ترکیب متن‌های کاربر =====
-        combined_text = " ".join([t for t in text_answers if t and t.strip()])
-        if not combined_text or len(combined_text) < 10:
-            return None
-
-        # ===== جستجوی نمونه‌های مشابه =====
-        results = rag.retriever.retrieve(combined_text, top_k=3)
-
-        if not results:
-            return None
-
-        # ===== محاسبه‌ی نمره بر اساس نمونه‌های بازیابی‌شده =====
-        total_score = 0
-        total_weight = 0
-
-        for r in results:
-            doc = r['document']
-            similarity = r['score']
-            level = doc.get('level', 2)  # 0=سالم، 1=خفیف، 2=متوسط، 3=شدید
-
-            # ===== تبدیل level به نمره‌ی سلامت روان =====
-            score_map = {0: 100, 1: 70, 2: 40, 3: 10}
-            score = score_map.get(level, 50)
-
-            total_score += score * similarity
-            total_weight += similarity
-
-        if total_weight == 0:
-            return None
-
-        final_score = total_score / total_weight
-
-        return {
-            'score': round(final_score, 1),
-            'status': 'تحلیل RAG (بدون LLM)',
-            'treatment': get_treatment(get_prediction(final_score)),
-            'emotion': 'نامشخص',
-            'key_concerns': [],
-            'source': 'rag_fallback'
-        }
-
-    except Exception as e:
-        logger.warning(f"⚠️ خطا در RAG fallback: {e}")
-        return None
 # ============================================================
 # /api/predict
 # ============================================================
@@ -339,7 +292,7 @@ def analyze_with_rag_fallback(text_answers):
 @diagnosis_bp.route('/api/predict', methods=['POST'])
 @limiter.limit("3 per day")
 def predict():
-    audio_paths = []  # ← بیرون از try تا توی finally در دسترس باشه
+    audio_paths = []
 
     try:
         mc_answers = request.form.getlist('mc_answers[]')
@@ -354,7 +307,10 @@ def predict():
 
         text_answers = [sanitize_input(t) for t in text_answers]
 
-        # ===== ذخیره‌ی موقت فایل‌های صوتی =====
+        for i, text in enumerate(text_answers):
+            if text and len(text.strip()) > 0 and not is_persian(text):
+                return jsonify({'error': f'پاسخ سوال باز شماره {i + 1} باید به زبان فارسی باشه'}), 400
+
         saved_audio = []
 
         for i, audio_file in enumerate(audio_files):
@@ -366,7 +322,6 @@ def predict():
                     saved_audio.append(filename)
                     audio_paths.append(filepath)
 
-        # ===== تبدیل صوت به متن =====
         if audio_paths and text_answers:
             try:
                 from utils.speech.service import get_speech_service
@@ -380,15 +335,13 @@ def predict():
                             transcribed = speech_service.transcribe(audio_path)
                             if transcribed:
                                 text_answers[i] = transcribed
-                                logger.info(f"✅ سوال {i+1} تبدیل شد ({len(transcribed)} کاراکتر)")
+                                logger.info(f"✅ سوال {i + 1} تبدیل شد ({len(transcribed)} کاراکتر)")
 
             except Exception as e:
                 logger.warning(f"⚠️ خطا در تبدیل صوت: {e}")
 
-        # ===== تحلیل =====
         result = analyze_answers(mc_answers, text_answers)
 
-        # ===== ذخیره در دیتابیس (با user_id — برای خود کاربر) =====
         user_id = session.get('user_id')
         today = datetime.now().isoformat().split('T')[0]
 
@@ -408,7 +361,6 @@ def predict():
         db.session.commit()
         give_seed(user_id, 'diagnosis')
 
-        # ===== 📊 ذخیره‌ی نمونه‌ی ناشناس (بدون user_id) =====
         save_anonymized_sample(mc_answers, text_answers, result)
 
         return jsonify({
@@ -429,8 +381,6 @@ def predict():
         return jsonify({'error': str(e)}), 500
 
     finally:
-
-        # ===== 🔒 مدیریت اخلاقی فایل‌های صوتی =====
         try:
             from utils.ethical_data import EthicalDataManager
             from config import get_config
@@ -448,6 +398,7 @@ def predict():
         except Exception as e:
             logger.error(f"❌ خطا در مدیریت اخلاقی صوت‌ها: {e}")
 
+
 # ============================================================
 # /api/history
 # ============================================================
@@ -459,7 +410,7 @@ def history():
         return jsonify({'error': 'لاگین نیستید'}), 401
 
     if request.method == 'GET':
-        diagnoses = Diagnosis.query.filter_by(user_id=user_id)\
+        diagnoses = Diagnosis.query.filter_by(user_id=user_id) \
             .order_by(Diagnosis.created_at.desc()).all()
 
         return jsonify([
@@ -481,20 +432,17 @@ def history():
 
 
 # ============================================================
-# /api/predict/status — چک وضعیت تشخیص
+# /api/predict/status
 # ============================================================
 
 @diagnosis_bp.route('/api/predict/status', methods=['GET'])
 def predict_status():
-    """چک کن کاربر چقدر تشخیص دیگه می‌تونه بده"""
     from flask import session
     from extensions import limiter
 
-    # ===== پیش‌فرض =====
     limit = 3
     remaining = limit
 
-    # ===== تلاش برای محاسبه =====
     try:
         today = datetime.now().isoformat().split('T')[0]
         user_id = session.get('user_id')
@@ -506,7 +454,6 @@ def predict_status():
             ).count()
             remaining = max(0, limit - count_today)
         else:
-            # کاربر لاگین نیست، نمی‌تونیم دقیق بگیم
             remaining = limit
 
     except Exception as e:

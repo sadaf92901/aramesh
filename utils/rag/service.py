@@ -69,6 +69,9 @@ class RAGService:
         return True
 
     def is_ready(self):
+        """چک آماده بودن RAG"""
+        if not self._ready:
+            self.initialize()
         return self._ready and self.retriever.is_ready()
 
     def get_context(self, query, top_k=3):

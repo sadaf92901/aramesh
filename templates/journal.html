@@ -134,6 +134,10 @@
 </div>
 
 <script>
+ document.addEventListener('DOMContentLoaded', function() {
+    enforcePersianInput(document.getElementById('noteTitle')); // عنوان
+    enforcePersianInput(document.getElementById('noteContent')); // متن
+});
 // ===== متغیرها =====
 let allNotes = [];
 let currentFilter = 'all';
