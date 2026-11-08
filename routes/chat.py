@@ -3,6 +3,7 @@ from utils.helpers import is_persian
 from extensions import limiter
 from flask import Blueprint, request, jsonify, session
 from utils.llm.service import get_llm_service
+from database import db
 from config import get_config
 import random
 import json
@@ -11,7 +12,7 @@ import os
 chat_bp = Blueprint('chat', __name__)
 
 # ============================================================
-# پاسخ‌های fallback (اگه LLM کار نکنه)
+# پاسخ‌های fallback
 # ============================================================
 
 FALLBACK_RESPONSES = {
@@ -55,44 +56,41 @@ CRISIS_RESPONSE = """🆘 من نگرانتم. چیزی که گفتی خیلی �
 
 
 # ============================================================
-# 🆕 حافظه‌ی چت (ذخیره‌ی تاریخچه در Session)
+# حافظه‌ی چت
 # ============================================================
 
 def get_chat_history():
-    """دریافت تاریخچه‌ی چت از Session"""
     if 'chat_history' not in session:
         session['chat_history'] = []
     return session['chat_history']
 
 
 def add_to_chat_history(role, content):
-    """اضافه کردن پیام به تاریخچه (حداکثر ۲۰ پیام آخر)"""
+    """ذخیره پیام در دیتابیس و Session"""
+    user_id = session.get('user_id')
+    if user_id:
+        try:
+            from database.models import ChatMessage
+            msg = ChatMessage(user_id=user_id, role=role, content=content)
+            db.session.add(msg)
+            db.session.commit()
+        except Exception as e:
+            logger.warning(f"⚠️ خطا در ذخیره تاریخچه چت: {e}")
+            db.session.rollback()
+
     history = get_chat_history()
     history.append({"role": role, "content": content})
-
-    # نگه داشتن ۲۰ پیام آخر (۱۰ رفت و برگشت)
     if len(history) > 20:
         history = history[-20:]
     session['chat_history'] = history
 
 
-def get_last_user_emotion():
-    """تشخیص احساس از پیام‌های قبلی کاربر (اگه پیام فعلی مبهم بود)"""
-    history = get_chat_history()
-    for msg in reversed(history):
-        if msg['role'] == 'user':
-            return detect_emotion_by_keyword(msg['content'])
-    return None
-
-
 # ============================================================
-# 🆕 ذخیره‌ی چت برای آموزش (با رضایت کاربر)
+# ذخیره‌ی چت برای آموزش (با رضایت)
 # ============================================================
 
 def save_chat_for_training(user_message, bot_response):
-    """ذخیره‌ی چت ناشناس برای آموزش مدل در آینده"""
     try:
-        # فقط اگر کاربر رضایت داده باشه
         if not session.get('chat_consent'):
             return
 
@@ -115,19 +113,70 @@ def save_chat_for_training(user_message, bot_response):
 
 
 # ============================================================
-# تشخیص احساس با کلمه کلیدی
+# تشخیص احساس با کلمه کلیدی (کامل و جامع)
 # ============================================================
 
 def detect_emotion_by_keyword(message):
-    """تشخیص احساس بر اساس کلمات کلیدی"""
     msg = message.lower()
     keywords = {
-        "خستگی": ["خسته", "بی حال", "انرژی ندارم", "خوابم میاد", "کسالت", "فرسوده"],
-        "غم": ["غم", "غمگین", "ناراحت", "دلگیر", "گریه", "افسرده", "دلم گرفته"],
-        "اضطراب": ["اضطراب", "نگران", "استرس", "دلشوره", "ترس", "پنیک", "می‌ترسم"],
-        "خشم": ["عصبانی", "خشم", "داد", "حرص", "دلخور", "کلافه"],
-        "تنهایی": ["تنها", "بی کس", "کسی رو ندارم", "انزوا", "دلتنگ"],
-        "خودارزیابی منفی": ["بی ارزش", "کافی نیستم", "خودم رو سرزنش", "شکست", "اعتماد ندارم"],
+        "خستگی": [
+            "خسته", "بی حال", "انرژی ندارم", "انرژی نمیده", "خوابم میاد",
+            "کسالت", "فرسوده", "نمی‌تونم", "نمی تونم", "دیگه نمی‌تونم",
+            "خسته‌ام", "خسته ام", "موندگی", "بی رمق", "خستگی",
+            "ذهنی", "جسمی", "خسته شدم", "کم آوردم", "کسل", "داغون",
+            "خواب آلود", "افت", "افت کرده", "انرژی تموم",
+            "تخلیه", "خالی", "خسته‌کنه", "خسته کننده", "درمانده", "وازده",
+            "خسته‌ی", "خسته ی", "دیگه کشش ندارم", "مغزم کار نمی‌کنه", "خسته جونی"
+        ],
+        "غم": [
+            "غم", "غمگین", "ناراحت", "دلگیر", "گریه", "افسرده", "دلم گرفته",
+            "بد", "خیلی بد", "افتضاح", "داغون", "نابود", "پوچ", "بی معنی",
+            "احساس بدی", "نمی‌خوام", "حالم بد", "زندگیم به هم ریخته",
+            "دلگیرم", "دل شکسته", "ناامید", "افسردگی", "بی انگیزه",
+            "بی حوصله", "دلتنگ", "غمگینم", "ناراحتم", "گریه ام گرفت",
+            "بغض", "بغض کردم", "داغونم", "پوچم", "بی معنیه", "حالم خوب نیست",
+            "نا امید", "امید ندارم", "امیدمو از دست دادم", "بی امید", "ناامیدم",
+            "غمگین هستم", "دپرس", "دپرسی", "افسردگی دارم", "زندگیم سیاهه",
+            "دلشکسته", "دل شکست", "احساس بی ارزشی", "خسته از زندگی"
+        ],
+        "اضطراب": [
+            "اضطراب", "نگران", "استرس", "دلشوره", "ترس", "پنیک",
+            "می‌ترسم", "نگرانی", "تنش", "دلهره", "حواسم پرت",
+            "خوابم نمی‌بره", "قلبم تند", "نفس کم", "دستام می‌لرزه",
+            "مضطرب", "نگرانم", "استرس دارم", "دلشوره دارم", "می‌ترسم",
+            "وحشت", "وحشت زده", "ترسیده", "نفس تنگ", "خفگی",
+            "تپش قلب", "عرق", "لرزش", "بی قرار", "بی قراری", "ناآروم",
+            "استرس شدید", "اضطراب شدید", "حمله پنیک", "استرس داره منو میخوره",
+            "نگران آینده", "نگران فردا", "دلشوره شدید", "تنش عصبی"
+        ],
+        "خشم": [
+            "عصبانی", "خشم", "داد", "حرص", "دلخور", "کلافه", "دعوا",
+            "بحث", "ناراحتی", "متنفر", "نفرت", "کینه", "عصبانیت", "مغزمو خورد",
+            "عصبانی ام", "عصبانی هستم", "عصبی", "داد زدم", "داد می‌زنم",
+            "حرصم گرفت", "کلافه ام", "کلافه شدم", "دعوا کردم", "بحث کردم",
+            "متنفرم", "نفرت دارم", "کینه دارم", "خشمگین", "قاطی کردم",
+            "منفجر", "منفجر شدم", "دیوونه شدم", "عصبانی شدم", "خشمگین شدم",
+            "حرص خوردم", "دلم می‌خواد داد بزنم", "از کوره در رفتم", "پکر شدم"
+        ],
+        "تنهایی": [
+            "تنها", "بی کس", "کسی رو ندارم", "انزوا", "دلتنگ", "بلاتکلیف",
+            "کسی نیست", "هیچ‌کس", "تنهایی", "فقط من", "کسی حالم رو نمی‌فهمه",
+            "تنهام", "تنها هستم", "تنهایی می‌کنم", "احساس تنهایی",
+            "بی کسم", "گوشه گیر", "منزوی",
+            "بلاتکلیفم", "دلتنگم", "دلم تنگه", "هیچ‌کس نیست",
+            "هیچ‌کس منو نمی‌فهمه", "کسی درکم نمی‌کنه", "همه رفتن", "رها شدم",
+            "احساس می‌کنم تنهام", "دوست ندارم", "کسی رو ندارم که", "درک نشدم",
+            "بی‌کس و کار", "دلگیرم از همه"
+        ],
+        "خودارزیابی منفی": [
+            "بی ارزش", "کافی نیستم", "خودم رو سرزنش", "شکست", "اعتماد ندارم",
+            "بی مصرف", "بدرد نخور", "هیچی نیستم", "شرمنده", "گناهکار", "فایده ندارم",
+            "بی ارزشم", "خودمو سرزنش می‌کنم", "شکست خوردم",
+            "به خودم اعتماد ندارم", "بی مصرفم", "بدرد نمی‌خورم",
+            "شرمنده ام", "گناهکارم", "بی کفایت", "حقیر",
+            "خودمو دوست ندارم", "از خودم بدم میاد", "بی عرضه",
+            "احساس بی ارزشی می‌کنم", "هیچی نیستم", "خودمو قبول ندارم", "ضعیفم"
+        ],
     }
 
     for emotion, words in keywords.items():
@@ -137,78 +186,207 @@ def detect_emotion_by_keyword(message):
 
 
 # ============================================================
-# 🆕 تولید پاسخ همدلانه (با تنوع بالا)
+# تولید پاسخ با سوال و هدایت به بخش‌ها
 # ============================================================
 
 def get_empathy_response(emotion, user_message):
-    """تولید پاسخ با تنوع بسیار بالا (بدون LLM)"""
-    user_snippet = user_message[:25] + "..." if len(user_message) > 25 else user_message
+    """تولید پاسخ هوشمند با سوالات (بدون تکرار سوال)"""
 
-    # ===== بخش اول: بازتاب (Reflective Listening) =====
-    reflections = [
-        f"می‌شنوم که می‌گی «{user_snippet}».",
-        f"متوجه شدم گفتی «{user_snippet}».",
-        f"از حرفات اینطور برداشت کردم که «{user_snippet}».",
-        f"خب، پس «{user_snippet}».",
-        f"دقیقاً متوجه شدم چی گفتی: «{user_snippet}»."
-    ]
-
-    # ===== بخش دوم: همدلی بر اساس احساس =====
-    empathy_map = {
-        "غم": ["خیلی سخته که غم رو تجربه کنی.", "احساس غم کاملاً طبیعیه و تو تنها نیستی.",
-               "دلم برای این حال و هوات می‌سوزه.", "به نظر می‌رسه این روزها خیلی تحت فشار احساسی هستی."],
-        "اضطراب": ["نفس عمیق بکش، این حس می‌گذره.", "اضطراب خیلی خسته‌کننده‌ست.",
-                   "می‌فهمم چقدر این نگرانی‌ها می‌تونه آزاردهنده باشه.", "وقتی ذهن آروم نیست، همه‌چیز سخت‌تر می‌شه."],
-        "خشم": ["کاملاً حق داری که عصبانی باشی.", "خشم یه احساس قدرتمنده و درکت می‌کنم.",
-                "ممنون که این حس رو با من در میون گذاشتی.", "خوب شد گفتی، نگه داشتن خشم سخت‌تره."],
-        "تنهایی": ["حس تنهایی خیلی سنگینه.", "ولی بدون که همین الان یکی هست که بهت گوش می‌ده.",
-                   "من اینجام تا این حس رو با هم در میون بذاریم.", "هیچ‌کس نباید حس کنه کاملاً تنهام."],
-        "خودارزیابی منفی": ["یادت باشه که تو به اندازه‌ی کافی خوب هستی.",
-                            "ما گاهی خودمون رو بیشتر از حد قضاوت می‌کنیم.", "هیچ‌کس بی‌نقص نیست.",
-                            "به جای سرزنش خودت، بیا با مهربونی به خودت نگاه کنیم."],
-        "خستگی": ["خستگی جسمی و ذهنی می‌تونه طاقت‌فرسا باشه.", "انرژی تموم شده، این کاملاً طبیعیه.",
-                  "آیا به خودت استراحت کافی می‌دی؟", "بیا یه نفس عمیق بکشیم و یه لحظه به خودت استراحت بده."],
-        "استرس": ["استرس وقتی زیاد می‌شه، همه‌چیز رو سخت می‌کنه.", "احساس فشار زیاد، خیلی خسته‌کننده‌ست.",
-                  "بیا با هم ببینیم چه چیزی بیشتر نگرانت کرده.", "یه قدم کوچیک می‌تونه از فشار کم کنه."],
-        "خوشحالی": ["چه عالی که حالت خوبه! 🌸", "این انرژی مثبت خیلی ارزشمنده.", "خوشحالم که این حس خوب رو داری.",
-                    "این لحظه‌های شاد رو قدر بدون."],
-        "امید": ["این حس امیدواری خیلی ارزشمنده.", "داشتن امید یعنی داری به آینده باور داری.",
-                 "بهت افتخار می‌کنم که داری تلاش می‌کنی.", "این مسیر درستیه."],
-        "حمایت": ["داشتن حمایت اجتماعی یه نعمت بزرگه.", "خیلی خوبه که آدم‌هایی رو داری که حمایتت می‌کنن.",
-                  "وقتی کسی هست که حمایتمون کنه، سختی‌ها آسون‌تر می‌شن.", "این ارتباط رو حفظ کن."],
+    emotion_data = {
+        "غم": {
+            "empathy": [
+                "می‌شنوم که این روزها حالت خوب نیست و غم سنگینی داری.",
+                "درکت می‌کنم، احساس غم می‌تونه خیلی خسته‌کننده باشه.",
+                "دلم برای این حال و هوات می‌سوزه. این حس کاملاً طبیعیه."
+            ],
+            "questions": [
+                "چه چیزی بیشتر از همه ناراحتت کرده؟",
+                "دلت می‌خواد در موردش بیشتر بگی؟",
+                "چند وقته این حس رو داری؟",
+                "چه چیزی معمولاً حالت رو بهتر می‌کنه؟"
+            ],
+            "suggestions": [
+                ("می‌خوای یه مدیتیشن ۵ دقیقه‌ای انجام بدیم؟", "/meditation"),
+                ("دوست داری یه یادداشت از احساست بنویسی؟", "/journal")
+            ]
+        },
+        "اضطراب": {
+            "empathy": [
+                "به نظر می‌رسه این روزها نگرانی‌های زیادی داری.",
+                "نفس عمیق بکش، این حس می‌گذره.",
+                "می‌فهمم چقدر این اضطراب و دلشوره می‌تونه آزاردهنده باشه."
+            ],
+            "questions": [
+                "چه چیزی بیشتر از همه نگرانت کرده؟",
+                "این نگرانی روی بدنت هم اثر گذاشته؟ (مثلاً قلبت تند می‌زنه؟)",
+                "چند وقته این احساس رو داری؟",
+                "می‌خوای با هم یه تمرین تنفس ساده انجام بدیم؟"
+            ],
+            "suggestions": [
+                ("می‌خوای با هم یه تمرین تنفس عمیق انجام بدیم؟", "/breathing"),
+                ("دوست داری یه مدیتیشن آرام‌بخش امتحان کنی؟", "/meditation")
+            ]
+        },
+        "خشم": {
+            "empathy": [
+                "کاملاً حق داری که عصبانی باشی، این حس خیلی قدرتمنده.",
+                "ممنون که این خشم رو با من در میون گذاشتی. نگه داشتنش سخت‌تره.",
+                "می‌فهمم چیزی خیلی اذیتت کرده که این‌طوری عصبانیت."
+            ],
+            "questions": [
+                "چه چیزی باعث شد این‌قدر عصبانی بشی؟",
+                "دوست داری با هم آروم بشیم و در موردش حرف بزنیم؟",
+                "قبلاً هم این‌طوری شدی؟",
+                "چطور می‌تونیم این خشم رو مدیریت کنیم؟"
+            ],
+            "suggestions": [
+                ("بیا یه تمرین تنفس ۴-۴-۴ انجام بدیم تا آروم بشی.", "/breathing"),
+                ("دوست داری احساست رو توی روزنگار تخلیه کنی؟", "/journal")
+            ]
+        },
+        "تنهایی": {
+            "empathy": [
+                "حس تنهایی خیلی سنگینه و درکت می‌کنم.",
+                "ولی بدون که همین الان یکی هست که بهت گوش می‌ده، من اینجام.",
+                "این حس که کسی درکت نمی‌کنه واقعاً سخته."
+            ],
+            "questions": [
+                "چند وقته احساس تنهایی می‌کنی؟",
+                "آیا کسی هست که بتونی باهاش حرف بزنی؟",
+                "چه چیزی می‌تونه این حس رو کمتر کنه؟",
+                "دوست داری با یه نفر صحبت کنی؟"
+            ],
+            "suggestions": [
+                ("دوست داری توی روزنگار از احساست بنویسی؟", "/journal"),
+                ("می‌خوای یه مدیتیشن برای آرامش انجام بدیم؟", "/meditation")
+            ]
+        },
+        "خودارزیابی منفی": {
+            "empathy": [
+                "به نظر می‌رسه داری خودت رو سرزنش می‌کنی.",
+                "یادت باشه که تو به اندازه‌ی کافی خوب هستی و هیچ‌کس بی‌نقص نیست.",
+                "ما گاهی خودمون رو بیشتر از حد قضاوت می‌کنیم."
+            ],
+            "questions": [
+                "چرا فکر می‌کنی کافی نیستی؟",
+                "چه چیزی باعث شد این فکر به سرت بیاد؟",
+                "دوست داری با هم ببینیم این فکر از کجا اومده؟",
+                "چطور می‌تونیم این حس رو تغییر بدیم؟"
+            ],
+            "suggestions": [
+                ("دوست داری یه تمرین شکرگزاری انجام بدیم؟", "/meditation"),
+                ("بیا یه یادداشت از چیزهای خوب زندگی‌ات بنویسیم.", "/journal")
+            ]
+        },
+        "خستگی": {
+            "empathy": [
+                "به نظر می‌رسه انرژی‌ت کاملاً تموم شده و خیلی خسته‌ای.",
+                "این خستگی جسمی و ذهنی می‌تونه طاقت‌فرسا باشه.",
+                "بیا یه نفس عمیق بکشیم و یه لحظه به خودت استراحت بده."
+            ],
+            "questions": [
+                "خستگی جسمیه یا ذهنی؟",
+                "چند وقته این‌طوری هستی؟",
+                "خواب کافی داری؟",
+                "چه کاری می‌تونه بهت انرژی بده؟"
+            ],
+            "suggestions": [
+                ("می‌خوای یه مدیتیشن قبل از خواب انجام بدیم؟", "/meditation"),
+                ("دوست داری یه تمرین تنفس کوتاه انجام بدیم؟", "/breathing")
+            ]
+        },
+        "استرس": {
+            "empathy": [
+                "به نظر می‌رسه فشار و استرس زیادی تحمل می‌کنی.",
+                "استرس وقتی زیاد می‌شه، همه‌چیز رو سخت می‌کنه.",
+                "بیا با هم ببینیم چه چیزی بیشتر نگرانت کرده."
+            ],
+            "questions": [
+                "چه چیزی بیشتر تحت فشارت گذاشته؟",
+                "این استرس روی خوابت اثر گذاشته؟",
+                "می‌خوای با هم چند تا تکنیک ساده برای مدیریت استرس یاد بگیریم؟",
+                "چند وقته این حس رو داری؟"
+            ],
+            "suggestions": [
+                ("بیا همین الان یه تمرین تنفس ۱ دقیقه‌ای انجام بدیم.", "/breathing"),
+                ("دوست داری یه مدیتیشن برای کاهش استرس انجام بدیم؟", "/meditation")
+            ]
+        },
     }
 
-    # ===== بخش سوم: سوال برای ادامه مکالمه =====
-    questions = [
-        "می‌خوای بیشتر در موردش حرف بزنیم؟",
-        "چه چیزی بیشتر از همه اذیتت می‌کنه؟",
-        "دوست داری در موردش بیشتر توضیح بدی؟",
-        "فکر می‌کنی چه چیزی می‌تونه کمکت کنه؟",
-        "چطور می‌تونم بهتر کمکت کنم؟",
-        "می‌خوای با هم یه راه‌حل پیدا کنیم؟",
-        "این حس از کِی شروع شد؟"
-    ]
+    # دریافت داده‌های احساس
+    data = emotion_data.get(emotion, {
+        "empathy": ["من اینجام تا بهت گوش بدم."],
+        "questions": ["می‌خوای بیشتر در موردش حرف بزنیم؟"],
+        "suggestions": []
+    })
 
-    # ===== ترکیب تصادفی =====
-    reflection = random.choice(reflections)
-    empathy = random.choice(empathy_map.get(emotion, ["من اینجام تا بهت گوش بدم."]))
-    question = random.choice(questions)
+    empathy = random.choice(data["empathy"])
 
-    # ===== ساختاردهی به جواب نهایی =====
-    if random.random() > 0.5:
-        response = f"{reflection} {empathy} {question}"
-    else:
-        response = f"{empathy} {question}"
+    # انتخاب سوال (اولین سوالی که توی تاریخچه نپرسیده)
+    question = data["questions"][0]  # پیش‌فرض
+    history = get_chat_history()
+    bot_messages = [msg['content'] for msg in history if msg['role'] == 'bot']
+
+    # پیدا کردن اولین سوالی که هنوز پرسیده نشده
+    for q in data["questions"]:
+        if not any(q in bot_msg for bot_msg in bot_messages):
+            question = q
+            break
+
+    # ساخت پاسخ
+    response = f"{empathy} {question}"
+
+    # پیشنهاد (فقط برای پیام‌های طولانی)
+    if data["suggestions"] and len(user_message) > 15:
+        suggestion_text, suggestion_link = random.choice(data["suggestions"])
+        response += f"\n\n💡 <strong>{suggestion_text}</strong> <a href='{suggestion_link}' style='color: #8B5CF6; text-decoration: underline; font-weight: 700;'>اینجا کلیک کن</a>"
 
     return response
 
 
 # ============================================================
-# Fallback (اگه LLM و RAG کار نکردن)
+# 🆕 تولید پاسخ چت با استفاده از دیتاست RAG
+# ============================================================
+
+def get_rag_chat_response(user_message):
+    """جستجو در دیتاست برای پیدا کردن جواب همدلانه"""
+    try:
+        from utils.rag.service import get_rag_service
+        rag = get_rag_service()
+
+        if not rag.is_ready():
+            return None
+
+        # جستجوی نمونه‌های مشابه
+        results = rag.retriever.retrieve(user_message, top_k=1)
+
+        if not results:
+            return None
+
+        doc = results[0]['document']
+        emotion = doc.get('emotion', 'نامشخص')
+        similarity = results[0]['score']
+
+        # اگر شباهت خیلی پایین بود، بی‌خیال شو (بذار کلمات کلیدی تصمیم بگیرن)
+        if similarity < 0.2:
+            return None
+
+        logger.info(f"✅ RAG پاسخ پیدا کرد: احساس={emotion}, شباهت={similarity}")
+
+        # تولید پاسخ همدلانه بر اساس احساس پیدا شده
+        return get_empathy_response(emotion, user_message)
+
+    except Exception as e:
+        logger.warning(f"⚠️ خطا در RAG چت: {e}")
+        return None
+
+
+# ============================================================
+# Fallback
 # ============================================================
 
 def get_fallback_response(message):
-    """پاسخ پیش‌فرض اگه LLM کار نکنه"""
     msg = message.lower()
 
     if any(w in msg for w in ['سلام', 'درود', 'صبح بخیر', 'عصر بخیر']):
@@ -224,37 +402,53 @@ def get_fallback_response(message):
 
 
 # ============================================================
-# API: ثبت رضایت
+# API رضایت
 # ============================================================
 
 @chat_bp.route('/api/chat/consent', methods=['POST'])
 def chat_consent():
-    """ثبت رضایت کاربر برای ذخیره‌ی چت"""
     user_id = session.get('user_id')
     if not user_id:
         return jsonify({'error': 'لاگین نیستید'}), 401
 
     data = request.json or {}
     consent = data.get('consent', False)
-
     session['chat_consent'] = consent
     return jsonify({'success': True, 'consent': consent})
 
 
 @chat_bp.route('/api/chat/consent/status', methods=['GET'])
 def chat_consent_status():
-    """چک کردن اینکه آیا کاربر رضایت داده یا نه"""
     user_id = session.get('user_id')
     if not user_id:
         return jsonify({'error': 'لاگین نیستید'}), 401
 
-    has_decided = 'chat_consent' in session
-    consent = session.get('chat_consent', False)
-
     return jsonify({
-        'has_decided': has_decided,
-        'consent': consent
+        'has_decided': 'chat_consent' in session,
+        'consent': session.get('chat_consent', False)
     })
+
+
+# ============================================================
+# API دریافت تاریخچه چت
+# ============================================================
+
+@chat_bp.route('/api/chat/history', methods=['GET'])
+def get_chat_history_api():
+    """دریافت چت‌های قبلی کاربر"""
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonify({'error': 'لاگین نیستید'}), 401
+
+    from database.models import ChatMessage
+    messages = ChatMessage.query.filter_by(user_id=user_id) \
+        .order_by(ChatMessage.created_at.asc()).limit(50).all()
+
+    return jsonify([{
+        'role': m.role,
+        'content': m.content,
+        'created_at': m.created_at.isoformat()
+    } for m in messages])
 
 
 # ============================================================
@@ -268,7 +462,6 @@ def chat():
     if not user_id:
         return jsonify({'error': 'برای چت باید وارد شوید'}), 401
 
-    # 🆕 چک رضایت
     if 'chat_consent' not in session:
         return jsonify({
             'error': 'consent_required',
@@ -279,15 +472,12 @@ def chat():
         user_message = request.json.get('message', '').strip()
 
         if not user_message:
-            if not user_message:
-                return jsonify({'error': 'پیامی ارسال نشده'}), 400
-
-            # 🆕 چک زبان فارسی
-            if not is_persian(user_message):
-                return jsonify({
-                    'error': 'لطفاً پیام خود را به زبان فارسی بنویسید.'
-                }), 400
             return jsonify({'error': 'پیامی ارسال نشده'}), 400
+
+        if not is_persian(user_message):
+            return jsonify({
+                'error': 'لطفاً پیام خود را به زبان فارسی بنویسید.'
+            }), 400
 
         add_to_chat_history('user', user_message)
 
@@ -305,50 +495,56 @@ def chat():
 
         if llm_service.is_available():
             response = llm_service.chat(user_message)
-
             if response:
                 add_to_chat_history('bot', response)
                 save_chat_for_training(user_message, response)
-                return jsonify({
-                    'response': response,
-                    'source': 'llm'
-                })
+                return jsonify({'response': response, 'source': 'llm'})
 
         logger.info("🔄 LLM در دسترس نیست، تلاش برای RAG در چت...")
 
+        # ۱. اول از RAG (دیتاست) استفاده کن
+        response = get_rag_chat_response(user_message)
+        if response:
+            add_to_chat_history('bot', response)
+            save_chat_for_training(user_message, response)
+            return jsonify({
+                'response': response,
+                'source': 'rag'
+            })
+
+        # ۲. اگه RAG جواب نداد، از کلمات کلیدی استفاده کن
+        logger.info("🔄 RAG جواب نداد، استفاده از کلمات کلیدی...")
         emotion = detect_emotion_by_keyword(user_message)
 
+        # ۳. اگه پیدا نشد، از حافظه (پیام‌های قبلی) استفاده کن
         if not emotion:
-            try:
-                from utils.rag.service import get_rag_service
-                rag = get_rag_service()
-                if rag.is_ready():
-                    results = rag.retriever.retrieve(user_message, top_k=1)
-                    if results:
-                        emotion = results[0]['document'].get('emotion')
-            except Exception as e:
-                logger.warning(f"⚠️ خطا در RAG: {e}")
+            from database.models import ChatMessage
+            last_msgs = ChatMessage.query.filter_by(user_id=user_id, role='user') \
+                .order_by(ChatMessage.created_at.desc()).limit(3).all()
 
-        if not emotion:
-            emotion = get_last_user_emotion()
+            for msg in last_msgs:
+                prev_emotion = detect_emotion_by_keyword(msg.content)
+                if prev_emotion:
+                    emotion = prev_emotion
+                    logger.info(f"🧠 استفاده از حافظه: احساس قبلی = {emotion}")
+                    break
 
+        # ۴. تولید پاسخ
         if emotion:
             response = get_empathy_response(emotion, user_message)
             add_to_chat_history('bot', response)
             save_chat_for_training(user_message, response)
             return jsonify({
                 'response': response,
-                'source': 'rag_fallback',
+                'source': 'keyword',
                 'emotion': emotion
             })
 
+        # ۵. اگه هیچی پیدا نشد، از جواب‌های ساده استفاده کن
         response = get_fallback_response(user_message)
         add_to_chat_history('bot', response)
         save_chat_for_training(user_message, response)
-        return jsonify({
-            'response': response,
-            'source': 'fallback'
-        })
+        return jsonify({'response': response, 'source': 'fallback'})
 
     except Exception as e:
         logger.error(f"❌ خطا در چت‌بات: {e}")

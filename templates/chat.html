@@ -18,12 +18,6 @@
     </div>
 </div>
 
-<style>
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-</style>
 <div class="page active" id="pageChat">
     <div class="page-header">💬 چت‌بات درمانی</div>
 
@@ -141,9 +135,6 @@
 
 {% block scripts %}
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-    enforcePersianInput(document.getElementById('chatInput')); // فیلد چت
-    });
     var chatContainer = document.getElementById('chatContainer');
     var chatInput = document.getElementById('chatInput');
     var chatSendBtn = document.getElementById('chatSendBtn');
@@ -156,7 +147,6 @@
     function updateCounter(remaining) {
         if (!chatRemaining) return;
 
-        // ===== تبدیل اعداد لاتین به فارسی =====
         var persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
         var persianNum = String(remaining).split('').map(function(d) {
             return persianDigits[parseInt(d)] || d;
@@ -164,19 +154,16 @@
 
         chatRemaining.textContent = persianNum;
 
-        // ===== پاک کردن کلاس‌ها =====
         if (chatCounter) {
             chatCounter.classList.remove('warning', 'danger');
         }
 
-        // ===== تعیین وضعیت =====
         if (remaining <= 2) {
             if (chatCounter) chatCounter.classList.add('danger');
         } else if (remaining <= 5) {
             if (chatCounter) chatCounter.classList.add('warning');
         }
 
-        // ===== غیرفعال اگر صفر شد =====
         if (remaining <= 0) {
             if (chatSendBtn) {
                 chatSendBtn.disabled = true;
@@ -213,7 +200,6 @@
         chatInput.value = '';
         chatContainer.scrollTop = chatContainer.scrollHeight;
 
-        // ===== غیرفعال موقت =====
         chatSendBtn.disabled = true;
 
         fetch('/api/chat', {
@@ -222,18 +208,13 @@
             body: JSON.stringify({ message: message })
         })
         .then(function(response) {
-            // ===== فعال کردن دکمه =====
             chatSendBtn.disabled = false;
 
-            // ===== چک هدر Rate Limit =====
             var remaining = response.headers.get('X-RateLimit-Remaining');
-            console.log('📊 Remaining:', remaining);
-
             if (remaining !== null) {
                 updateCounter(parseInt(remaining));
             }
 
-            // ===== چک 429 =====
             if (response.status === 429) {
                 addMessage('🚫 <strong>امکان ارسال پیام شما به پایان رسیده.</strong><br>لطفاً ۲۴ ساعت دیگر دوباره تلاش کنید.', 'bot');
                 updateCounter(0);
@@ -264,14 +245,27 @@
     chatInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter') sendMessage();
     });
+
     // ============================================================
-    // ============================================================
-    // مدیریت رضایت چت (مودال) - مخصوص هر کاربر
+    // مدیریت رضایت چت (مودال)
     // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
         var modal = document.getElementById('consentModal');
 
-        // به سرور بگو وضعیت رضایت این کاربر رو بده
+        // فیلتر فارسی
+        enforcePersianInput(chatInput);
+        // 🆕 لود کردن تاریخچه چت
+        fetch('/api/chat/history')
+            .then(res => res.json())
+            .then(messages => {
+                if (Array.isArray(messages)) {
+                    messages.forEach(msg => {
+                        addMessage(msg.content, msg.role === 'user' ? 'user' : 'bot');
+                    });
+                }
+            })
+            .catch(err => console.warn('خطا در لود تاریخچه:', err));
+        // چک رضایت
         fetch('/api/chat/consent/status')
             .then(res => res.json())
             .then(data => {

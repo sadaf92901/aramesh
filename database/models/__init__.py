@@ -7,3 +7,4 @@ from database.models.breathing import BreathingExercise
 from database.models.weekly_plan import WeeklyPlan
 from database.models.meditation import Meditation
 from database.models.subscription import Subscription
+from database.models.chat_message import ChatMessage
