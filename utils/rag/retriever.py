@@ -38,13 +38,14 @@ class Retriever:
         self.vector_store.build(documents, embeddings)
         return True
 
-    def retrieve(self, query, top_k=3):
+    def retrieve(self, query, top_k=3, min_score=0.0):
         """
         جستجوی نمونه‌های مشابه
 
         Args:
             query: متن سوال
             top_k: تعداد نتایج
+            min_score: حداقل شباهت برای پذیرش (پیش‌فرض 0.0 = بدون فیلتر)
 
         Returns:
             لیست نتایج
@@ -63,7 +64,11 @@ class Retriever:
             return []
 
         # ===== جستجو =====
-        return self.vector_store.search(query_vector, top_k=top_k)
+        return self.vector_store.search(
+            query_vector,
+            top_k=top_k,
+            min_score=min_score
+        )
 
     def is_ready(self):
         return (

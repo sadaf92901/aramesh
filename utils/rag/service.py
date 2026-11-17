@@ -41,9 +41,15 @@ class RAGService:
             return True
 
         # ===== ۱. تلاش برای لود از cache =====
+        # ===== ۱. تلاش برای لود از cache =====
         if self.retriever.vector_store.load():
-            self._ready = True
-            return True
+            # 🆕 مدل embedding هم باید لود بشه
+            self.retriever.embedding_model.load()
+            if self.retriever.embedding_model.is_available():
+                self._ready = True
+                return True
+            else:
+                logger.warning("⚠️ مدل embedding لود نشد، index دوباره ساخته می‌شه")
 
         # ===== ۲. لود دیتاست =====
         if not self.dataset.load():

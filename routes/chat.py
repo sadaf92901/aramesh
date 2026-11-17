@@ -499,15 +499,33 @@ def chat():
                 'source': 'crisis',
                 'is_crisis': True
             })
+        # 🆕 پیام‌های ساده (سلام/خداحافظ/تشکر) اول جواب داده بشن
+        msg_lower = user_message.lower()
+        if any(w in msg_lower for w in ['سلام', 'درود', 'صبح بخیر', 'عصر بخیر', 'شب بخیر']) and len(user_message) < 20:
+            response = random.choice(FALLBACK_RESPONSES['greeting'])
+            add_to_chat_history('bot', response)
+            save_chat_for_training(user_message, response)
+            return jsonify({'response': response, 'source': 'greeting'})
 
+        if any(w in msg_lower for w in ['خداحافظ', 'بای', 'فعلا']) and len(user_message) < 20:
+            response = "خداحافظ عزیزم 🌙 مواظب خودت باش. هر وقت نیاز داشتی من اینجام."
+            add_to_chat_history('bot', response)
+            save_chat_for_training(user_message, response)
+            return jsonify({'response': response, 'source': 'farewell'})
+
+        if any(w in msg_lower for w in ['مرسی', 'ممنون', 'سپاس']) and len(user_message) < 20:
+            response = "خواهش می‌کنم 🌸 خوشحالم که تونستم کمکت کنم."
+            add_to_chat_history('bot', response)
+            save_chat_for_training(user_message, response)
+            return jsonify({'response': response, 'source': 'thanks'})
         llm_service = get_llm_service()
 
         if llm_service.is_available():
-            response = llm_service.chat(user_message)
+            response = llm_service.chat_smart(user_message)
             if response:
                 add_to_chat_history('bot', response)
                 save_chat_for_training(user_message, response)
-                return jsonify({'response': response, 'source': 'llm'})
+                return jsonify({'response': response, 'source': 'll_smart'})
 
         logger.info("🔄 LLM در دسترس نیست، تلاش برای RAG در چت...")
 

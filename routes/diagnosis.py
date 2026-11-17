@@ -101,13 +101,10 @@ def get_treatment(prediction):
 
 
 # ============================================================
-# تحلیل با LLM
+# تحلیل با LLM (و RAG)
 # ============================================================
 
 def analyze_with_llm(text_answers):
-    if not LLM_ENABLED:
-        return None
-
     valid_texts = [t for t in text_answers if t and len(t.strip()) >= 10]
     if not valid_texts:
         return None
@@ -116,11 +113,30 @@ def analyze_with_llm(text_answers):
         from utils.llm.service import get_llm_service
         llm_service = get_llm_service()
 
-        if not llm_service.is_available():
-            logger.warning("⚠️ LLMService در دسترس نیست")
+        # ===== 🆕 ۱. اول RAG (حتی اگر LLM در دسترس نباشد) =====
+        rag_result = llm_service.try_rag_analysis(text_answers)
+        if rag_result is not None:
+            logger.info(f"✅ تحلیل با RAG (score={rag_result.get('_rag_score')})")
+            return {
+                'score': rag_result.get('final_score', 0),
+                'status': rag_result.get('status', 'RAG'),
+                'treatment': rag_result.get('treatment', ''),
+                'emotion': rag_result.get('dominant_emotion', ''),
+                'key_concerns': rag_result.get('key_concerns', []),
+                'source': 'rag'
+            }
+
+        # ===== ۲. اگر RAG match نداد و LLM در دسترس بود =====
+        if not LLM_ENABLED:
+            logger.info("⚠️ RAG match نداشت و LLM غیرفعال است")
             return None
 
-        result = llm_service.analyze_text(text_answers)
+        if not llm_service.is_available():
+            logger.warning("⚠️ RAG match نداشت و LLMService در دسترس نیست")
+            return None
+
+        logger.info("⚠️ RAG match قوی نداشت → LLM")
+        result = llm_service.analyze_text_smart(text_answers)
 
         if not result:
             logger.warning("⚠️ LLM نتیجه‌ی معتبر برنگرداند")
@@ -135,7 +151,7 @@ def analyze_with_llm(text_answers):
         }
 
     except Exception as e:
-        logger.error(f"❌ خطا در LLM: {e}")
+        logger.error(f"❌ خطا در LLM/RAG: {e}")
         return None
 
 
@@ -151,7 +167,6 @@ def analyze_with_rag_fallback(text_answers):
         if not combined_text or len(combined_text) < 10:
             return None
 
-
         # کلمات کلیدی بر اساس شدت
         severe_words = [
             "خودکشی", "بمیرم", "ناامید", "بی ارزش", "افسردگی شدید",
@@ -161,13 +176,14 @@ def analyze_with_rag_fallback(text_answers):
         ]
         moderate_words = [
             "غمگین", "افسرده", "نگران", "استرس", "اضطراب", "خسته",
-            "بی حوصله", "تنها", "عصبی", "عصبانی", "ترس", "دلگیر",
+            "بی حوصله", "تنها", "عصبی", "عصبان", "ترس", "دلگیر",
             "بد", "ناراحت", "نمی‌تونم", "خسته‌ام"
         ]
         mild_words = ["کمی", "گاهی", "بعضی وقتا", "کم", "نسبتا", "یکم"]
         healthy_words = ["خوب", "عالی", "خوشحال", "امیدوار", "آروم", "راضی", "ممنون", "لذت"]
+
         # محاسبه نمره
-        score = 50  # پیش‌فرض
+        score = None  # 🆕 پیش‌فرض: نامشخص
 
         if any(word in combined_text for word in severe_words):
             score = 15
@@ -177,6 +193,11 @@ def analyze_with_rag_fallback(text_answers):
             score = 70
         elif any(word in combined_text for word in healthy_words):
             score = 90
+
+        # 🆕 اگر هیچ کلمه‌ای match نشد، برگردون None
+        if score is None:
+            logger.warning("⚠️ کلمات کلیدی هم match نکردن — تحلیل متنی ممکن نیست")
+            return None
 
         logger.info(f"✅ تحلیل کلمات کلیدی - نمره: {score}")
 
@@ -209,7 +230,7 @@ def analyze_answers(mc_answers, text_answers):
     llm_status = 'در دسترس نیست'
     llm_treatment = ''
 
-    if LLM_ENABLED and has_valid_text:
+    if has_valid_text:
         llm_result = analyze_with_llm(text_answers)
 
         if llm_result:
@@ -217,7 +238,7 @@ def analyze_answers(mc_answers, text_answers):
             llm_status = llm_result.get('status', 'نامشخص')
             llm_treatment = llm_result.get('treatment', '')
         else:
-            logger.info("🔄 LLM در دسترس نیست، تلاش با کلمات کلیدی...")
+            logger.info("🔄 LLM/RAG در دسترس نیست، تلاش با کلمات کلیدی...")
             rag_result = analyze_with_rag_fallback(text_answers)
 
             if rag_result:
@@ -225,16 +246,16 @@ def analyze_answers(mc_answers, text_answers):
                 llm_status = rag_result.get('status', 'کلمات کلیدی')
                 llm_treatment = rag_result.get('treatment', '')
             else:
-                llm_status = 'LLM و کلمات کلیدی در دسترس نیستند'
+                # 🆕 فقط MCQ — تحلیل متنی در دسترس نیست
+                llm_status = 'فقط MCQ (تحلیل متنی در دسترس نیست)'
     else:
-        if not LLM_ENABLED:
-            llm_status = 'غیرفعال'
-        else:
-            llm_status = 'متنی نیست'
+        llm_status = 'متنی نیست'
 
     if llm_score > 0:
         final_score = (mcq_score * 0.5) + (llm_score * 0.5)
     else:
+        # 🆕 اگر LLM و RAG و کلمات کلیدی هیچ‌کدوم جواب ندادن، فقط MCQ
+        logger.warning("⚠️ فقط MCQ در دسترس است — دقت پایین")
         final_score = mcq_score
 
     final_score = round(final_score, 1)

@@ -36,13 +36,14 @@ class VectorStore:
 
         logger.info(f"✅ Index ساخته شد: {len(documents)} داکیومنت")
 
-    def search(self, query_vector, top_k=3):
+    def search(self, query_vector, top_k=3, min_score=0.0):
         """
         جستجوی بردارهای مشابه
 
         Args:
             query_vector: بردار سوال
             top_k: تعداد نتایج
+            min_score: حداقل شباهت برای پذیرش (پیش‌فرض 0.0 = بدون فیلتر)
 
         Returns:
             لیست (document, score)
@@ -52,8 +53,8 @@ class VectorStore:
 
         try:
             # ===== شباهت کسینوسی =====
-            # چون بردارها normalize شدن، ضرب داخلی = شباهت کسینوسی
-            similarities = np.dot(self.vectors, query_vector.T).flatten()
+            q = query_vector.reshape(-1)
+            similarities = np.dot(self.vectors, q).flatten()
 
             # ===== مرتب‌سازی =====
             top_indices = np.argsort(similarities)[::-1][:top_k]
@@ -61,8 +62,7 @@ class VectorStore:
             results = []
             for idx in top_indices:
                 score = float(similarities[idx])
-                # فیلتر: فقط شباهت بالای ۰.۳
-                if score >= 0.15:
+                if score >= min_score:
                     results.append({
                         'document': self.documents[idx],
                         'score': round(score, 3)

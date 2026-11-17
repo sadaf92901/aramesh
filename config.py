@@ -88,6 +88,10 @@ class Config:
     RAG_STORE_PATH = os.path.join(BASE_DIR, 'data', 'vector_store.json')
     RAG_EMBEDDING_MODEL = 'sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2'
     RAG_TOP_K = 3
+    # ===== 🆕 آستانه‌های RAG =====
+    RAG_ANALYSIS_THRESHOLD = 0.70  # جایگزینی LLM در تشخیص
+    RAG_CHAT_THRESHOLD = 0.78  # جایگزینی LLM در چت
+    RAG_CONTEXT_THRESHOLD = 0.45  # حداقل برای دادن context به LLM
 
     # ============================================================
     # Email
