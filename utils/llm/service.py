@@ -71,6 +71,7 @@ class LLMService:
     def try_rag_analysis(self, text_answers):
         """
         تحلیل با RAG — هر متن جداگانه match می‌شه و میانگین گرفته می‌شه
+        با آستانه‌ی تطبیقی
         """
         try:
             from utils.rag.service import get_rag_service
@@ -95,7 +96,6 @@ class LLMService:
                     matched_docs.append(results[0]['document'])
                     scores.append(results[0]['score'])
 
-            # اگر هیچ متنی match نشد
             if not matched_docs:
                 return None
 
@@ -104,10 +104,20 @@ class LLMService:
             avg_anx = sum(d.get('anxiety_score', 50) for d in matched_docs) / len(matched_docs)
             avg_score = sum(scores) / len(scores)
 
-            # emotion غالب (اولین match)
+            # ===== 🆕 تعیین سطح اطمینان =====
+            if avg_score >= self.config.RAG_HIGH_CONFIDENCE:
+                confidence = 'high'
+                status = f'موفق (RAG، اطمینان بالا، {len(matched_docs)} match)'
+            elif avg_score >= self.config.RAG_MEDIUM_CONFIDENCE:
+                confidence = 'medium'
+                status = f'موفق (RAG، اطمینان متوسط، {len(matched_docs)} match)'
+            else:
+                return None
+
+            # emotion غالب
             dominant_emotion = matched_docs[0].get('emotion', 'نامشخص')
 
-            # signs ترکیبی (بدون تکرار)
+            # signs ترکیبی
             all_signs = []
             for d in matched_docs:
                 for s in d.get('signs', []):
@@ -124,12 +134,14 @@ class LLMService:
                 'final_score': round(max(0, 100 - avg_dep), 1),
                 'key_concerns': all_signs[:5],
                 'treatment': matched_docs[0].get('treatment', ''),
-                'status': f'موفق (RAG، {len(matched_docs)} match)',
+                'status': status,
+                'confidence': confidence,
                 '_rag_score': round(avg_score, 3),
             }
         except Exception as e:
             logger.error(f"❌ خطا در RAG مستقیم: {e}")
             return None
+
 
     def try_rag_chat(self, message):
         """

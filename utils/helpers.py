@@ -222,6 +222,7 @@ def get_week_moods(moods_data):
 # 🆕 اعتبارسنجی زبان
 # ============================================================
 
+
 def is_persian(text):
     """چک می‌کنه که آیا متن حداقل یک حرف فارسی داره یا نه"""
     if not text:
@@ -236,6 +237,7 @@ def is_english_only(text):
         return False
     import re
     return bool(re.match(r'^[a-zA-Z0-9_]+$', text))
+
 
 def calculate_stats(moods_data):
     """محاسبه آمار خلقیات"""
@@ -261,3 +263,39 @@ def calculate_stats(moods_data):
     }
 
     return stats
+# ============================================================
+# 🆕 نرمال‌سازی متن برای RAG
+# ============================================================
+
+
+def normalize_text(text):
+    """
+    نرمال‌سازی متن فارسی برای بهبود embedding
+    """
+    if not text:
+        return ''
+
+    # ===== حروف عربی → فارسی =====
+    text = text.replace('ي', 'ی')
+    text = text.replace('ك', 'ک')
+
+    # ===== اعداد عربی → انگلیسی =====
+    arabic_digits = '٠١٢٣٤٥٦٧٨٩'
+    persian_digits = '۰۱۲۳۴۵۶۷۸۹'
+    english_digits = '0123456789'
+
+    for i, d in enumerate(arabic_digits):
+        text = text.replace(d, english_digits[i])
+    for i, d in enumerate(persian_digits):
+        text = text.replace(d, english_digits[i])
+
+    # ===== حذف کاراکترهای کنترلی =====
+    text = re.sub(r'[\x00-\x1F\x7F]', '', text)
+
+    # ===== یکدست کردن فاصله‌ها =====
+    text = re.sub(r'\s+', ' ', text)
+
+    # ===== حذف فاصله‌های ابتدا/انتها =====
+    text = text.strip()
+
+    return text

@@ -3,6 +3,9 @@
 # ============================================================
 from config import get_config
 from utils.logger import logger
+from utils.helpers import normalize_text
+
+
 class EmbeddingModel:
     """
     مدل تبدیل متن به بردار
@@ -54,6 +57,7 @@ class EmbeddingModel:
 
         if isinstance(texts, str):
             texts = [texts]
+            texts = [normalize_text(t) for t in texts]
 
         try:
             embeddings = self.model.encode(
