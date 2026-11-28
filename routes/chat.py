@@ -5,9 +5,11 @@ from flask import Blueprint, request, jsonify, session
 from utils.llm.service import get_llm_service
 from database import db
 from config import get_config
+from datetime import datetime
 import random
 import json
 import os
+import uuid
 
 chat_bp = Blueprint('chat', __name__)
 
@@ -70,9 +72,35 @@ def add_to_chat_history(role, content):
     user_id = session.get('user_id')
     if user_id:
         try:
-            from database.models import ChatMessage
-            msg = ChatMessage(user_id=user_id, role=role, content=content)
+            from database.models import ChatMessage, Conversation
+
+            # اگر conversation_id نداریم، یکی بساز
+            conversation_id = session.get('current_conversation_id')
+            if not conversation_id:
+                conversation_id = str(uuid.uuid4())
+                session['current_conversation_id'] = conversation_id
+
+                # ساخت Conversation جدید
+                conv = Conversation(
+                    id=conversation_id,
+                    user_id=user_id,
+                    title='چت جدید'
+                )
+                db.session.add(conv)
+
+            msg = ChatMessage(
+                user_id=user_id,
+                conversation_id=conversation_id,
+                role=role,
+                content=content
+            )
             db.session.add(msg)
+
+            # آپدیت updated_at چت
+            conv = Conversation.query.get(conversation_id)
+            if conv:
+                conv.updated_at = datetime.utcnow()
+
             db.session.commit()
         except Exception as e:
             logger.warning(f"⚠️ خطا در ذخیره تاریخچه چت: {e}")
@@ -113,8 +141,9 @@ def save_chat_for_training(user_message, bot_response):
 
 
 # ============================================================
-# تشخیص احساس با کلمه کلیدی (کامل و جامع)
+# تشخیص احساس با کلمه کلیدی
 # ============================================================
+
 def detect_emotion_by_keyword(message):
     msg = message.lower()
     keywords = {
@@ -126,7 +155,6 @@ def detect_emotion_by_keyword(message):
             "خواب آلود", "افت", "افت کرده", "انرژی تموم",
             "تخلیه", "خالی", "خسته‌کنه", "خسته کننده", "درمانده", "وازده",
             "خسته‌ی", "خسته ی", "دیگه کشش ندارم", "مغزم کار نمی‌کنه", "خسته جونی",
-            # 🆕 اصطلاحات نسل Z برای خستگی
             "پنکیک", "خسته کوفته", "مچاله", "لِه", "له شدم", "خسته‌ی صبح", "شارژم تموم شد"
         ],
         "غم": [
@@ -139,7 +167,6 @@ def detect_emotion_by_keyword(message):
             "نا امید", "امید ندارم", "امیدمو از دست دادم", "بی امید", "ناامیدم",
             "غمگین هستم", "دپرس", "دپرسی", "افسردگی دارم", "زندگیم سیاهه",
             "دلشکسته", "دل شکست", "احساس بی ارزشی", "خسته از زندگی",
-            # 🆕 اصطلاحات نسل Z برای غم
             "دپرس شدم", "کراش", "کرش", "دلم گرفت", "دلگیر شدم", "فاز منفی", "پوکیدم", "خاکستری شدم", "تو لاک خودمم"
         ],
         "اضطراب": [
@@ -151,7 +178,6 @@ def detect_emotion_by_keyword(message):
             "تپش قلب", "عرق", "لرزش", "بی قرار", "بی قراری", "ناآروم",
             "استرس شدید", "اضطراب شدید", "حمله پنیک", "استرس داره منو میخوره",
             "نگران آینده", "نگران فردا", "دلشوره شدید", "تنش عصبی",
-            # 🆕 اصطلاحات نسل Z برای اضطراب
             "گیر کردم", "استرسش", "استرس داره", "قلبم می‌خواد بشکنه", "هولم", "هول شدم", "دلم شور می‌زنه", "فاز استرس", "پرت شدم"
         ],
         "خشم": [
@@ -162,7 +188,6 @@ def detect_emotion_by_keyword(message):
             "متنفرم", "نفرت دارم", "کینه دارم", "خشمگین", "قاطی کردم",
             "منفجر", "منفجر شدم", "دیوونه شدم", "عصبانی شدم", "خشمگین شدم",
             "حرص خوردم", "دلم می‌خواد داد بزنم", "از کوره در رفتم", "پکر شدم",
-            # 🆕 اصطلاحات نسل Z برای خشم
             "کف کردم", "پوکوندم", "داغونش کردم", "خونم به جوش اومد", "پکر شدم", "رو مخم", "حرصم دراومد"
         ],
         "تنهایی": [
@@ -174,7 +199,6 @@ def detect_emotion_by_keyword(message):
             "هیچ‌کس منو نمی‌فهمه", "کسی درکم نمی‌کنه", "همه رفتن", "رها شدم",
             "احساس می‌کنم تنهام", "دوست ندارم", "کسی رو ندارم که", "درک نشدم",
             "بی‌کس و کار", "دلگیرم از همه",
-            # 🆕 اصطلاحات نسل Z برای تنهایی
             "کراش ندارم", "بی کس شدم", "تو لاک خودمم", "تنها تو خونه", "دلم تنگ شده", "کسی نیست حرف بزنم"
         ],
         "خودارزیابی منفی": [
@@ -184,7 +208,6 @@ def detect_emotion_by_keyword(message):
             "شرمنده ام", "گناهکارم", "بی کفایت", "حقیر",
             "خودمو دوست ندارم", "از خودم بدم میاد", "بی عرضه",
             "احساس بی ارزشی می‌کنم", "هیچی نیستم", "خودمو قبول ندارم", "ضعیفم",
-            # 🆕 اصطلاحات نسل Z برای خودارزیابی منفی
             "کرینج", "کرینجم", "خودمو دوس ندارم", "ضعیفم", "بدرد نمی‌خورم", "احمقم", "خنگم", "بی استعداد", "هیچیم نیستم"
         ],
     }
@@ -194,8 +217,9 @@ def detect_emotion_by_keyword(message):
             return emotion
     return None
 
+
 # ============================================================
-# تولید پاسخ با سوال و هدایت به بخش‌ها
+# تولید پاسخ همدلانه
 # ============================================================
 
 def get_empathy_response(emotion, user_message):
@@ -323,7 +347,6 @@ def get_empathy_response(emotion, user_message):
         },
     }
 
-    # دریافت داده‌های احساس
     data = emotion_data.get(emotion, {
         "empathy": ["من اینجام تا بهت گوش بدم."],
         "questions": ["می‌خوای بیشتر در موردش حرف بزنیم؟"],
@@ -332,21 +355,17 @@ def get_empathy_response(emotion, user_message):
 
     empathy = random.choice(data["empathy"])
 
-    # انتخاب سوال (اولین سوالی که توی تاریخچه نپرسیده)
-    question = data["questions"][0]  # پیش‌فرض
+    question = data["questions"][0]
     history = get_chat_history()
     bot_messages = [msg['content'] for msg in history if msg['role'] == 'bot']
 
-    # پیدا کردن اولین سوالی که هنوز پرسیده نشده
     for q in data["questions"]:
         if not any(q in bot_msg for bot_msg in bot_messages):
             question = q
             break
 
-    # ساخت پاسخ
     response = f"{empathy} {question}"
 
-    # پیشنهاد (فقط برای پیام‌های طولانی)
     if data["suggestions"] and len(user_message) > 15:
         suggestion_text, suggestion_link = random.choice(data["suggestions"])
         response += f"\n\n💡 <strong>{suggestion_text}</strong> <a href='{suggestion_link}' style='color: #8B5CF6; text-decoration: underline; font-weight: 700;'>اینجا کلیک کن</a>"
@@ -355,7 +374,7 @@ def get_empathy_response(emotion, user_message):
 
 
 # ============================================================
-# 🆕 تولید پاسخ چت با استفاده از دیتاست RAG
+# RAG چت
 # ============================================================
 
 def get_rag_chat_response(user_message):
@@ -367,7 +386,6 @@ def get_rag_chat_response(user_message):
         if not rag.is_ready():
             return None
 
-        # جستجوی نمونه‌های مشابه
         results = rag.retriever.retrieve(user_message, top_k=1)
 
         if not results:
@@ -377,13 +395,11 @@ def get_rag_chat_response(user_message):
         emotion = doc.get('emotion', 'نامشخص')
         similarity = results[0]['score']
 
-        # اگر شباهت خیلی پایین بود، بی‌خیال شو (بذار کلمات کلیدی تصمیم بگیرن)
         if similarity < 0.2:
             return None
 
         logger.info(f"✅ RAG پاسخ پیدا کرد: احساس={emotion}, شباهت={similarity}")
 
-        # تولید پاسخ همدلانه بر اساس احساس پیدا شده
         return get_empathy_response(emotion, user_message)
 
     except Exception as e:
@@ -439,25 +455,152 @@ def chat_consent_status():
 
 
 # ============================================================
-# API دریافت تاریخچه چت
+# 🆕 API چت جدید
 # ============================================================
 
-@chat_bp.route('/api/chat/history', methods=['GET'])
-def get_chat_history_api():
-    """دریافت چت‌های قبلی کاربر"""
+@chat_bp.route('/api/chat/new', methods=['POST'])
+def new_chat():
+    """شروع چت جدید"""
     user_id = session.get('user_id')
     if not user_id:
         return jsonify({'error': 'لاگین نیستید'}), 401
 
-    from database.models import ChatMessage
-    messages = ChatMessage.query.filter_by(user_id=user_id) \
-        .order_by(ChatMessage.created_at.asc()).limit(50).all()
+    from database.models import Conversation
+
+    conversation = Conversation(
+        id=str(uuid.uuid4()),
+        user_id=user_id,
+        title='چت جدید'
+    )
+    db.session.add(conversation)
+    db.session.commit()
+
+    session['chat_history'] = []
+    session['current_conversation_id'] = conversation.id
+
+    return jsonify({
+        'success': True,
+        'conversation_id': conversation.id,
+        'created_at': conversation.created_at.isoformat()
+    })
+
+
+# ============================================================
+# 🆕 API لیست چت‌های قبلی
+# ============================================================
+
+@chat_bp.route('/api/chat/conversations', methods=['GET'])
+def list_conversations():
+    """لیست چت‌های قبلی کاربر"""
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonify({'error': 'لاگین نیستید'}), 401
+
+    from database.models import Conversation, ChatMessage
+
+    conversations = Conversation.query.filter_by(user_id=user_id) \
+        .order_by(Conversation.updated_at.desc()).limit(50).all()
+
+    result = []
+    for conv in conversations:
+        msg_count = ChatMessage.query.filter_by(conversation_id=conv.id).count()
+
+        first_msg = ChatMessage.query.filter_by(
+            conversation_id=conv.id, role='user'
+        ).order_by(ChatMessage.created_at.asc()).first()
+
+        result.append({
+            'id': conv.id,
+            'title': first_msg.content[:50] + '...' if first_msg and len(first_msg.content) > 50 else (first_msg.content if first_msg else 'چت جدید'),
+            'message_count': msg_count,
+            'created_at': conv.created_at.isoformat(),
+            'updated_at': conv.updated_at.isoformat(),
+        })
+
+    return jsonify(result)
+
+
+# ============================================================
+# 🆕 API دریافت پیام‌های یک چت
+# ============================================================
+
+@chat_bp.route('/api/chat/conversations/<conversation_id>', methods=['GET'])
+def get_conversation(conversation_id):
+    """دریافت پیام‌های یک چت خاص"""
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonify({'error': 'لاگین نیستید'}), 401
+
+    from database.models import Conversation, ChatMessage
+
+    conv = Conversation.query.filter_by(id=conversation_id, user_id=user_id).first()
+    if not conv:
+        return jsonify({'error': 'چت پیدا نشد'}), 404
+
+    messages = ChatMessage.query.filter_by(conversation_id=conversation_id) \
+        .order_by(ChatMessage.created_at.asc()).all()
+
+    session['current_conversation_id'] = conversation_id
+    session['chat_history'] = [
+        {"role": m.role, "content": m.content} for m in messages
+    ]
 
     return jsonify([{
         'role': m.role,
         'content': m.content,
         'created_at': m.created_at.isoformat()
     } for m in messages])
+
+
+# ============================================================
+# 🆕 API حذف یک چت
+# ============================================================
+
+@chat_bp.route('/api/chat/conversations/<conversation_id>', methods=['DELETE'])
+def delete_conversation(conversation_id):
+    """حذف یک چت"""
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonify({'error': 'لاگین نیستید'}), 401
+
+    from database.models import Conversation, ChatMessage
+
+    conv = Conversation.query.filter_by(id=conversation_id, user_id=user_id).first()
+    if not conv:
+        return jsonify({'error': 'چت پیدا نشد'}), 404
+
+    ChatMessage.query.filter_by(conversation_id=conversation_id).delete()
+    db.session.delete(conv)
+    db.session.commit()
+
+    if session.get('current_conversation_id') == conversation_id:
+        session.pop('current_conversation_id', None)
+        session['chat_history'] = []
+
+    return jsonify({'success': True})
+
+
+# ============================================================
+# 🆕 API حذف همه‌ی چت‌ها
+# ============================================================
+
+@chat_bp.route('/api/chat/conversations', methods=['DELETE'])
+def delete_all_conversations():
+    """حذف همه‌ی چت‌های کاربر"""
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonify({'error': 'لاگین نیستید'}), 401
+
+    from database.models import Conversation, ChatMessage
+
+    ChatMessage.query.filter_by(user_id=user_id).delete()
+    Conversation.query.filter_by(user_id=user_id).delete()
+    db.session.commit()
+
+    session.pop('current_conversation_id', None)
+    session['chat_history'] = []
+
+    return jsonify({'success': True})
 
 
 # ============================================================
@@ -490,6 +633,7 @@ def chat():
 
         add_to_chat_history('user', user_message)
 
+        # بحران
         if any(kw in user_message for kw in CRISIS_KEYWORDS):
             logger.warning(f"🆘 پیام بحرانی شناسایی شد")
             add_to_chat_history('bot', CRISIS_RESPONSE)
@@ -499,7 +643,8 @@ def chat():
                 'source': 'crisis',
                 'is_crisis': True
             })
-        # 🆕 پیام‌های ساده (سلام/خداحافظ/تشکر) اول جواب داده بشن
+
+        # پیام‌های ساده
         msg_lower = user_message.lower()
         if any(w in msg_lower for w in ['سلام', 'درود', 'صبح بخیر', 'عصر بخیر', 'شب بخیر']) and len(user_message) < 20:
             response = random.choice(FALLBACK_RESPONSES['greeting'])
@@ -518,18 +663,20 @@ def chat():
             add_to_chat_history('bot', response)
             save_chat_for_training(user_message, response)
             return jsonify({'response': response, 'source': 'thanks'})
+
         llm_service = get_llm_service()
 
+        # ۱. LLM
         if llm_service.is_available():
             response = llm_service.chat_smart(user_message)
             if response:
                 add_to_chat_history('bot', response)
                 save_chat_for_training(user_message, response)
-                return jsonify({'response': response, 'source': 'll_smart'})
+                return jsonify({'response': response, 'source': 'llm_smart'})
 
         logger.info("🔄 LLM در دسترس نیست، تلاش برای RAG در چت...")
 
-        # ۱. اول از RAG (دیتاست) استفاده کن
+        # ۲. RAG
         response = get_rag_chat_response(user_message)
         if response:
             add_to_chat_history('bot', response)
@@ -539,11 +686,10 @@ def chat():
                 'source': 'rag'
             })
 
-        # ۲. اگه RAG جواب نداد، از کلمات کلیدی استفاده کن
+        # ۳. کلمات کلیدی
         logger.info("🔄 RAG جواب نداد، استفاده از کلمات کلیدی...")
         emotion = detect_emotion_by_keyword(user_message)
 
-        # ۳. اگه پیدا نشد، از حافظه (پیام‌های قبلی) استفاده کن
         if not emotion:
             from database.models import ChatMessage
             last_msgs = ChatMessage.query.filter_by(user_id=user_id, role='user') \
@@ -556,7 +702,6 @@ def chat():
                     logger.info(f"🧠 استفاده از حافظه: احساس قبلی = {emotion}")
                     break
 
-        # ۴. تولید پاسخ
         if emotion:
             response = get_empathy_response(emotion, user_message)
             add_to_chat_history('bot', response)
@@ -567,7 +712,7 @@ def chat():
                 'emotion': emotion
             })
 
-        # ۵. اگه هیچی پیدا نشد، از جواب‌های ساده استفاده کن
+        # ۴. Fallback
         response = get_fallback_response(user_message)
         add_to_chat_history('bot', response)
         save_chat_for_training(user_message, response)
