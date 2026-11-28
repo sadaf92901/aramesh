@@ -1,136 +1,116 @@
 {% extends "base.html" %}
 
 {% block content %}
-<!-- 🆕 مودال رضایت‌گیری -->
+<!-- مودال رضایت‌گیری -->
 <div id="consentModal" style="display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
-    <div style="background: white; border-radius: 20px; padding: 24px; max-width: 400px; width: 90%; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.2); animation: fadeIn 0.3s ease;">
+    <div style="background: white; border-radius: 20px; padding: 24px; max-width: 400px; width: 90%; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
         <div style="font-size: 40px; margin-bottom: 16px;">💚</div>
         <h3 style="margin: 0 0 12px 0; color: #1e293b; font-size: 18px;">حریم خصوصی شما برای ما مهمه</h3>
         <p style="margin: 0 0 20px 0; color: #64748b; font-size: 14px; line-height: 1.8; text-align: justify;">
-            اجازه می‌دی از این گفتگو (به صورت کاملاً ناشناس، بدون نام و اطلاعات هویتی) برای بهتر شدن هوش مصنوعی «همراه آرامش» در آینده استفاده کنم؟
-            <br><br>
-            <strong>توجه:</strong> در هر صورت، شما می‌تونید چت کنید. این فقط یه انتخاب داوطلبانه‌ست.
+            اجازه می‌دی از این گفتگو (کاملاً ناشناس) برای بهتر شدن هوش مصنوعی «همراه آرامش» استفاده کنم؟
+            <br><br><strong>توجه:</strong> در هر صورت، شما می‌تونید چت کنید.
         </p>
         <div style="display: flex; gap: 10px; justify-content: center;">
-            <button onclick="setChatConsent(true)" style="flex: 1; padding: 12px; border: none; border-radius: 12px; background: linear-gradient(135deg, #8B5CF6, #7C3AED); color: white; font-weight: 700; cursor: pointer; font-family: 'Vazirmatn'; transition: 0.3s;">بله، موافقم</button>
-            <button onclick="setChatConsent(false)" style="flex: 1; padding: 12px; border: 2px solid #e2e8f0; border-radius: 12px; background: white; color: #64748b; font-weight: 700; cursor: pointer; font-family: 'Vazirmatn'; transition: 0.3s;">خیر</button>
+            <button onclick="setChatConsent(true)" style="flex: 1; padding: 12px; border: none; border-radius: 12px; background: #8B5CF6; color: white; font-weight: 700; cursor: pointer; font-family: 'Vazirmatn';">بله</button>
+            <button onclick="setChatConsent(false)" style="flex: 1; padding: 12px; border: 2px solid #e2e8f0; border-radius: 12px; background: white; color: #64748b; font-weight: 700; cursor: pointer; font-family: 'Vazirmatn';">خیر</button>
         </div>
     </div>
 </div>
 
-<div class="page active" id="pageChat">
-    <div class="page-header">💬 چت‌بات درمانی</div>
+<!-- لایه‌بندی اصلی صفحه چت (قفل شده تا صفحه بزرگ نشه) -->
+<div class="page active chat-layout" id="pageChat" style="display: flex !important; flex-direction: row !important; gap: 16px !important; width: 100% !important; max-width: 100% !important; height: calc(100vh - 120px) !important; overflow: hidden !important; margin-bottom: 20px;">
 
-    <!-- شمارنده -->
-    <div class="chat-counter" id="chatCounter">
-        <span>📊 پیام‌های امروز:</span>
-        <strong id="chatRemaining">۵۰</strong>
-        <span>از ۵۰</span>
-    </div>
-
-    <!-- محفظه چت -->
-    <div id="chatContainer" style="height: calc(100vh - 500px); min-height: 400px; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 16px; padding: 16px; background: #f8fafc; margin-bottom: 12px; display: flex; flex-direction: column;">
-        <div class="chat-message bot">
-            <p>سلام! 👋 من اینجا هستم تا بهت کمک کنم.</p>
+    <!-- سایدبار -->
+    <aside class="chat-sidebar" id="chatSidebar" style="width: 280px !important; flex-shrink: 0 !important; background: #f8fafc; border-radius: 16px; border: 1px solid #e2e8f0; padding: 16px; display: flex; flex-direction: column; height: 100%;">
+        <button class="btn-new-chat" onclick="startNewChat()" style="width: 100%; padding: 12px; background: #fff; border: 1px solid #cbd5e1; border-radius: 8px; font-family: 'Vazirmatn'; font-size: 14px; font-weight: 700; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 8px;">
+            <span>➕</span> چت جدید
+        </button>
+        <div class="sidebar-title" style="font-size: 13px; color: #64748b; margin: 20px 0 10px 0; font-weight: 600;">📋 چت‌های قبلی</div>
+        <div id="conversationsList" class="conversations-list" style="flex: 1; overflow-y: auto;">
+            <p style="text-align: center; color: #94a3b8; font-size: 13px; padding: 20px 0;">در حال بارگذاری...</p>
         </div>
-    </div>
+    </aside>
 
-    <!-- ورودی -->
-    <div style="display: flex; gap: 10px;">
-        <input type="text" id="chatInput" placeholder="پیام خود را بنویسید..." style="flex: 1; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 12px; font-family: 'Vazirmatn', sans-serif; font-size: 16px;">
-        <button class="btn" id="chatSendBtn" onclick="sendMessage()" style="padding: 12px 24px;">📤 ارسال</button>
-    </div>
+    <!-- بخش اصلی چت -->
+    <main class="chat-main" style="flex: 1 !important; display: flex !important; flex-direction: column !important; background: #fff !important; border-radius: 16px; border: 1px solid #e2e8f0; overflow: hidden; height: 100%;">
 
-    <!-- کمک فوری -->
-    <div class="emergency-card" style="margin-top: 16px;">
-        <div class="emergency-header">
-            <span class="emergency-icon">🆘</span>
-            <h3 class="emergency-title">اگه در بحران هستی</h3>
+        <header class="chat-header" style="display: flex; align-items: center; padding: 16px; border-bottom: 1px solid #e2e8f0; background: #f8fafc; flex-shrink: 0;">
+            <button class="btn-toggle-sidebar" onclick="toggleSidebar()" style="display: none; background: none; border: none; font-size: 24px; cursor: pointer; margin-left: 12px; color: #64748b;">☰</button>
+            <h2 style="margin: 0; font-size: 16px; color: #1e293b; font-weight: 700;">💬 چت‌بات درمانی</h2>
+        </header>
+
+        <!-- شمارنده (فشرده شده تا فضا کم کنه) -->
+        <div class="chat-counter" id="chatCounter" style="margin: 8px 16px 0 16px; padding: 8px 16px; background: #ede9fe; border-radius: 8px; font-size: 13px; color: #4c1d95; font-weight: 600; display: flex; justify-content: center; gap: 8px; flex-shrink: 0;">
+            <span>📊 پیام‌های امروز:</span> <strong id="chatRemaining">۵۰</strong> <span>از ۵۰</span>
         </div>
-        <p class="emergency-subtitle">با این شماره‌ها تماس بگیر:</p>
-        <div class="emergency-contacts">
-            <a href="tel:123" class="emergency-contact">
-                <div class="emergency-contact-left">
-                    <span class="emergency-contact-icon">📞</span>
-                    <span class="emergency-contact-name">اورژانس اجتماعی</span>
-                </div>
-                <span class="emergency-contact-number">۱۲۳</span>
-            </a>
-            <a href="tel:1480" class="emergency-contact">
-                <div class="emergency-contact-left">
-                    <span class="emergency-contact-icon">📞</span>
-                    <span class="emergency-contact-name">صدای مشاور</span>
-                </div>
-                <span class="emergency-contact-number">۱۴۸۰</span>
-            </a>
+
+        <!-- محفظه پیام‌ها (اینجا اسکرول میشه) -->
+        <div id="chatContainer" class="chat-container" style="flex: 1 !important; overflow-y: auto !important; padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+            <div class="chat-message bot">
+                <p>سلام! 👋 من اینجا هستم تا بهت کمک کنم.</p>
+            </div>
         </div>
-    </div>
+
+        <!-- پروتکل اورژانس (برگشت به پایین چت) -->
+        <div class="emergency-card" style="margin: 0 16px 16px 16px; padding: 12px; background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; flex-shrink: 0;">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                <span>🆘</span>
+                <h3 style="margin: 0; font-size: 14px; color: #991b1b;">اگه در بحران هستی</h3>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <a href="tel:123" style="flex: 1; text-decoration: none; background: white; padding: 8px; border-radius: 8px; border: 1px solid #fecaca; display: flex; justify-content: space-between; align-items: center; color: #991b1b; font-size: 13px; font-weight: 700;">
+                    <span>اورژانس اجتماعی</span> <span>۱۲۳</span>
+                </a>
+                <a href="tel:1480" style="flex: 1; text-decoration: none; background: white; padding: 8px; border-radius: 8px; border: 1px solid #fecaca; display: flex; justify-content: space-between; align-items: center; color: #991b1b; font-size: 13px; font-weight: 700;">
+                    <span>صدای مشاور</span> <span>۱۴۸۰</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- ورودی چت -->
+        <div class="chat-input-area" style="padding: 16px; border-top: 1px solid #e2e8f0; display: flex; gap: 10px; background: #fff; flex-shrink: 0;">
+            <input type="text" id="chatInput" placeholder="پیام خود را بنویسید..." style="flex: 1; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 8px; font-family: 'Vazirmatn', sans-serif; font-size: 15px; outline: none;">
+            <button class="btn" id="chatSendBtn" onclick="sendMessage()" style="padding: 0 24px; border-radius: 8px;">📤 ارسال</button>
+        </div>
+
+    </main>
 </div>
+
+<div id="sidebarOverlay" onclick="toggleSidebar()" class="sidebar-overlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); z-index: 998;"></div>
 
 <style>
     .chat-message {
-        animation: fadeIn 0.3s ease;
+        max-width: 80%;
         padding: 12px 16px;
         border-radius: 12px;
-        margin-bottom: 8px;
-        max-width: 80%;
         font-size: 15px;
         line-height: 1.6;
+        animation: fadeIn 0.3s ease;
     }
-    .chat-message.user {
-        align-self: flex-end;
-        background: #8B5CF6;
-        color: white;
-    }
-    .chat-message.bot {
-        align-self: flex-start;
-        background: #e2e8f0;
-        color: #1e293b;
-    }
+    .chat-message.user { align-self: flex-end; background: #8B5CF6; color: white; border-bottom-right-radius: 4px; }
+    .chat-message.bot { align-self: flex-start; background: #f1f5f9; color: #1e293b; border-bottom-left-radius: 4px; }
     .chat-message p { margin: 0; }
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
 
-    .chat-counter {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        padding: 10px 16px;
-        margin-bottom: 12px;
-        background: linear-gradient(135deg, #ede9fe, #dbeafe);
-        border-radius: 12px;
-        border-right: 4px solid #8B5CF6;
-        font-size: 14px;
-        color: #4c1d95;
-        font-weight: 600;
+    .conversation-item {
+        padding: 10px 12px; border-radius: 8px; cursor: pointer; margin-bottom: 4px;
+        transition: 0.2s; position: relative; background: #fff; border: 1px solid #e2e8f0;
     }
-    .chat-counter.warning {
-        background: linear-gradient(135deg, #fef3c7, #fde68a);
-        border-right-color: #f59e0b;
-        color: #78350f;
-    }
-    .chat-counter.danger {
-        background: linear-gradient(135deg, #fee2e2, #fecaca);
-        border-right-color: #ef4444;
-        color: #991b1b;
-    }
-    body.dark-theme .chat-counter {
-        background: linear-gradient(135deg, #4C1D95, #1E3A5F);
-        color: #ddd6fe;
-    }
-    body.dark-theme .chat-counter.warning {
-        background: linear-gradient(135deg, #78350f, #92400e);
-        color: #fef3c7;
-    }
-    body.dark-theme .chat-counter.danger {
-        background: linear-gradient(135deg, #7f1d1d, #991b1b);
-        color: #fecaca;
+    .conversation-item:hover, .conversation-item.active { background: #ede9fe; border-color: #8B5CF6; }
+    .conversation-title { font-size: 13px; color: #1e293b; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-left: 20px; }
+    .conversation-meta { font-size: 11px; color: #94a3b8; margin-top: 4px; display: flex; justify-content: space-between; }
+    .conversation-delete { position: absolute; left: 8px; top: 10px; background: none; border: none; color: #ef4444; cursor: pointer; opacity: 0; transition: 0.2s; font-size: 14px; }
+    .conversation-item:hover .conversation-delete { opacity: 1; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 768px) {
+        .chat-layout { height: calc(100vh - 80px) !important; }
+        .chat-sidebar { position: fixed; top: 0; right: -320px; height: 100vh; z-index: 999; box-shadow: -4px 0 20px rgba(0,0,0,0.1); border-radius: 0; border: none; transition: transform 0.3s ease; }
+        .chat-sidebar.open { transform: translateX(-320px); }
+        .btn-toggle-sidebar { display: block !important; }
+        .sidebar-overlay.show { display: block !important; }
     }
 </style>
-
 {% endblock %}
 
 {% block scripts %}
@@ -140,66 +120,115 @@
     var chatSendBtn = document.getElementById('chatSendBtn');
     var chatCounter = document.getElementById('chatCounter');
     var chatRemaining = document.getElementById('chatRemaining');
+    var conversationsList = document.getElementById('conversationsList');
+    var currentConversationId = null;
 
-    // ============================================================
-    // به‌روزرسانی شمارنده
-    // ============================================================
+    function toggleSidebar() {
+        document.getElementById('chatSidebar').classList.toggle('open');
+        document.getElementById('sidebarOverlay').classList.toggle('show');
+    }
+
     function updateCounter(remaining) {
         if (!chatRemaining) return;
-
         var persianDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-        var persianNum = String(remaining).split('').map(function(d) {
-            return persianDigits[parseInt(d)] || d;
-        }).join('');
-
-        chatRemaining.textContent = persianNum;
-
+        chatRemaining.textContent = String(remaining).split('').map(function(d) { return persianDigits[parseInt(d)] || d; }).join('');
         if (chatCounter) {
             chatCounter.classList.remove('warning', 'danger');
+            if (remaining <= 2) chatCounter.classList.add('danger');
+            else if (remaining <= 5) chatCounter.classList.add('warning');
         }
-
-        if (remaining <= 2) {
-            if (chatCounter) chatCounter.classList.add('danger');
-        } else if (remaining <= 5) {
-            if (chatCounter) chatCounter.classList.add('warning');
-        }
-
         if (remaining <= 0) {
-            if (chatSendBtn) {
-                chatSendBtn.disabled = true;
-                chatSendBtn.textContent = '🚫 تمام شد';
-                chatSendBtn.style.opacity = '0.5';
-                chatSendBtn.style.cursor = 'not-allowed';
-            }
-            if (chatInput) {
-                chatInput.disabled = true;
-                chatInput.placeholder = 'امکان ارسال پیام به پایان رسیده';
-            }
+            chatSendBtn.disabled = true; chatSendBtn.textContent = '🚫 تمام شد'; chatSendBtn.style.opacity = '0.5';
+            chatInput.disabled = true; chatInput.placeholder = 'امکان ارسال پیام به پایان رسیده';
         }
     }
 
-    // ============================================================
-    // اضافه کردن پیام
-    // ============================================================
     function addMessage(text, type) {
         var div = document.createElement('div');
         div.className = 'chat-message ' + type;
         div.innerHTML = '<p>' + text + '</p>';
         chatContainer.appendChild(div);
-        chatContainer.scrollTop = chatContainer.scrollHeight;
+        chatContainer.scrollTop = chatContainer.scrollHeight; // اسکرول خودکار به پایین
     }
 
-    // ============================================================
-    // ارسال پیام
-    // ============================================================
+    function clearChat() { chatContainer.innerHTML = ''; }
+
+    function startNewChat() {
+        fetch('/api/chat/new', { method: 'POST' })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    currentConversationId = data.conversation_id;
+                    clearChat();
+                    addMessage('سلام! 👋 چطور می‌تونم امروز کمکت کنم؟', 'bot');
+                    loadConversations();
+                    if (window.innerWidth <= 768) toggleSidebar();
+                    if (typeof showToast === 'function') showToast('🆕 چت جدید شروع شد', '💬', 'info');
+                }
+            });
+    }
+
+    function loadConversations() {
+        fetch('/api/chat/conversations')
+            .then(res => res.json())
+            .then(conversations => {
+                if (!Array.isArray(conversations) || conversations.length === 0) {
+                    conversationsList.innerHTML = '<p style="text-align:center; color:#94a3b8; font-size:13px; padding:20px 0;">هنوز چتی ندارید</p>';
+                    return;
+                }
+                conversationsList.innerHTML = '';
+                conversations.forEach(conv => {
+                    var div = document.createElement('div');
+                    div.className = 'conversation-item' + (conv.id === currentConversationId ? ' active' : '');
+                    var date = new Date(conv.updated_at).toLocaleDateString('fa-IR');
+                    div.innerHTML = `<div class="conversation-title">${conv.title}</div>
+                                     <div class="conversation-meta"><span>${date}</span><span>${conv.message_count} پیام</span></div>
+                                     <button class="conversation-delete" title="حذف">✕</button>`;
+                    div.onclick = () => openConversation(conv.id);
+                    div.querySelector('.conversation-delete').onclick = (e) => { e.stopPropagation(); deleteConversation(conv.id); };
+                    conversationsList.appendChild(div);
+                });
+            });
+    }
+
+    function openConversation(conversationId) {
+        fetch('/api/chat/conversations/' + conversationId)
+            .then(res => res.json())
+            .then(messages => {
+                if (!Array.isArray(messages)) return;
+                currentConversationId = conversationId;
+                clearChat();
+                if (messages.length === 0) {
+                    addMessage('سلام! 👋 چطور می‌تونم کمکت کنم؟', 'bot');
+                } else {
+                    messages.forEach(msg => addMessage(msg.content, msg.role === 'user' ? 'user' : 'bot'));
+                }
+                loadConversations();
+                if (window.innerWidth <= 768) toggleSidebar();
+            });
+    }
+
+    function deleteConversation(conversationId) {
+        if (!confirm('این چت حذف بشه؟')) return;
+        fetch('/api/chat/conversations/' + conversationId, { method: 'DELETE' })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    if (currentConversationId === conversationId) {
+                        currentConversationId = null; clearChat(); addMessage('سلام! 👋 چطور می‌تونم امروز کمکت کنم؟', 'bot');
+                    }
+                    loadConversations();
+                    if (typeof showToast === 'function') showToast('🗑️ چت حذف شد', '💬', 'info');
+                }
+            });
+    }
+
     function sendMessage() {
         var message = chatInput.value.trim();
         if (!message) return;
-
         addMessage(message, 'user');
         chatInput.value = '';
         chatContainer.scrollTop = chatContainer.scrollHeight;
-
         chatSendBtn.disabled = true;
 
         fetch('/api/chat', {
@@ -207,78 +236,43 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: message })
         })
-        .then(function(response) {
+        .then(response => {
             chatSendBtn.disabled = false;
-
             var remaining = response.headers.get('X-RateLimit-Remaining');
-            if (remaining !== null) {
-                updateCounter(parseInt(remaining));
-            }
-
+            if (remaining !== null) updateCounter(parseInt(remaining));
             if (response.status === 429) {
                 addMessage('🚫 <strong>امکان ارسال پیام شما به پایان رسیده.</strong><br>لطفاً ۲۴ ساعت دیگر دوباره تلاش کنید.', 'bot');
                 updateCounter(0);
                 return null;
             }
-
             return response.json();
         })
-        .then(function(data) {
+        .then(data => {
             if (!data) return;
-
             var botDiv = document.createElement('div');
             botDiv.className = 'chat-message bot';
             botDiv.innerHTML = '<p>' + (data.response || 'متشکرم که با من صحبت می‌کنی.') + '</p>';
             chatContainer.appendChild(botDiv);
             chatContainer.scrollTop = chatContainer.scrollHeight;
+            loadConversations();
         })
-        .catch(function(err) {
+        .catch(err => {
             console.error('❌ خطا:', err);
             addMessage('⚠️ خطا در ارتباط با سرور.', 'bot');
             chatSendBtn.disabled = false;
         });
     }
 
-    // ============================================================
-    // Enter
-    // ============================================================
-    chatInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') sendMessage();
-    });
+    chatInput.addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
 
-    // ============================================================
-    // مدیریت رضایت چت (مودال)
-    // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
         var modal = document.getElementById('consentModal');
-
-        // فیلتر فارسی
-        enforcePersianInput(chatInput);
-        // 🆕 لود کردن تاریخچه چت
-        fetch('/api/chat/history')
-            .then(res => res.json())
-            .then(messages => {
-                if (Array.isArray(messages)) {
-                    messages.forEach(msg => {
-                        addMessage(msg.content, msg.role === 'user' ? 'user' : 'bot');
-                    });
-                }
-            })
-            .catch(err => console.warn('خطا در لود تاریخچه:', err));
-        // چک رضایت
+        if (typeof enforcePersianInput === 'function') enforcePersianInput(chatInput);
+        loadConversations();
         fetch('/api/chat/consent/status')
             .then(res => res.json())
-            .then(data => {
-                if (data.has_decided) {
-                    if (modal) modal.style.display = 'none';
-                } else {
-                    if (modal) modal.style.display = 'flex';
-                }
-            })
-            .catch(err => {
-                console.error('خطا در چک رضایت:', err);
-                if (modal) modal.style.display = 'flex';
-            });
+            .then(data => { if (modal) modal.style.display = data.has_decided ? 'none' : 'flex'; })
+            .catch(() => { if (modal) modal.style.display = 'flex'; });
     });
 
     function setChatConsent(isApproved) {
@@ -287,12 +281,8 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ consent: isApproved })
         });
-
         document.getElementById('consentModal').style.display = 'none';
-
-        if (typeof showToast === 'function') {
-            showToast(isApproved ? '✅ ممنون! گفتگوها ناشناس ذخیره می‌شن.' : '🔒 گفتگوها ذخیره نمی‌شن.', '💚', 'info');
-        }
+        if (typeof showToast === 'function') showToast(isApproved ? '✅ ممنون! گفتگوها ناشناس ذخیره می‌شن.' : '🔒 گفتگوها ذخیره نمی‌شن.', '💚', 'info');
     }
 </script>
 {% endblock %}
